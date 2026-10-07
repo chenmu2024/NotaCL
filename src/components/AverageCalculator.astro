@@ -13,6 +13,7 @@
       <div class="actions">
         <button class="btn btn-secondary" type="button" id="avg-add">Agregar nota</button>
         <button class="btn btn-primary" type="submit">Calcular promedio</button>
+        <button class="btn btn-ghost" type="button" id="avg-reset">Restablecer</button>
       </div>
 
       <div class="saved-box">
@@ -174,7 +175,16 @@
     renderSaved();
   });
 
+  document.querySelector('#avg-reset')?.addEventListener('click',()=>{
+    values=['5,5','6,2','4,8','6,0'];
+    (document.querySelector<HTMLInputElement>('#avg-subject')!).value='';
+    renderRows();
+    calc();
+  });
+
   document.querySelector('#avg-clear-all')?.addEventListener('click',()=>{
+    if(!saved().length) return;
+    if(!window.confirm('¿Borrar todas las materias guardadas en este dispositivo?')) return;
     localStorage.removeItem(key);
     renderSaved();
   });
