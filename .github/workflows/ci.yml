@@ -18,3 +18,11 @@ jobs:
       - run: npm run check
       - run: npm run build
       - run: npm run audit
+      - name: Build production-like canonical output
+        run: npm run build
+        env:
+          PUBLIC_SITE_URL: https://notacl.example
+      - name: Audit production-like canonical output
+        run: npm run audit
+        env:
+          PUBLIC_SITE_URL: https://notacl.example
