@@ -24,7 +24,7 @@
 Do not ship as separate indexable routes until Chile SERP overlap/page-type review justifies separation:
 - `/tabla-de-notas/` — keyword 49,500 / KD31
 - `/puntaje-a-nota/` — cluster led by `puntaje nota` 4,400 / KD24
- - `/escala-de-notas/50/` — 260 / KD14
+- `/escala-de-notas/50/` — 260 / KD14
 
 ## Special handling
 
