@@ -21,11 +21,12 @@ export async function onRequest(context) {
   }
 
   const response = await context.next();
-  if (!preview) return response;
+  const shouldNoindex = preview || response.status >= 400;
+  if (!shouldNoindex) return response;
 
   const headers = new Headers(response.headers);
   headers.set('X-Robots-Tag', 'noindex, nofollow');
-  headers.set('Cache-Control', 'no-store');
+  if (preview || response.status >= 500) headers.set('Cache-Control', 'no-store');
 
   return new Response(response.body, {
     status: response.status,
