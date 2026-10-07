@@ -13,5 +13,9 @@ describe('normalizeSiteOrigin', () => {
     expect(normalizeSiteOrigin('https://notacl.cl/path')).toBe('');
     expect(normalizeSiteOrigin('https://notacl.cl/?preview=1')).toBe('');
     expect(normalizeSiteOrigin('notacl.cl')).toBe('');
+    expect(normalizeSiteOrigin('https://notacl.pages.dev')).toBe('');
+    expect(normalizeSiteOrigin('https://preview.notacl.pages.dev')).toBe('');
+    expect(normalizeSiteOrigin('https://notacl.vercel.app')).toBe('');
+    expect(normalizeSiteOrigin('https://localhost')).toBe('');
   });
 });
