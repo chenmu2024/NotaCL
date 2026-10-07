@@ -32,6 +32,7 @@ const initialAverage=average(initialNumbers);
         <button class="btn btn-secondary" type="button" id="avg-share">Compartir cálculo</button>
         <button class="btn btn-ghost" type="button" id="avg-reset">Restablecer</button>
       </div>
+      <p id="avg-share-status" class="muted" aria-live="polite"></p>
 
       <div class="saved-box">
         <div class="field">
@@ -43,7 +44,6 @@ const initialAverage=average(initialNumbers);
           <button class="btn btn-secondary" id="avg-save" type="button">Guardar materia</button>
           <button class="btn btn-ghost" id="avg-clear-all" type="button">Borrar guardadas</button>
         </div>
-        <p id="avg-share-status" class="muted" aria-live="polite"></p>
         <p id="avg-storage-status" class="muted" aria-live="polite"></p>
         <div id="avg-saved" class="saved-items" aria-live="polite"></div>
       </div>
