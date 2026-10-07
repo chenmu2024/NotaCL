@@ -1,0 +1,17 @@
+<div class="tool-shell">
+  <div class="tool-head"><div><h2>¿Qué nota necesito?</h2><p>Calcula la nota mínima que necesitas en la evaluación restante.</p></div><span class="badge">Cálculo inverso</span></div>
+  <div class="tool-grid">
+    <form class="tool-panel" id="r-form">
+      <div class="field"><label for="r-current">Promedio actual</label><input class="input" id="r-current" value="5,0" inputmode="decimal" /></div>
+      <div class="inline-fields"><div class="field"><label for="r-completed">Porcentaje completado</label><input class="input" id="r-completed" value="70" inputmode="decimal" /></div><div class="field"><label for="r-finalweight">Peso de la evaluación final</label><input class="input" id="r-finalweight" value="30" inputmode="decimal" /></div></div>
+      <div class="field"><label for="r-target">Nota final deseada</label><input class="input" id="r-target" value="5,4" inputmode="decimal" /></div>
+      <button class="btn btn-primary" type="submit">Calcular nota necesaria</button>
+    </form>
+    <div class="tool-panel"><div class="result-card" aria-live="polite"><div class="result-label">Necesitas</div><div class="result-value" id="r-result">—</div><div class="result-meta"><span id="r-message">Completa los datos.</span></div></div><p id="r-error" class="muted"></p></div>
+  </div>
+</div>
+<script>
+  import { formatNumber, parseDecimal, requiredGrade, roundHalfUp } from '../lib/calculators/core';
+  function calc(){const out=document.querySelector<HTMLElement>('#r-result')!,msg=document.querySelector<HTMLElement>('#r-message')!,err=document.querySelector<HTMLElement>('#r-error')!;try{const grade=requiredGrade({currentAverage:parseDecimal((document.querySelector<HTMLInputElement>('#r-current')!).value),completedWeight:parseDecimal((document.querySelector<HTMLInputElement>('#r-completed')!).value),finalWeight:parseDecimal((document.querySelector<HTMLInputElement>('#r-finalweight')!).value),targetGrade:parseDecimal((document.querySelector<HTMLInputElement>('#r-target')!).value)});out.textContent=formatNumber(roundHalfUp(grade,1),1);if(grade>7){msg.textContent='Con una escala máxima de 7,0, este objetivo no es alcanzable con el peso restante.';err.textContent='';}else if(grade<1){msg.textContent='Tu objetivo ya está cubierto matemáticamente con una nota mínima.';err.textContent='';}else{msg.textContent='Nota estimada necesaria en la evaluación final.';err.textContent='';}}catch(e){out.textContent='—';msg.textContent='Revisa los porcentajes.';err.textContent=e instanceof Error?e.message:'Revisa los datos.'}}
+  document.querySelector('#r-form')?.addEventListener('submit',e=>{e.preventDefault();calc()});document.querySelector('#r-form')?.addEventListener('input',calc);calc();
+</script>
