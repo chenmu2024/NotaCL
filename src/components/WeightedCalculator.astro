@@ -19,7 +19,7 @@
 
     <div class="tool-panel result-panel">
       <div class="result-card" aria-live="polite">
-        <div class="result-label">Promedio ponderado</div>
+        <div class="result-label" id="w-result-label">Promedio ponderado</div>
         <div class="result-value" id="w-result">—</div>
         <div class="result-meta result-meta-three">
           <div class="result-stat">
@@ -89,6 +89,7 @@
 
   function calc(){
     const out=document.querySelector<HTMLElement>('#w-result')!;
+    const resultLabel=document.querySelector<HTMLElement>('#w-result-label')!;
     const used=document.querySelector<HTMLElement>('#w-used')!;
     const left=document.querySelector<HTMLElement>('#w-left')!;
     const status=document.querySelector<HTMLElement>('#w-status')!;
@@ -105,17 +106,21 @@
 
       const state=weightStatus(result.totalWeight);
       if(state==='complete'){
+        resultLabel.textContent='Promedio ponderado';
         status.textContent='Ponderación completa: los porcentajes suman aproximadamente 100%.';
         error.textContent='';
       } else if(state==='under'){
-        status.textContent='Resultado calculado sobre el peso ingresado.';
+        resultLabel.textContent='Promedio del peso ingresado';
+        status.textContent='Este promedio normaliza solo las evaluaciones ingresadas. El aporte sobre 100% muestra cuánto contribuyen al curso completo.';
         error.textContent='Aún falta porcentaje por completar.';
       } else {
-        status.textContent='La ponderación supera 100%.';
+        resultLabel.textContent='Promedio ponderado';
+        status.textContent='';
         error.textContent='Revisa los porcentajes antes de usar este resultado.';
       }
     }catch(e){
       out.textContent='—';
+      resultLabel.textContent='Promedio ponderado';
       used.textContent='—';
       left.textContent='—';
       contribution.textContent='—';
