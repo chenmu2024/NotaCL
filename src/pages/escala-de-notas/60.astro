@@ -75,6 +75,7 @@ const schema={
       </div>
       <div class="table-wrap">
         <table class="data-table">
+          <caption class="sr-only">Referencia de porcentaje de logro a nota con exigencia del 60%.</caption>
           <thead><tr><th>Porcentaje de logro</th><th>Nota</th><th>Estado</th></tr></thead>
           <tbody>
             {referenceRows.map(row=>
@@ -96,6 +97,7 @@ const schema={
       <p>El corte se obtiene multiplicando el puntaje máximo por 0,60. En pruebas con puntajes enteros, confirma cómo trata tu docente un corte que no sea entero.</p>
       <div class="table-wrap">
         <table class="data-table">
+          <caption class="sr-only">Puntaje mínimo teórico del 60% para distintos puntajes máximos.</caption>
           <thead><tr><th>Puntaje máximo</th><th>60% del puntaje</th></tr></thead>
           <tbody>
             {commonTotals.map(row=><tr><td>{row.total}</td><td><strong>{formatNumber(row.passing,0)}</strong></td></tr>)}
