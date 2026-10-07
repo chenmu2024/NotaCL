@@ -115,3 +115,18 @@ export function requiredGrade(params: {
   if (Math.abs(total - 100) > 0.11) throw new Error('El porcentaje completado más el examen debe sumar 100%.');
   return (targetGrade * 100 - currentAverage * completedWeight) / finalWeight;
 }
+
+
+export function projectedFinalGrade(params: {
+  currentAverage: number;
+  completedWeight: number;
+  finalGrade: number;
+  finalWeight: number;
+}): number {
+  const { currentAverage, completedWeight, finalGrade, finalWeight } = params;
+  if (![currentAverage, completedWeight, finalGrade, finalWeight].every(Number.isFinite)) throw new Error('Completa todos los campos con números válidos.');
+  if (completedWeight < 0 || finalWeight < 0) throw new Error('Los porcentajes no pueden ser negativos.');
+  const total = completedWeight + finalWeight;
+  if (Math.abs(total - 100) > 0.11) throw new Error('El porcentaje completado más el examen debe sumar 100%.');
+  return (currentAverage * completedWeight + finalGrade * finalWeight) / 100;
+}
