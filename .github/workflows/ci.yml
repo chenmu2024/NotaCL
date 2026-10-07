@@ -16,6 +16,8 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm run test
       - run: npm run check
+      - name: Check production audit script syntax
+        run: node --check scripts/audit-production.mjs
       - run: npm run build
       - run: npm run audit
       - name: Build preview-host fail-closed output
