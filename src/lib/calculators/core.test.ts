@@ -33,9 +33,11 @@ describe('rounding', () => {
 });
 
 describe('grade scale', () => {
-  it('maps 0, exigency threshold and full score correctly', () => {
+  it('maps both linear segments and key boundaries correctly', () => {
     expect(scoreToGrade(0, 60)).toBe(1);
+    expect(scoreToGrade(18, 60)).toBe(2.5);
     expect(scoreToGrade(36, 60)).toBe(4);
+    expect(scoreToGrade(48, 60)).toBe(5.5);
     expect(scoreToGrade(60, 60)).toBe(7);
   });
 
@@ -46,11 +48,14 @@ describe('grade scale', () => {
     expect(validateGradeConfig({ ...DEFAULT_GRADE_CONFIG, passGrade: 0.5 })).not.toHaveLength(0);
   });
 
-  it('builds a complete descending table', () => {
+  it('builds a complete descending table and enforces practical score limits', () => {
     const rows = buildGradeScale(10);
     expect(rows).toHaveLength(11);
     expect(rows[0].score).toBe(10);
     expect(rows.at(-1)?.score).toBe(0);
+    expect(buildGradeScale(1000)).toHaveLength(1001);
+    expect(() => buildGradeScale(1001)).toThrow();
+    expect(() => buildGradeScale(10.5)).toThrow();
   });
 });
 
