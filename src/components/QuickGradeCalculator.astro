@@ -24,6 +24,7 @@
       <div class="actions">
         <button class="btn btn-primary" type="submit">Calcular nota</button>
         <button class="btn btn-secondary" type="button" id="q-share">Compartir cálculo</button>
+        <button class="btn btn-ghost" type="button" id="q-reset">Restablecer</button>
         <a class="btn btn-ghost" href="#tabla">Ver tabla completa</a>
       </div>
       <p id="q-share-status" class="muted" aria-live="polite"></p>
@@ -100,6 +101,15 @@
   }
   form.addEventListener('submit',(e)=>{e.preventDefault();run()});
   form.addEventListener('input',run);
+
+  document.querySelector('#q-reset')?.addEventListener('click',()=>{
+    (document.querySelector<HTMLInputElement>('#q-score')!).value='42';
+    (document.querySelector<HTMLInputElement>('#q-max')!).value='60';
+    (document.querySelector<HTMLInputElement>('#q-exigency')!).value='60';
+    history.replaceState(null,'',window.location.pathname);
+    shareStatus.textContent='';
+    run();
+  });
 
   document.querySelector('#q-share')?.addEventListener('click',async()=>{
     const url=shareUrl();
