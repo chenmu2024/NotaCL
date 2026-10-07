@@ -73,6 +73,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
         <button class="btn btn-primary" type="submit">Generar tabla</button>
         <button class="btn btn-secondary" type="button" id="g-print">Imprimir / Guardar PDF</button>
         <button class="btn btn-secondary" type="button" id="g-download">Descargar CSV</button>
+        <button class="btn btn-secondary" type="button" id="g-share">Compartir configuración</button>
         <button class="btn btn-ghost" type="button" id="g-copy">Copiar CSV</button>
         <button class="btn btn-ghost" type="button" id="g-reset">Restablecer</button>
       </div>
@@ -124,6 +125,37 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       exigency:parseDecimal((document.querySelector<HTMLInputElement>('#g-exigency')!).value)/100,
       decimals:Number((document.querySelector<HTMLSelectElement>('#g-decimals')!).value)
     };
+  }
+
+  function readHash(){
+    const params=new URLSearchParams(window.location.hash.replace(/^#/,''));
+    const fields=[
+      ['gmax','#g-maxscore'],
+      ['gmin','#g-min'],
+      ['gaprobacion','#g-pass'],
+      ['gmaxnota','#g-maxgrade'],
+      ['gdecimales','#g-decimals'],
+    ];
+    for(const [key,selector] of fields){
+      const value=params.get(key);
+      const input=document.querySelector<HTMLInputElement|HTMLSelectElement>(selector);
+      if(value!==null && input) input.value=value;
+    }
+    const exigency=params.get('gexigencia');
+    const exigencyInput=document.querySelector<HTMLInputElement>('#g-exigency');
+    if(exigency!==null && exigencyInput && !exigencyInput.readOnly) exigencyInput.value=exigency;
+  }
+
+  function shareUrl(){
+    const params=new URLSearchParams({
+      gmax:(document.querySelector<HTMLInputElement>('#g-maxscore')!).value.trim(),
+      gexigencia:(document.querySelector<HTMLInputElement>('#g-exigency')!).value.trim(),
+      gmin:(document.querySelector<HTMLInputElement>('#g-min')!).value.trim(),
+      gaprobacion:(document.querySelector<HTMLInputElement>('#g-pass')!).value.trim(),
+      gmaxnota:(document.querySelector<HTMLInputElement>('#g-maxgrade')!).value.trim(),
+      gdecimales:(document.querySelector<HTMLSelectElement>('#g-decimals')!).value,
+    });
+    return `${window.location.origin}${window.location.pathname}${window.location.search}#${params.toString()}`;
   }
 
   function csvText(){
@@ -190,6 +222,22 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
 
   document.querySelector('#g-print')?.addEventListener('click',()=>window.print());
 
+  document.querySelector('#g-share')?.addEventListener('click',async()=>{
+    if(!currentRows.length) return;
+    const url=shareUrl();
+    try{
+      if(navigator.share){
+        await navigator.share({title:'Configuración de escala de notas',url});
+        actionStatus.textContent='Configuración compartida.';
+      }else{
+        await navigator.clipboard.writeText(url);
+        actionStatus.textContent='Enlace de configuración copiado.';
+      }
+    }catch{
+      actionStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
+    }
+  });
+
   document.querySelector('#g-copy')?.addEventListener('click',async()=>{
     if(!currentRows.length) return;
     try{
@@ -211,6 +259,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       button.classList.toggle('active',button.dataset.exigency===String(initialExigencyValue));
     });
     actionStatus.textContent='';
+    history.replaceState(null,'',window.location.pathname+window.location.search);
     render();
   });
 
@@ -226,5 +275,6 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
     actionStatus.textContent='CSV descargado.';
   });
 
+  readHash();
   render();
 </script>
