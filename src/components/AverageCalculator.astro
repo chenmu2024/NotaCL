@@ -51,6 +51,7 @@
 
 <script>
   import { average, formatNumber, parseDecimal, roundHalfUp } from '../lib/calculators/core';
+  import { parseSavedSubjects, upsertSavedSubject } from '../lib/storage/savedSubjects';
 
   const list=document.querySelector<HTMLElement>('#avg-list')!;
   const result=document.querySelector<HTMLElement>('#avg-result')!;
@@ -110,16 +111,11 @@
     }
   }
 
-  function saved(): any[] {
-    try {
-      const parsed=JSON.parse(localStorage.getItem(key)||'[]');
-      return Array.isArray(parsed)?parsed:[];
-    } catch {
-      return [];
-    }
+  function saved(){
+    return parseSavedSubjects(localStorage.getItem(key));
   }
 
-  function persist(rows:any[]){
+  function persist(rows: ReturnType<typeof parseSavedSubjects>){
     localStorage.setItem(key,JSON.stringify(rows));
   }
 
@@ -173,10 +169,8 @@
     if(!subject || a===null) return;
 
     const rows=saved();
-    const existing=rows.findIndex((row:any)=>String(row.subject).toLocaleLowerCase('es-CL')===subject.toLocaleLowerCase('es-CL'));
     const record={subject,average:a,values:[...values],updatedAt:new Date().toISOString()};
-    if(existing>=0) rows[existing]=record; else rows.push(record);
-    persist(rows);
+    persist(upsertSavedSubject(rows,record));
     renderSaved();
   });
 
