@@ -200,7 +200,7 @@ main{min-height:70vh}
 .site-footer{margin-top:0;padding:54px 0 58px;background:var(--ink);color:#c6d1e2}
 .site-footer .brand{color:#fff}
 .site-footer .brand-mark{background:#fff;color:var(--ink)}
-.site-footer .brand-word span{color:#8fb0ff}
+.site-footer .brand-word span{color:#ffb293}
 .footer-grid{display:grid;grid-template-columns:1.6fr .7fr .7fr;gap:48px}
 .footer-grid p{max-width:520px;color:#9facc1}
 .footer-links{display:grid;align-content:start;gap:9px}
