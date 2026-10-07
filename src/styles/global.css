@@ -494,3 +494,8 @@ body:not(.home-page) .section:nth-of-type(even){background:#fff}
 
 .print-only{display:none}
 .data-table th{position:sticky;top:0;z-index:1}
+
+.official-note{margin:0 0 34px;padding:24px 26px;border:1px solid #d8d2c7;border-left:4px solid var(--primary);border-radius:16px;background:#fffdf8}
+.official-note-kicker{display:block;margin-bottom:6px;color:#9b3d1f;font-size:.72rem;font-weight:820;text-transform:uppercase;letter-spacing:.075em}
+.official-note h2{margin:0 0 10px!important;font-size:1.35rem!important}
+.official-note p{margin:8px 0}
