@@ -97,6 +97,7 @@ if (!isPreviewHost('notacl.pages.dev') || !isPreviewHost('preview.notacl.pages.d
 }
 
 const titles = new Map();
+const descriptions = new Map();
 
 for (const route of canonicalRoutes) {
   const html = readRoute(route);
@@ -109,6 +110,7 @@ for (const route of canonicalRoutes) {
 
   const title = extract(html, /<title>([\s\S]*?)<\/title>/i);
   if (!title) fail(`${route} is missing a title`);
+  if (title.length < 20 || title.length > 70) fail(`${route} title length is ${title.length}; expected 20–70 characters internal review range`);
   if (titles.has(title)) fail(`${route} duplicates title used by ${titles.get(title)}: ${title}`);
   else titles.set(title, route);
 
@@ -117,6 +119,8 @@ for (const route of canonicalRoutes) {
   if (description.length < 70 || description.length > 180) {
     fail(`${route} meta description length is ${description.length}; expected 70–180 characters`);
   }
+  if (descriptions.has(description)) fail(`${route} duplicates meta description used by ${descriptions.get(description)}`);
+  else descriptions.set(description, route);
 
   const robots = extract(html, /<meta[^>]+name="robots"[^>]+content="([^"]+)"/i)
     || extract(html, /<meta[^>]+content="([^"]+)"[^>]+name="robots"/i);
