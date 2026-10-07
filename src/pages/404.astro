@@ -1,8 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 const title='Página no encontrada | NotaCL';
-const description='La página que buscas no existe.';
+const description='La página que buscas no existe. Vuelve a NotaCL o abre directamente una de las calculadoras principales.';
 ---
 <BaseLayout {title} {description} path="/404/" noindex>
-<section class="hero"><div class="container reading"><p class="eyebrow">404</p><h1>Página no encontrada</h1><p class="lead">La URL puede haber cambiado o no existir. Vuelve a la calculadora principal.</p><p><a class="btn btn-primary" href="/">Ir al inicio</a></p></div></section>
+<section class="hero">
+  <div class="container reading">
+    <p class="eyebrow">Error 404</p>
+    <h1>Página no encontrada</h1>
+    <p class="lead">La URL puede haber cambiado o no existir. Puedes volver al inicio o entrar directamente a una herramienta.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="/">Ir al inicio</a>
+      <a class="btn btn-secondary" href="/escala-de-notas/">Escala de notas</a>
+      <a class="btn btn-secondary" href="/promedio-de-notas/">Promedio</a>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container reading prose">
+    <h2>Herramientas más usadas</h2>
+    <p><a href="/generador-de-notas/">Generador de notas</a> · <a href="/escala-de-notas/60/">Escala al 60%</a> · <a href="/notas-con-porcentaje/">Notas con porcentaje</a> · <a href="/que-nota-necesito/">¿Qué nota necesito?</a></p>
+  </div>
+</section>
 </BaseLayout>
