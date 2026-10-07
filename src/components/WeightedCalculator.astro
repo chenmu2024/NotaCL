@@ -32,8 +32,10 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
       <div class="actions">
         <button class="btn btn-secondary" type="button" id="w-add">Agregar evaluación</button>
         <button class="btn btn-primary" type="submit">Calcular ponderación</button>
+        <button class="btn btn-secondary" type="button" id="w-share">Compartir cálculo</button>
         <button class="btn btn-ghost" type="button" id="w-reset">Restablecer</button>
       </div>
+    <p id="w-share-status" class="muted" aria-live="polite"></p>
     </form>
 
     <div class="tool-panel result-panel">
@@ -65,7 +67,25 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
   import { formatNumber, parseDecimal, roundHalfUp, weightedAverage, weightStatus } from '../lib/calculators/core';
 
   const list=document.querySelector<HTMLElement>('#w-list')!;
+  const shareStatus=document.querySelector<HTMLElement>('#w-share-status')!;
   let items=[['6,0','20'],['5,5','30'],['4,8','50']];
+
+  function readHash(){
+    const params=new URLSearchParams(window.location.hash.replace(/^#/,''));
+    const raw=params.get('ponderaciones');
+    if(!raw) return;
+    const parsed=raw.split('|').slice(0,30).map(pair=>{
+      const [grade,weight]=pair.split(':');
+      return [grade?.trim()||'',weight?.trim()||''];
+    }).filter(([grade,weight])=>grade || weight);
+    if(parsed.length) items=parsed;
+  }
+
+  function shareUrl(){
+    const value=items.map(([grade,weight])=>`${grade.trim()}:${weight.trim()}`).join('|');
+    const params=new URLSearchParams({ponderaciones:value});
+    return `${window.location.origin}${window.location.pathname}${window.location.search}#${params.toString()}`;
+  }
 
   function escapeHTML(value: unknown){
     return String(value)
@@ -162,12 +182,41 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
     calc();
   });
 
+  document.querySelector('#w-share')?.addEventListener('click',async()=>{
+    if(items.length>30){
+      shareStatus.textContent='Para compartir, reduce la lista a 30 evaluaciones o menos.';
+      return;
+    }
+    const parsed=items.map(([grade,weight])=>({grade:parseDecimal(grade),weight:parseDecimal(weight)}));
+    try{
+      weightedAverage(parsed);
+    }catch{
+      shareStatus.textContent='Corrige las notas y porcentajes antes de compartir.';
+      return;
+    }
+    const url=shareUrl();
+    try{
+      if(navigator.share){
+        await navigator.share({title:'Notas con porcentaje',url});
+        shareStatus.textContent='Cálculo compartido.';
+      }else{
+        await navigator.clipboard.writeText(url);
+        shareStatus.textContent='Enlace copiado al portapapeles.';
+      }
+    }catch{
+      shareStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
+    }
+  });
+
   document.querySelector('#w-reset')?.addEventListener('click',()=>{
     items=[['6,0','20'],['5,5','30'],['4,8','50']];
+    shareStatus.textContent='';
+    history.replaceState(null,'',window.location.pathname+window.location.search);
     draw();
     calc();
   });
 
+  readHash();
   draw();
   calc();
 </script>
