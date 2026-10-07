@@ -185,6 +185,20 @@ if (!existsSync(notFoundFile)) {
   if (!robots.includes('noindex,nofollow')) fail('404.html must always be noindex,nofollow');
 }
 
+const routesFile = join(dist, '_routes.json');
+if (!existsSync(routesFile)) {
+  fail('_routes.json is missing from the static output');
+} else {
+  try {
+    const routesConfig = JSON.parse(readFileSync(routesFile, 'utf8'));
+    if (routesConfig.version !== 1) fail('_routes.json must use version 1');
+    if (!Array.isArray(routesConfig.include) || !routesConfig.include.includes('/*')) fail('_routes.json must include site routes');
+    if (!Array.isArray(routesConfig.exclude) || !routesConfig.exclude.includes('/_astro/*')) fail('_routes.json must exclude hashed static assets');
+  } catch {
+    fail('_routes.json is not valid JSON');
+  }
+}
+
 const headersFile = join(dist, '_headers');
 if (!existsSync(headersFile)) {
   fail('_headers is missing from the static output');
