@@ -5,7 +5,7 @@ interface Props {
 }
 const { initialExigency = 60, lockExigency = false } = Astro.props;
 ---
-<div class="tool-shell" id="generador">
+<div class="tool-shell" id="generador" data-initial-exigency={initialExigency}>
   <div class="tool-head">
     <div>
       <h2>Genera tu tabla de notas</h2>
@@ -30,7 +30,7 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
         </div>
         <div class="field">
           <label for="g-exigency">Exigencia (%)</label>
-          <input class="input" id="g-exigency" value={String(initialExigency)} inputmode="decimal" readonly={lockExigency} />
+          <input class="input" id="g-exigency" value={String(initialExigencyValue)} inputmode="decimal" readonly={lockExigency} />
           {lockExigency && <small>Fijada en {initialExigency}% para esta escala.</small>}
         </div>
         <div class="field">
@@ -90,6 +90,8 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
 <script>
   import { buildGradeScale, formatNumber, parseDecimal } from '../lib/calculators/core';
 
+  const shell=document.querySelector<HTMLElement>('#generador')!;
+  const initialExigencyValue=Number(shell.dataset.initialExigency||'60');
   const form=document.querySelector<HTMLFormElement>('#gen-form')!;
   const body=document.querySelector<HTMLElement>('#g-body')!;
   const error=document.querySelector<HTMLElement>('#g-error')!;
@@ -177,13 +179,13 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
 
   document.querySelector('#g-reset')?.addEventListener('click',()=>{
     (document.querySelector<HTMLInputElement>('#g-maxscore')!).value='60';
-    (document.querySelector<HTMLInputElement>('#g-exigency')!).value=String(initialExigency);
+    (document.querySelector<HTMLInputElement>('#g-exigency')!).value=String(initialExigencyValue);
     (document.querySelector<HTMLInputElement>('#g-min')!).value='1,0';
     (document.querySelector<HTMLInputElement>('#g-pass')!).value='4,0';
     (document.querySelector<HTMLInputElement>('#g-maxgrade')!).value='7,0';
     (document.querySelector<HTMLSelectElement>('#g-decimals')!).value='1';
     document.querySelectorAll<HTMLButtonElement>('[data-exigency]').forEach(button=>{
-      button.classList.toggle('active',button.dataset.exigency===String(initialExigency));
+      button.classList.toggle('active',button.dataset.exigency===String(initialExigencyValue));
     });
     actionStatus.textContent='';
     render();
