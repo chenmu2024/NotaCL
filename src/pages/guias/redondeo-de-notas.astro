@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+const title='Redondeo de Notas: resultado exacto vs. nota mostrada | NotaCL';
+const description='Entiende por qué 3,95, 5,25 u otros valores pueden mostrarse distinto según la regla de redondeo y los decimales utilizados.';
+const schema={ '@context':'https://schema.org','@type':'Article',headline:'Cómo se redondean las notas',inLanguage:'es-CL',description };
+---
+<BaseLayout {title} {description} path="/guias/redondeo-de-notas/" type="article" {schema}>
+<Breadcrumbs items={[{label:'Guías',href:'/guias/'},{label:'Redondeo de notas'}]} />
+<section class="hero"><div class="container reading"><p class="eyebrow">Guía</p><h1>Cómo se redondean las notas</h1><p class="lead">El cálculo exacto y la nota que se muestra no son necesariamente la misma cosa. Una regla de redondeo debe estar explícita.</p></div></section>
+<section class="section"><div class="container reading prose"><h2>Ejemplo con 5,25</h2><p>Un promedio ponderado puede dar exactamente 5,25. Si se muestran dos decimales, permanece 5,25. Si la regla utilizada redondea a un decimal con mitad hacia arriba, se muestra 5,3.</p><h2>Por qué importa 3,95</h2><p>3,95 está justo en un límite típico de redondeo a un decimal. Por eso NotaCL no usa el texto mostrado como sustituto del cálculo exacto: conserva ambos conceptos por separado.</p><h2>No existe una regla que debamos asumir para todos</h2><p>La política de evaluación y presentación puede variar entre cursos e instituciones. Verifica la regla aplicable antes de usar un valor redondeado para decisiones académicas.</p><p><a href="/promedio-de-notas/">Calcular un promedio</a> · <a href="/notas-con-porcentaje/">Calcular un promedio ponderado</a></p></div></section>
+</BaseLayout>
