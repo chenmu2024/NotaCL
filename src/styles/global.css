@@ -265,6 +265,7 @@ main{min-height:70vh}
   *{scroll-behavior:auto!important;transition:none!important}
 }
 @media print{
+  @page{margin:12mm}
   .site-header,.site-footer,.actions,.no-print,.breadcrumbs,.hero,.hero-sidecard{display:none!important}
   body{background:#fff;color:#111}
   main{min-height:0}
@@ -278,6 +279,13 @@ main{min-height:70vh}
   .table-wrap{overflow:visible;border:0}
   .data-table{min-width:0;font-size:11px}
   .data-table th{position:static;background:#f2f2f2!important;color:#111}
+  .data-table thead{display:table-header-group}
+  .data-table tr{break-inside:avoid;page-break-inside:avoid}
+  .data-table th,.data-table td{padding:5px 6px}
+  body.print-generator-only main> *{display:none!important}
+  body.print-generator-only main> :has(#generador){display:block!important;width:100%!important;max-width:none!important;margin:0!important}
+  body.print-generator-only main> :has(#generador)> :not(#generador){display:none!important}
+  body.print-generator-only #generador{display:block!important;margin:0!important}
 }
 
 
