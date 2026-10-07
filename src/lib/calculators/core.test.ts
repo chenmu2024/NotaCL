@@ -74,6 +74,7 @@ describe('averages', () => {
     ]);
     expect(result.average).toBeCloseTo(5.25);
     expect(result.totalWeight).toBe(100);
+    expect(result.contribution).toBeCloseTo(5.25);
   });
 
   it('handles 33.3 x 3 as a near-complete weight set', () => {
@@ -83,6 +84,7 @@ describe('averages', () => {
       { grade: 5, weight: 33.3 },
     ]);
     expect(result.totalWeight).toBeCloseTo(99.9);
+    expect(result.contribution).toBeCloseTo(4.995);
     expect(weightStatus(result.totalWeight)).toBe('complete');
   });
 });
