@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title='Página no encontrada | NotaCL';
+const description='La página que buscas no existe.';
+---
+<BaseLayout {title} {description} path="/404/">
+<section class="hero"><div class="container reading"><p class="eyebrow">404</p><h1>Página no encontrada</h1><p class="lead">La URL puede haber cambiado o no existir. Vuelve a la calculadora principal.</p><p><a class="btn btn-primary" href="/">Ir al inicio</a></p></div></section>
+</BaseLayout>
