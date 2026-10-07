@@ -1,0 +1,34 @@
+<div class="tool-shell" id="calculadora">
+  <div class="tool-head"><div><h2>Calculadora rápida de nota</h2><p>Ingresa tu puntaje, el máximo y la exigencia.</p></div><span class="badge">Escala configurable</span></div>
+  <div class="tool-grid">
+    <form class="tool-panel" id="quick-form">
+      <div class="field"><label for="q-score">Puntaje obtenido</label><input class="input" id="q-score" inputmode="decimal" value="42" /></div>
+      <div class="field"><label for="q-max">Puntaje máximo</label><input class="input" id="q-max" inputmode="decimal" value="60" /></div>
+      <div class="field"><label for="q-exigency">Exigencia (%)</label><input class="input" id="q-exigency" inputmode="decimal" value="60" /><small>Debe ser mayor que 0 y menor que 100.</small></div>
+      <div class="actions"><button class="btn btn-primary" type="submit">Calcular nota</button><a class="btn btn-secondary" href="/escala-de-notas/">Ver escala completa</a></div>
+      <p class="notice warning">El 60% y la escala 1,0–7,0 son valores iniciales configurables. Tu establecimiento puede usar otra regla.</p>
+    </form>
+    <div class="tool-panel"><div class="result-card" aria-live="polite"><div class="result-label">Tu nota</div><div class="result-value" id="q-result">—</div><div class="result-meta"><span id="q-percent">Porcentaje: —</span><span id="q-status" class="status">Estado: —</span></div></div><p id="q-error" class="muted"></p></div>
+  </div>
+</div>
+<script>
+  import { DEFAULT_GRADE_CONFIG, formatNumber, parseDecimal, scoreToGrade } from '../lib/calculators/core';
+  const form = document.querySelector<HTMLFormElement>('#quick-form')!;
+  const result = document.querySelector<HTMLElement>('#q-result')!;
+  const percent = document.querySelector<HTMLElement>('#q-percent')!;
+  const status = document.querySelector<HTMLElement>('#q-status')!;
+  const error = document.querySelector<HTMLElement>('#q-error')!;
+  function run(){
+    try {
+      const score=parseDecimal((document.querySelector<HTMLInputElement>('#q-score')!).value);
+      const max=parseDecimal((document.querySelector<HTMLInputElement>('#q-max')!).value);
+      const exig=parseDecimal((document.querySelector<HTMLInputElement>('#q-exigency')!).value)/100;
+      const cfg={...DEFAULT_GRADE_CONFIG,exigency:exig};
+      const grade=scoreToGrade(score,max,cfg);
+      result.textContent=formatNumber(grade,1);
+      percent.textContent=`Porcentaje: ${formatNumber((score/max)*100,1)}%`;
+      const passed=grade>=cfg.passGrade; status.textContent=passed?'Estado: Aprobado':'Estado: Reprobado'; status.className=`status ${passed?'good':'bad'}`; error.textContent='';
+    } catch(e){ result.textContent='—'; percent.textContent='Porcentaje: —'; status.textContent='Estado: —'; status.className='status'; error.textContent=e instanceof Error?e.message:'Revisa los valores.'; }
+  }
+  form.addEventListener('submit',(e)=>{e.preventDefault();run()}); form.addEventListener('input',run); run();
+</script>
