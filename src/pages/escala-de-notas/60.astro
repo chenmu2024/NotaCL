@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import GeneratorCalculator from '../../components/GeneratorCalculator.astro';
+import ToolCards from '../../components/ToolCards.astro';
+import { DEFAULT_GRADE_CONFIG, formatNumber, scoreToGrade } from '../../lib/calculators/core';
+
+const title='Escala de Notas al 60% | Tabla y Generador Chile | NotaCL';
+const description='Genera una escala de notas al 60% de exigencia, revisa una tabla de referencia de 1,0 a 7,0 y calcula el puntaje necesario para obtener un 4,0.';
+
+const config={...DEFAULT_GRADE_CONFIG,exigency:0.6};
+const referencePercentages=[0,10,20,30,40,50,60,70,80,90,100];
+const referenceRows=referencePercentages.map(percentage=>({
+  percentage,
+  grade:scoreToGrade(percentage,100,config),
+}));
+const commonTotals=[20,30,40,50,60,100].map(total=>({
+  total,
+  passing:total*config.exigency,
+}));
+
+const schema={
+  '@context':'https://schema.org',
+  '@type':'WebApplication',
+  name:'Escala de Notas al 60%',
+  applicationCategory:'EducationalApplication',
+  operatingSystem:'Any',
+  isAccessibleForFree:true,
+  inLanguage:'es-CL',
+  description
+};
+---
+<BaseLayout {title} {description} path="/escala-de-notas/60/" {schema}>
+  <Breadcrumbs items={[{label:'Escala de notas',href:'/escala-de-notas/'},{label:'60% de exigencia'}]} />
+
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Escala preconfigurada</p>
+      <h1>Escala de Notas al 60%</h1>
+      <p class="lead">Genera una tabla con exigencia fija de 60%. Puedes cambiar el puntaje máximo y los límites de la escala sin perder el corte de aprobación del 60%.</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <GeneratorCalculator initialExigency={60} lockExigency />
+  </div>
+
+  <section class="section">
+    <div class="container explain-grid">
+      <div class="prose">
+        <h2>¿Qué significa una exigencia del 60%?</h2>
+        <p>En este modelo, la nota de aprobación se ubica en el 60% del puntaje máximo. Si la prueba tiene 50 puntos, el corte está en 30 puntos; si tiene 60 puntos, está en 36. La escala de referencia de esta página usa nota mínima 1,0, aprobación 4,0 y máxima 7,0.</p>
+        <p>El 60% no se presenta aquí como una regla obligatoria para todos los establecimientos. Si tu evaluación usa otra exigencia, utiliza la <a href="/escala-de-notas/">escala de notas configurable</a>.</p>
+      </div>
+
+      <aside class="formula-card">
+        <span class="formula-kicker">Corte del 4,0</span>
+        <h3>Puntaje máximo × 0,60</h3>
+        {commonTotals.slice(0,4).map(row=>
+          <div class="formula-line"><span>{row.total} puntos</span><strong>{formatNumber(row.passing,0)} pts para 4,0</strong></div>
+        )}
+      </aside>
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="container">
+      <div class="section-intro">
+        <div>
+          <p class="eyebrow">Referencia rápida</p>
+          <h2>Tabla de porcentaje a nota al 60%</h2>
+        </div>
+        <p>Estos valores usan escala 1,0–7,0, aprobación 4,0 y redondeo a una décima.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Porcentaje de logro</th><th>Nota</th><th>Estado</th></tr></thead>
+          <tbody>
+            {referenceRows.map(row=>
+              <tr>
+                <td>{row.percentage}%</td>
+                <td><strong>{formatNumber(row.grade,1)}</strong></td>
+                <td class:list={['status',row.grade>=config.passGrade?'good':'bad']}>{row.grade>=config.passGrade?'Aprobado':'Reprobado'}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container reading prose">
+      <h2>Puntaje para obtener un 4,0</h2>
+      <p>El corte se obtiene multiplicando el puntaje máximo por 0,60. En pruebas con puntajes enteros, confirma cómo trata tu docente un corte que no sea entero.</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Puntaje máximo</th><th>60% del puntaje</th></tr></thead>
+          <tbody>
+            {commonTotals.map(row=><tr><td>{row.total}</td><td><strong>{formatNumber(row.passing,0)}</strong></td></tr>)}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="faq">
+        <details><summary>¿60% de exigencia significa que con 60% obtengo un 4,0?</summary><p>Sí, con la configuración de referencia de esta página. El punto de exigencia coincide con la nota de aprobación configurada.</p></details>
+        <details><summary>¿Puedo cambiar el puntaje máximo?</summary><p>Sí. El generador mantiene la exigencia en 60% y vuelve a calcular toda la tabla para el nuevo puntaje máximo.</p></details>
+        <details><summary>¿Qué hago si mi prueba usa 50% o 70%?</summary><p>Usa la <a href="/escala-de-notas/">escala de notas general</a>, donde la exigencia es editable.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Otras herramientas</h2>
+      <ToolCards />
+    </div>
+  </section>
+</BaseLayout>
