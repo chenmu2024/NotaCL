@@ -1,0 +1,12 @@
+---
+const tools = [
+  ['/generador-de-notas/','Generador de notas','Crea una escala completa según puntaje máximo y exigencia.'],
+  ['/escala-de-notas/','Escala de notas','Convierte un puntaje en nota y revisa la tabla completa.'],
+  ['/promedio-de-notas/','Promedio de notas','Calcula el promedio simple de varias notas.'],
+  ['/notas-con-porcentaje/','Notas con porcentaje','Calcula ponderaciones y promedio ponderado.'],
+  ['/que-nota-necesito/','¿Qué nota necesito?','Descubre qué nota necesitas para alcanzar tu objetivo.'],
+];
+---
+<div class="cards">
+  {tools.map(([href,title,description]) => <a class="card" href={href}><h3>{title}</h3><p>{description}</p></a>)}
+</div>
