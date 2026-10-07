@@ -2,10 +2,24 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 const title='Términos de Uso | NotaCL';
-const description='Términos de uso y limitaciones de las calculadoras educativas de NotaCL.';
+const description='Revisa las condiciones de uso de NotaCL, los límites de las calculadoras educativas y la necesidad de confirmar reglas específicas con tu institución.';
 ---
 <BaseLayout {title} {description} path="/terminos/">
 <Breadcrumbs items={[{label:'Términos'}]} />
-<section class="hero"><div class="container reading"><h1>Términos de Uso</h1><p class="lead">NotaCL ofrece herramientas de apoyo de cálculo y contenido informativo.</p></div></section>
-<section class="section"><div class="container reading prose"><p>Los resultados dependen de los datos y parámetros ingresados. No garantizamos que una configuración predeterminada corresponda a la política de evaluación específica de tu establecimiento.</p><p>Antes de usar un resultado para una decisión académica formal, verifica la pauta, reglamento o fuente institucional correspondiente.</p></div></section>
+<section class="hero"><div class="container reading"><p class="eyebrow">Condiciones</p><h1>Términos de Uso</h1><p class="lead">NotaCL ofrece herramientas de apoyo de cálculo y contenido informativo para estudiantes, docentes y familias.</p></div></section>
+<section class="section"><div class="container reading prose">
+  <h2>Uso de las calculadoras</h2>
+  <p>Los resultados dependen de los datos y parámetros ingresados. Las configuraciones iniciales son una ayuda práctica y no sustituyen la pauta o reglamento de evaluación de tu curso.</p>
+
+  <h2>Exactitud y verificación</h2>
+  <p>Probamos las fórmulas y casos límite del sitio, pero una institución puede aplicar criterios propios de exigencia, redondeo, ponderación o aprobación. Antes de tomar una decisión académica formal, verifica esas reglas con la fuente correspondiente.</p>
+
+  <h2>Disponibilidad</h2>
+  <p>Podemos corregir, actualizar o retirar una herramienta cuando detectamos un error, cambia una fuente o una función deja de ser útil. Intentamos evitar cambios que alteren el significado de cálculos ya guardados sin explicarlo.</p>
+
+  <h2>Fuentes externas</h2>
+  <p>Los enlaces a organismos o sitios externos se incluyen como referencia. Cada sitio externo mantiene sus propias condiciones, contenidos y políticas.</p>
+
+  <p class="muted">Última revisión: 7 de octubre de 2026.</p>
+</div></section>
 </BaseLayout>
