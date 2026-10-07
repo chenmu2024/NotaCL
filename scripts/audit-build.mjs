@@ -145,6 +145,14 @@ for (const route of canonicalRoutes) {
   const h1Count = countMatches(html, /<h1\b/gi);
   if (h1Count !== 1) fail(`${route} must contain exactly one H1, found ${h1Count}`);
 
+  const headingLevels = [...html.matchAll(/<h([1-6])\b/gi)].map((match) => Number(match[1]));
+  for (let index = 1; index < headingLevels.length; index += 1) {
+    if (headingLevels[index] > headingLevels[index - 1] + 1) {
+      fail(`${route} skips heading levels: H${headingLevels[index - 1]} → H${headingLevels[index]}`);
+      break;
+    }
+  }
+
   const title = extract(html, /<title>([\s\S]*?)<\/title>/i);
   if (!title) fail(`${route} is missing a title`);
   if (title.length < 20 || title.length > 70) fail(`${route} title length is ${title.length}; expected 20–70 characters internal review range`);
