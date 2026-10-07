@@ -1,5 +1,5 @@
 ---
-import { formatNumber, projectedFinalGrade, requiredGrade, roundHalfUp } from '../lib/calculators/core';
+import { formatNumber, projectedFinalGrade, requiredGrade, minimumRequiredGrade, roundHalfUp } from '../lib/calculators/core';
 const initialRequired=requiredGrade({currentAverage:5,completedWeight:70,finalWeight:30,targetGrade:5.4});
 const initialScenarios=[4,5,6,7].map(exam=>({
   exam,
@@ -45,14 +45,14 @@ const initialScenarios=[4,5,6,7].map(exam=>({
     <div class="tool-panel result-panel">
       <div class="result-card" aria-live="polite">
         <div class="result-label">Necesitas</div>
-        <div class="result-value" id="r-result">{formatNumber(roundHalfUp(initialRequired,1),1)}</div>
+        <div class="result-value" id="r-result">{formatNumber(minimumRequiredGrade(initialRequired,1),1)}</div>
         <div class="result-meta result-meta-three">
           <div class="result-stat">
             <span class="result-stat-label">Objetivo</span>
             <strong id="r-target-summary">5,4</strong>
           </div>
           <div class="result-stat">
-            <span class="result-stat-label">Exacto</span>
+            <span class="result-stat-label">Calculado (3 decimales)</span>
             <strong id="r-exact">{formatNumber(initialRequired,3)}</strong>
           </div>
           <div class="result-stat">
@@ -60,7 +60,7 @@ const initialScenarios=[4,5,6,7].map(exam=>({
             <strong id="r-feasibility">Alcanzable</strong>
           </div>
         </div>
-        <p id="r-message" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem">Nota estimada necesaria en la evaluación final.</p>
+        <p id="r-message" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem">Mínimo a un decimal, redondeado hacia arriba para alcanzar el objetivo sin redondear la nota final.</p>
         <p id="r-range" style="margin:6px 0 0;color:#9eacc3;font-size:.8rem">Rango final posible: 3,8–5,6</p>
       </div>
       <p id="r-error" class="muted" aria-live="polite"></p>
@@ -89,7 +89,7 @@ const initialScenarios=[4,5,6,7].map(exam=>({
 
 <script>
   import { shareOrCopy } from '../lib/browser/share';
-  import { formatNumber, parseDecimal, projectedFinalGrade, requiredGrade, roundHalfUp } from '../lib/calculators/core';
+  import { formatNumber, parseDecimal, projectedFinalGrade, requiredGrade, minimumRequiredGrade, roundHalfUp } from '../lib/calculators/core';
 
   function readHash(){
     const params=new URLSearchParams(window.location.hash.replace(/^#/,''));
@@ -148,9 +148,9 @@ const initialScenarios=[4,5,6,7].map(exam=>({
         feasibility.textContent='Objetivo cubierto';
         msg.textContent='Tu objetivo ya está cubierto matemáticamente con una nota mínima.';
       }else{
-        out.textContent=formatNumber(roundHalfUp(grade,1),1);
+        out.textContent=formatNumber(minimumRequiredGrade(grade,1),1);
         feasibility.textContent='Alcanzable';
-        msg.textContent='Nota estimada necesaria en la evaluación final.';
+        msg.textContent='Mínimo a un decimal, redondeado hacia arriba para alcanzar el objetivo sin redondear la nota final.';
       }
 
       const scenarioGrades=[4,5,6,7];

@@ -7,6 +7,8 @@ import {
   projectedFinalGrade,
   requiredGrade,
   roundHalfUp,
+  roundGrade,
+  minimumRequiredGrade,
   scoreToGrade,
   validateGradeConfig,
   validateChileGrade,
@@ -15,6 +17,11 @@ import {
 } from './core';
 
 describe('parseDecimal', () => {
+  it('rejects empty, hexadecimal and malformed pasted values', () => {
+    for (const value of ['', ' ', '5 5', '5,5,0', '0x6', 'Infinity', '5abc']) {
+      expect(parseDecimal(value)).toBeNaN();
+    }
+  });
   it('accepts Chilean comma and dot decimal forms', () => {
     expect(parseDecimal('5,5')).toBe(5.5);
     expect(parseDecimal('5.5')).toBe(5.5);
@@ -23,6 +30,15 @@ describe('parseDecimal', () => {
 });
 
 describe('rounding', () => {
+  it('keeps decimal ties and selectable truncation separate', () => {
+    expect(roundHalfUp(1.005,2)).toBe(1.01);
+    expect(roundHalfUp(5.625,2)).toBe(5.63);
+    expect(roundGrade(5.25,1,'half-up')).toBe(5.3);
+    expect(roundGrade(5.25,1,'truncate')).toBe(5.2);
+    expect(roundGrade(4.1,2,'truncate')).toBe(4.1);
+    expect(scoreToGrade(59,100,{...DEFAULT_GRADE_CONFIG,rounding:'truncate'})).toBe(3.9);
+    expect(buildGradeScale(100,{...DEFAULT_GRADE_CONFIG,rounding:'truncate'}).find(row=>row.score===59)?.grade).toBe(3.9);
+  });
   it('handles known decimal boundaries deterministically', () => {
     expect(roundHalfUp(3.94, 1)).toBe(3.9);
     expect(roundHalfUp(3.95, 1)).toBe(4);
@@ -33,6 +49,15 @@ describe('rounding', () => {
 });
 
 describe('grade scale', () => {
+  it('rejects nonfinite configuration, out-of-scale grades and invalid scores', () => {
+    for (const maxGrade of [7.1,Infinity,NaN]) {
+      expect(()=>scoreToGrade(10,60,{...DEFAULT_GRADE_CONFIG,maxGrade})).toThrow();
+    }
+    for (const score of [-1,NaN,Infinity]) expect(()=>scoreToGrade(score,60)).toThrow();
+    expect(()=>scoreToGrade(0,0)).toThrow();
+    expect(scoreToGrade(35,60)).toBe(3.9);
+    expect(scoreToGrade(37,60)).toBe(4.1);
+  });
   it('maps both linear segments and key boundaries correctly', () => {
     expect(scoreToGrade(0, 60)).toBe(1);
     expect(scoreToGrade(18, 60)).toBe(2.5);
@@ -123,6 +148,22 @@ describe('averages', () => {
 });
 
 describe('required grade', () => {
+  it('displays a sufficient minimum instead of rounding below the target', () => {
+    const params={currentAverage:5,completedWeight:70,finalWeight:30,targetGrade:5.4};
+    const minimum=minimumRequiredGrade(requiredGrade(params));
+    expect(minimum).toBe(6.4);
+    expect(projectedFinalGrade({...params,finalGrade:minimum})).toBeGreaterThanOrEqual(params.targetGrade);
+    expect(projectedFinalGrade({...params,finalGrade:6.3})).toBeLessThan(params.targetGrade);
+    expect(minimumRequiredGrade(6.4)).toBe(6.4);
+    expect(minimumRequiredGrade(7)).toBe(7);
+  });
+
+  it('covers exactly achievable, already covered and impossible targets', () => {
+    expect(requiredGrade({currentAverage:7,completedWeight:50,finalWeight:50,targetGrade:7})).toBe(7);
+    expect(requiredGrade({currentAverage:7,completedWeight:90,finalWeight:10,targetGrade:4})).toBeLessThan(1);
+    expect(requiredGrade({currentAverage:1,completedWeight:90,finalWeight:10,targetGrade:7})).toBeGreaterThan(7);
+    expect(()=>requiredGrade({currentAverage:5,completedWeight:100,finalWeight:0,targetGrade:4})).toThrow();
+  });
   it('solves reverse grade equation', () => {
     expect(requiredGrade({ currentAverage: 5, completedWeight: 70, finalWeight: 30, targetGrade: 5.4 })).toBeCloseTo(6.3333333);
   });

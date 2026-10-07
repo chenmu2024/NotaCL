@@ -1,5 +1,7 @@
 # NotaCL Final QA Checklist
 
+Latest local development evidence: see `DEVELOPMENT-PROGRESS.md`. Deployed-host checkboxes below remain pending.
+
 ## Product / math
 - [x] Core calculation flows are implemented end-to-end.
 - [x] Score→grade formula is isolated from UI code.

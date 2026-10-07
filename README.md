@@ -11,10 +11,14 @@ Herramientas gratuitas para calcular notas, escalas, promedios y ponderaciones e
 - Cloudflare Pages
 - No database, no accounts, no paid APIs
 
+## Current development status
+
+See `DEVELOPMENT-PROGRESS.md` for the plan comparison, latest verification and launch dependencies.
+
 ## Local development
 
 ```bash
-npm install
+npm ci
 npm run dev
 npm run test
 npm run check

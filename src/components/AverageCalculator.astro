@@ -1,4 +1,5 @@
 ---
+import RoundingControls from './RoundingControls.astro';
 import { average, formatNumber, roundHalfUp } from '../lib/calculators/core';
 const initialValues=['5,5','6,2','4,8','6,0'];
 const initialNumbers=[5.5,6.2,4.8,6];
@@ -26,6 +27,7 @@ const initialAverage=average(initialNumbers);
           </div>
         )}
       </div>
+      <RoundingControls prefix="avg" decimals={1} />
       <div class="actions">
         <button class="btn btn-secondary" type="button" id="avg-add">Agregar nota</button>
         <button class="btn btn-primary" type="submit">Calcular promedio</button>
@@ -34,6 +36,28 @@ const initialAverage=average(initialNumbers);
       </div>
       <p id="avg-share-status" class="muted" aria-live="polite"></p>
 
+
+    </form>
+
+    <div class="tool-panel result-panel">
+      <div class="result-card" aria-live="polite">
+        <div class="result-label">Promedio</div>
+        <div class="result-value" id="avg-result">{formatNumber(roundHalfUp(initialAverage,1),1)}</div>
+        <div class="result-meta">
+          <div class="result-stat">
+            <span class="result-stat-label">Calculado (3 decimales)</span>
+            <strong id="avg-exact">{formatNumber(initialAverage,3)}</strong>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-label">Rango</span>
+            <strong id="avg-range">{formatNumber(Math.min(...initialNumbers),1)} – {formatNumber(Math.max(...initialNumbers),1)}</strong>
+          </div>
+        </div>
+        <p id="avg-error" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem"></p>
+      </div>
+    </div>
+  </div>
+  <div class="tool-panel">
       <div class="saved-box">
         <div class="field">
           <label for="avg-subject">Guardar como materia</label>
@@ -47,31 +71,13 @@ const initialAverage=average(initialNumbers);
         <p id="avg-storage-status" class="muted" aria-live="polite"></p>
         <div id="avg-saved" class="saved-items" aria-live="polite"></div>
       </div>
-    </form>
-
-    <div class="tool-panel result-panel">
-      <div class="result-card" aria-live="polite">
-        <div class="result-label">Promedio</div>
-        <div class="result-value" id="avg-result">{formatNumber(roundHalfUp(initialAverage,1),1)}</div>
-        <div class="result-meta">
-          <div class="result-stat">
-            <span class="result-stat-label">Exacto</span>
-            <strong id="avg-exact">{formatNumber(initialAverage,3)}</strong>
-          </div>
-          <div class="result-stat">
-            <span class="result-stat-label">Rango</span>
-            <strong id="avg-range">{formatNumber(Math.min(...initialNumbers),1)} – {formatNumber(Math.max(...initialNumbers),1)}</strong>
-          </div>
-        </div>
-        <p id="avg-error" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem"></p>
-      </div>
-    </div>
   </div>
 </div>
 
 <script>
+  import type { RoundingRule } from '../lib/calculators/core';
   import { shareOrCopy } from '../lib/browser/share';
-  import { average, formatNumber, parseDecimal, roundHalfUp } from '../lib/calculators/core';
+  import { average, formatNumber, parseDecimal, roundGrade } from '../lib/calculators/core';
   import { parseSavedSubjects, upsertSavedSubject } from '../lib/storage/savedSubjects';
 
   const list=document.querySelector<HTMLElement>('#avg-list')!;
@@ -86,6 +92,11 @@ const initialAverage=average(initialNumbers);
 
   function readHash(){
     const params=new URLSearchParams(window.location.hash.replace(/^#/,''));
+    for(const key of ['decimals','rounding']){
+      const value=params.get(key);
+      const input=document.querySelector<HTMLSelectElement>(`#avg-${key}`)!;
+      if(value!==null && Array.from(input.options).some(option=>option.value===value)) input.value=value;
+    }
     const raw=params.get('notas');
     if(!raw) return;
     const parsed=raw.split('|').map(value=>value.trim()).filter(Boolean).slice(0,50);
@@ -94,6 +105,8 @@ const initialAverage=average(initialNumbers);
 
   function shareUrl(){
     const params=new URLSearchParams({notas:values.map(value=>value.trim()).join('|')});
+    params.set('decimals',(document.querySelector<HTMLSelectElement>('#avg-decimals')!).value);
+    params.set('rounding',(document.querySelector<HTMLSelectElement>('#avg-rounding')!).value);
     return `${window.location.origin}${window.location.pathname}#${params.toString()}`;
   }
 
@@ -133,7 +146,9 @@ const initialAverage=average(initialNumbers);
     try{
       const nums=values.map(parseDecimal);
       const a=average(nums);
-      result.textContent=formatNumber(roundHalfUp(a,1),1);
+      const decimals=Number((document.querySelector<HTMLSelectElement>('#avg-decimals')!).value);
+      const rounding=(document.querySelector<HTMLSelectElement>('#avg-rounding')!).value as RoundingRule;
+      result.textContent=formatNumber(roundGrade(a,decimals,rounding),decimals);
       exact.textContent=formatNumber(a,3);
       range.textContent=`${formatNumber(Math.min(...nums),1)} – ${formatNumber(Math.max(...nums),1)}`;
       err.textContent='';
@@ -177,7 +192,7 @@ const initialAverage=average(initialNumbers);
 
     box.innerHTML=rows.map((row:any,i:number)=>`
       <div class="saved-item">
-        <span><strong>${escapeHTML(row.subject)}</strong><small>${formatNumber(row.average,1)} · ${Array.isArray(row.values)?row.values.length:0} notas</small></span>
+        <span><strong>${escapeHTML(row.subject)}</strong><small>${formatNumber(row.average,1)} · ${Array.isArray(row.values)?row.values.length:0} notas · ${escapeHTML(new Date(row.updatedAt).toLocaleDateString('es-CL'))}</small></span>
         <span class="saved-actions">
           <button class="btn btn-ghost" data-load="${i}" type="button">Cargar</button>
           <button class="btn btn-ghost" data-delete="${i}" type="button">Borrar</button>
@@ -209,6 +224,8 @@ const initialAverage=average(initialNumbers);
     renderRows();
   });
 
+  document.querySelector('#avg-decimals')?.addEventListener('change',calc);
+  document.querySelector('#avg-rounding')?.addEventListener('change',calc);
   document.querySelector('#avg-form')?.addEventListener('submit',e=>{
     e.preventDefault();
     calc();
@@ -246,6 +263,8 @@ const initialAverage=average(initialNumbers);
   });
 
   document.querySelector('#avg-reset')?.addEventListener('click',()=>{
+    (document.querySelector<HTMLSelectElement>('#avg-decimals')!).value='1';
+    (document.querySelector<HTMLSelectElement>('#avg-rounding')!).value='half-up';
     values=['5,5','6,2','4,8','6,0'];
     (document.querySelector<HTMLInputElement>('#avg-subject')!).value='';
     shareStatus.textContent='';

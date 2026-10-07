@@ -16,6 +16,17 @@ describe('saved subject storage', () => {
     expect(parseSavedSubjects(JSON.stringify([{ ...valid, values: [5.5] }]))).toEqual([]);
   });
 
+  it('round-trips weighted subjects and rejects incompatible weight data', () => {
+    const weighted={...valid,average:5.25,values:['6,0','5,5','4,8'],weights:['20','30','50']};
+    expect(parseSavedSubjects(JSON.stringify([weighted]))).toEqual([weighted]);
+    for (const weights of [['100'], ['20','30','60'], ['20','bad','50'], [20,30,50]]) {
+      expect(parseSavedSubjects(JSON.stringify([{...weighted,weights}]))).toEqual([]);
+    }
+    expect(parseSavedSubjects(JSON.stringify([{...valid,values:[]}]))).toEqual([]);
+    expect(parseSavedSubjects(JSON.stringify([{...valid,values:['8']}]))).toEqual([]);
+    expect(parseSavedSubjects(JSON.stringify([{...valid,updatedAt:'invalid'}]))).toEqual([]);
+  });
+
   it('keeps valid saved subjects and rejects oversized payloads', () => {
     expect(parseSavedSubjects(JSON.stringify([valid]))).toEqual([valid]);
     expect(parseSavedSubjects(JSON.stringify([{ ...valid, subject: 'x'.repeat(81) }]))).toEqual([]);
