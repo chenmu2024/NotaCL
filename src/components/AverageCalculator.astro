@@ -1,3 +1,9 @@
+---
+import { average, formatNumber, roundHalfUp } from '../lib/calculators/core';
+const initialValues=['5,5','6,2','4,8','6,0'];
+const initialNumbers=[5.5,6.2,4.8,6];
+const initialAverage=average(initialNumbers);
+---
 <div class="tool-shell">
   <div class="tool-head">
     <div>
@@ -9,7 +15,17 @@
 
   <div class="tool-grid">
     <form class="tool-panel" id="avg-form">
-      <div class="list-editor" id="avg-list"></div>
+      <div class="list-editor" id="avg-list">
+        {initialValues.map((value,index)=>
+          <div class="row-editor simple">
+            <div class="field" style="margin:0">
+              <label for={`avg-${index}`}>Nota {index+1}</label>
+              <input class="input avg-input" id={`avg-${index}`} data-i={index} value={value} inputmode="decimal" aria-label={`Nota ${index+1}`} />
+            </div>
+            <button class="icon-btn" type="button" data-remove={index} aria-label={`Eliminar nota ${index+1}`} title="Eliminar nota">×</button>
+          </div>
+        )}
+      </div>
       <div class="actions">
         <button class="btn btn-secondary" type="button" id="avg-add">Agregar nota</button>
         <button class="btn btn-primary" type="submit">Calcular promedio</button>
@@ -34,15 +50,15 @@
     <div class="tool-panel result-panel">
       <div class="result-card" aria-live="polite">
         <div class="result-label">Promedio</div>
-        <div class="result-value" id="avg-result">—</div>
+        <div class="result-value" id="avg-result">{formatNumber(roundHalfUp(initialAverage,1),1)}</div>
         <div class="result-meta">
           <div class="result-stat">
             <span class="result-stat-label">Exacto</span>
-            <strong id="avg-exact">—</strong>
+            <strong id="avg-exact">{formatNumber(initialAverage,3)}</strong>
           </div>
           <div class="result-stat">
             <span class="result-stat-label">Rango</span>
-            <strong id="avg-range">—</strong>
+            <strong id="avg-range">{formatNumber(Math.min(...initialNumbers),1)} – {formatNumber(Math.max(...initialNumbers),1)}</strong>
           </div>
         </div>
         <p id="avg-error" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem"></p>
