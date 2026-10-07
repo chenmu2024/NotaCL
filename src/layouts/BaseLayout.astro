@@ -55,6 +55,13 @@ const baseSchema = [
         {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
       </nav>
       <a class="header-cta" href="/#calculadora">Calcular ahora</a>
+      <details class="mobile-menu">
+        <summary aria-label="Abrir menú">Menú</summary>
+        <div class="mobile-menu-panel">
+          {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+          <a href="/guias/">Guías</a>
+        </div>
+      </details>
     </div>
   </header>
   <main><slot /></main>
