@@ -113,7 +113,7 @@ const initialScenarios=[4,5,6,7].map(exam=>({
       final:(document.querySelector<HTMLInputElement>('#r-finalweight')!).value.trim(),
       objetivo:(document.querySelector<HTMLInputElement>('#r-target')!).value.trim(),
     });
-    return `${window.location.origin}${window.location.pathname}${window.location.search}#${params.toString()}`;
+    return `${window.location.origin}${window.location.pathname}#${params.toString()}`;
   }
 
   function calc(){
