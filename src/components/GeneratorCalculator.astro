@@ -108,7 +108,7 @@
 
   function render(){
     try{
-      const max=Math.trunc(parseDecimal((document.querySelector<HTMLInputElement>('#g-maxscore')!).value));
+      const max=parseDecimal((document.querySelector<HTMLInputElement>('#g-maxscore')!).value);
       const cfg=config();
       currentRows=buildGradeScale(max,cfg);
 
