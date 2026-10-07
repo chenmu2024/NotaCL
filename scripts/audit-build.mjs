@@ -117,9 +117,26 @@ for (const route of canonicalRoutes) {
   }
 
   const jsonLdBlocks = [...html.matchAll(/<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)];
+  const jsonLd = [];
   for (const [, block] of jsonLdBlocks) {
-    try { JSON.parse(block); }
+    try { jsonLd.push(JSON.parse(block)); }
     catch { fail(`${route} contains invalid JSON-LD`); }
+  }
+
+  const schemaTypes = new Set(jsonLd.map((item) => item?.['@type']).filter(Boolean));
+  if (!schemaTypes.has('WebSite')) fail(`${route} is missing WebSite structured data`);
+  if (!schemaTypes.has('Organization')) fail(`${route} is missing Organization structured data`);
+
+  if (['/','/generador-de-notas/','/escala-de-notas/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/'].includes(route) && !schemaTypes.has('WebApplication')) {
+    fail(`${route} is missing WebApplication structured data`);
+  }
+
+  if (route.startsWith('/guias/') && route !== '/guias/' && !schemaTypes.has('Article')) {
+    fail(`${route} is missing Article structured data`);
+  }
+
+  if (siteUrl && route !== '/' && !schemaTypes.has('BreadcrumbList')) {
+    fail(`${route} is missing BreadcrumbList structured data in production-like output`);
   }
 
   const hrefs = [...html.matchAll(/href="([^"]+)"/gi)].map(match => match[1]);
