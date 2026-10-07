@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+const title='Contacto | NotaCL';
+const description='Canal de contacto de NotaCL para reportar errores de cálculo, enlaces rotos o sugerencias de mejora.';
+---
+<BaseLayout {title} {description} path="/contacto/">
+<Breadcrumbs items={[{label:'Contacto'}]} />
+<section class="hero"><div class="container reading"><h1>Contacto</h1><p class="lead">¿Encontraste un error de cálculo o una regla que necesita mejor explicación?</p></div></section>
+<section class="section"><div class="container reading prose"><p>Mientras se define el correo público del proyecto, puedes reportar incidencias directamente en el repositorio de desarrollo. Antes del lanzamiento comercial se debe configurar un correo de contacto del dominio final.</p><p><a href="https://github.com/chenmu2024/NotaCL/issues">Abrir o revisar incidencias en GitHub</a></p></div></section>
+</BaseLayout>
