@@ -1,3 +1,11 @@
+---
+import { DEFAULT_GRADE_CONFIG, formatNumber, scoreToGrade } from '../lib/calculators/core';
+const initialScore=42;
+const initialMax=60;
+const initialGrade=scoreToGrade(initialScore,initialMax,DEFAULT_GRADE_CONFIG);
+const initialPercent=(initialScore/initialMax)*100;
+const initialPassed=initialGrade>=DEFAULT_GRADE_CONFIG.passGrade;
+---
 <section class="home-calculator" id="calculadora" aria-labelledby="home-calc-title">
   <div class="home-calculator-head">
     <div>
@@ -26,16 +34,16 @@
   <div class="home-calc-result" aria-live="polite">
     <div class="home-result-main">
       <span class="home-result-label">Tu nota</span>
-      <strong id="hq-result">—</strong>
+      <strong id="hq-result">{formatNumber(initialGrade,1)}</strong>
     </div>
     <div class="home-result-stats">
-      <div><span>Porcentaje</span><strong id="hq-percent">—</strong></div>
-      <div><span>Estado</span><strong id="hq-status">—</strong></div>
+      <div><span>Porcentaje</span><strong id="hq-percent">{formatNumber(initialPercent,1)}%</strong></div>
+      <div><span>Estado</span><strong id="hq-status" data-state={initialPassed?'good':'bad'}>{initialPassed?'Aprobado':'Reprobado'}</strong></div>
     </div>
   </div>
 
   <div class="home-calc-footer">
-    <span id="hq-error">Usa coma o punto decimal. Exigencia entre 0% y 100%.</span>
+    <span id="hq-error">Cálculo local · sin registro</span>
     <a href="/escala-de-notas/">Abrir escala completa →</a>
   </div>
 </section>
