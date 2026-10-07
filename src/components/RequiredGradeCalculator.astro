@@ -88,6 +88,7 @@ const initialScenarios=[4,5,6,7].map(exam=>({
 </div>
 
 <script>
+  import { shareOrCopy } from '../lib/browser/share';
   import { formatNumber, parseDecimal, projectedFinalGrade, requiredGrade, roundHalfUp } from '../lib/calculators/core';
 
   function readHash(){
@@ -186,17 +187,11 @@ const initialScenarios=[4,5,6,7].map(exam=>({
       return;
     }
     const url=shareUrl();
-    try{
-      if(navigator.share){
-        await navigator.share({title:'¿Qué nota necesito?',url});
-        shareStatus.textContent='Cálculo compartido.';
-      }else{
-        await navigator.clipboard.writeText(url);
-        shareStatus.textContent='Enlace copiado al portapapeles.';
-      }
-    }catch{
-      shareStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
-    }
+    const shareResult=await shareOrCopy('¿Qué nota necesito?',url);
+    if(shareResult==='shared') shareStatus.textContent='Cálculo compartido.';
+    else if(shareResult==='copied') shareStatus.textContent='Enlace copiado al portapapeles.';
+    else if(shareResult==='cancelled') shareStatus.textContent='';
+    else shareStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
   });
 
   document.querySelector('#r-reset')?.addEventListener('click',()=>{
