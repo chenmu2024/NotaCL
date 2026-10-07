@@ -63,7 +63,7 @@
           <label for="w-weight-${i}">Peso (%)</label>
           <input class="input w-weight" id="w-weight-${i}" data-i="${i}" value="${escapeHTML(row[1])}" inputmode="decimal">
         </div>
-        <button class="icon-btn" type="button" data-remove="${i}" aria-label="Eliminar evaluación ${i+1}">Eliminar</button>
+        <button class="icon-btn" type="button" data-remove="${i}" aria-label="Eliminar evaluación ${i+1}" title="Eliminar evaluación">×</button>
       </div>`).join('');
 
     list.querySelectorAll<HTMLInputElement>('.w-grade').forEach(input=>input.addEventListener('input',()=>{
