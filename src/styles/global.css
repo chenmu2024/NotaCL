@@ -504,3 +504,8 @@ body:not(.home-page) .section:nth-of-type(even){background:#fff}
 @media(max-width:700px){
   .result-meta-three{grid-template-columns:1fr}
 }
+
+.popular-links{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:28px;padding-top:22px;border-top:1px solid #ddd8cf}
+.popular-links>span{margin-right:4px;color:var(--muted);font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+.popular-links a{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid #d7d5cf;border-radius:999px;background:#fff;color:var(--ink);font-size:.82rem;font-weight:700;text-decoration:none}
+.popular-links a:hover{border-color:var(--primary);background:var(--primary-soft);color:#8d351b}
