@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import AverageCalculator from '../components/AverageCalculator.astro';
+import ToolCards from '../components/ToolCards.astro';
+const title='Promedio de Notas | Calculadora de Promedio Chile | NotaCL';
+const description='Calcula el promedio de tus notas en segundos. Agrega o elimina notas, revisa el resultado exacto y guarda materias localmente sin crear una cuenta.';
+const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Calculadora de Promedio de Notas',applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL',description };
+---
+<BaseLayout {title} {description} path="/promedio-de-notas/" {schema}>
+<Breadcrumbs items={[{label:'Promedio de notas'}]} />
+<section class="hero"><div class="container"><p class="eyebrow">Promedio simple</p><h1>Promedio de Notas</h1><p class="lead">Suma tus notas y divide por la cantidad de evaluaciones. Puedes añadir tantas notas como necesites y guardar una materia en este dispositivo.</p></div></section>
+<div class="container"><AverageCalculator /></div>
+<section class="section"><div class="container reading prose"><h2>Cómo sacar el promedio de notas</h2><p>Para un promedio simple, suma todas las notas y divide el total por la cantidad de notas. Por ejemplo, 5,5 + 6,2 + 4,8 + 6,0 = 22,5; dividido por 4 da un resultado exacto de 5,625.</p><h2>Resultado exacto y resultado mostrado</h2><p>El cálculo conserva el valor exacto y muestra una versión redondeada por separado. Así puedes distinguir la matemática del criterio de presentación que use tu institución.</p><div class="faq"><details><summary>¿“Mi promedio” necesita otra página?</summary><p>No. “Mi promedio”, “calcular promedio” y “cómo sacar promedio” se resuelven con esta misma herramienta.</p></details><details><summary>¿Mis notas se suben a un servidor?</summary><p>No. El cálculo ocurre en el navegador. Solo si guardas una materia se usa el almacenamiento local de este dispositivo.</p></details></div></div></section>
+<section class="section"><div class="container"><h2>Otras herramientas</h2><ToolCards /></div></section>
+</BaseLayout>
