@@ -157,14 +157,14 @@ main{min-height:70vh}
 /* Generic cards used by guides */
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;color:inherit;text-decoration:none;transition:border-color .15s ease-out,box-shadow .15s ease-out,transform .15s ease-out}
-.card:hover{border-color:#9cb2da;box-shadow:0 12px 28px rgba(13,27,54,.07);transform:translateY(-1px)}
+.card:hover{border-color:#d9b09d;box-shadow:0 12px 28px rgba(11,23,54,.07);transform:translateY(-1px)}
 .card h3{margin:0 0 8px;color:var(--ink);font-size:1.08rem}
 .card p{margin:0;color:var(--muted);font-size:.92rem}
 
 /* Editorial blocks */
 .explain-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,.8fr);gap:60px;align-items:start}
 .formula-card{padding:28px;border-radius:22px;background:var(--ink);color:#fff}
-.formula-card .formula-kicker{display:block;margin-bottom:10px;color:#9db8ff;font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.formula-card .formula-kicker{display:block;margin-bottom:10px;color:#ffb293;font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
 .formula-card h3{margin:0 0 12px;color:#fff;font-size:1.35rem}
 .formula-line{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid rgba(255,255,255,.11)}
 .formula-line:first-of-type{margin-top:18px}
@@ -172,7 +172,7 @@ main{min-height:70vh}
 .formula-line strong{color:#fff;font-size:1rem}
 .trust-strip{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}
 .trust-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.trust-point{padding:18px;border-radius:16px;background:#fff;border:1px solid #d9e4f8}
+.trust-point{padding:18px;border-radius:16px;background:#fff;border:1px solid #ddd8cf}
 .trust-point strong{display:block;color:var(--ink);font-size:.95rem}
 .trust-point span{display:block;margin-top:4px;color:var(--muted);font-size:.82rem;line-height:1.45}
 
@@ -254,7 +254,7 @@ main{min-height:70vh}
   .tool-head{display:block}
   .tool-head .badge{margin-top:10px}
   .row-editor,.row-editor.simple{grid-template-columns:1fr}
-  .row-editor .icon-btn{width:100%}
+  .row-editor .icon-btn{width:48px;justify-self:end}
   .actions{display:grid;grid-template-columns:1fr}
   .actions .btn{width:100%}
 }
