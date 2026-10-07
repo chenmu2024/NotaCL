@@ -69,3 +69,16 @@ Any future external script such as analytics or AdSense must be tested before in
 - Generator Print → Save as PDF produces a readable table.
 - Lab LCP/INP/CLS are recorded after the final domain is live.
 - GSC is verified and the sitemap is submitted only after the production host passes these checks.
+
+
+## Automated live release audit
+
+After the final domain is connected and the current build is deployed:
+
+```bash
+PRODUCTION_URL=https://FINAL-DOMAIN.cl \
+PREVIEW_URL=https://YOUR-PROJECT.pages.dev \
+npm run audit:production
+```
+
+The command verifies the canonical routes, live canonical tags, indexability, security/language headers, trailing-slash redirect, real 404 status/noindex header, robots.txt, sitemap coverage and preview-host noindex response. It does not replace visual QA, keyboard testing or Lighthouse/CWV measurement.
