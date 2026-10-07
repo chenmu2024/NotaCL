@@ -28,13 +28,16 @@
 
 ## pages.dev / preview protection
 
-Canonical tags are not sufficient protection for duplicate preview hosts. Configure Cloudflare so `*.pages.dev` and preview deployments either:
+Canonical tags are not sufficient protection for duplicate preview hosts.
 
-- redirect to the canonical `.cl` where appropriate; or
-- emit `X-Robots-Tag: noindex, nofollow`; or
-- are access-restricted for non-production previews.
+This repository now includes `functions/_middleware.js`. On Cloudflare Pages it adds:
 
-Verify the chosen behavior from the real HTTP response after deployment.
+- `X-Robots-Tag: noindex, nofollow`
+- `Cache-Control: no-store`
+
+when the request hostname is `*.pages.dev`. The same helper also classifies localhost/vercel-style preview hosts as non-production for deterministic checks.
+
+After deployment, verify the real `pages.dev` HTTP response contains the noindex header. If Cloudflare changes Pages Functions behavior or the project moves hosts, update this middleware before allowing preview URLs to be public.
 
 ## Static response headers
 
