@@ -36,8 +36,10 @@ const initialScenarios=[4,5,6,7].map(exam=>({
       </div>
       <div class="actions">
         <button class="btn btn-primary" type="submit">Calcular nota necesaria</button>
+        <button class="btn btn-secondary" type="button" id="r-share">Compartir cálculo</button>
         <button class="btn btn-ghost" type="button" id="r-reset">Restablecer</button>
       </div>
+    <p id="r-share-status" class="muted" aria-live="polite"></p>
     </form>
 
     <div class="tool-panel result-panel">
@@ -87,6 +89,31 @@ const initialScenarios=[4,5,6,7].map(exam=>({
 
 <script>
   import { formatNumber, parseDecimal, projectedFinalGrade, requiredGrade, roundHalfUp } from '../lib/calculators/core';
+
+  function readHash(){
+    const params=new URLSearchParams(window.location.hash.replace(/^#/,''));
+    const mapping=[
+      ['promedio','#r-current'],
+      ['completado','#r-completed'],
+      ['final','#r-finalweight'],
+      ['objetivo','#r-target'],
+    ];
+    for(const [key,selector] of mapping){
+      const value=params.get(key);
+      const input=document.querySelector<HTMLInputElement>(selector);
+      if(value!==null && input) input.value=value;
+    }
+  }
+
+  function shareUrl(){
+    const params=new URLSearchParams({
+      promedio:(document.querySelector<HTMLInputElement>('#r-current')!).value.trim(),
+      completado:(document.querySelector<HTMLInputElement>('#r-completed')!).value.trim(),
+      final:(document.querySelector<HTMLInputElement>('#r-finalweight')!).value.trim(),
+      objetivo:(document.querySelector<HTMLInputElement>('#r-target')!).value.trim(),
+    });
+    return `${window.location.origin}${window.location.pathname}${window.location.search}#${params.toString()}`;
+  }
 
   function calc(){
     const out=document.querySelector<HTMLElement>('#r-result')!;
@@ -145,12 +172,42 @@ const initialScenarios=[4,5,6,7].map(exam=>({
 
   document.querySelector('#r-form')?.addEventListener('submit',e=>{e.preventDefault();calc()});
   document.querySelector('#r-form')?.addEventListener('input',calc);
+
+  document.querySelector('#r-share')?.addEventListener('click',async()=>{
+    const shareStatus=document.querySelector<HTMLElement>('#r-share-status')!;
+    const currentAverage=parseDecimal((document.querySelector<HTMLInputElement>('#r-current')!).value);
+    const completedWeight=parseDecimal((document.querySelector<HTMLInputElement>('#r-completed')!).value);
+    const finalWeight=parseDecimal((document.querySelector<HTMLInputElement>('#r-finalweight')!).value);
+    const targetGrade=parseDecimal((document.querySelector<HTMLInputElement>('#r-target')!).value);
+    try{
+      requiredGrade({currentAverage,completedWeight,finalWeight,targetGrade});
+    }catch{
+      shareStatus.textContent='Corrige los datos antes de compartir.';
+      return;
+    }
+    const url=shareUrl();
+    try{
+      if(navigator.share){
+        await navigator.share({title:'¿Qué nota necesito?',url});
+        shareStatus.textContent='Cálculo compartido.';
+      }else{
+        await navigator.clipboard.writeText(url);
+        shareStatus.textContent='Enlace copiado al portapapeles.';
+      }
+    }catch{
+      shareStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
+    }
+  });
+
   document.querySelector('#r-reset')?.addEventListener('click',()=>{
     (document.querySelector<HTMLInputElement>('#r-current')!).value='5,0';
     (document.querySelector<HTMLInputElement>('#r-completed')!).value='70';
     (document.querySelector<HTMLInputElement>('#r-finalweight')!).value='30';
     (document.querySelector<HTMLInputElement>('#r-target')!).value='5,4';
+    (document.querySelector<HTMLElement>('#r-share-status')!).textContent='';
+    history.replaceState(null,'',window.location.pathname+window.location.search);
     calc();
   });
+  readHash();
   calc();
 </script>
