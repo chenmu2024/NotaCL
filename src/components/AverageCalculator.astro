@@ -70,6 +70,7 @@ const initialAverage=average(initialNumbers);
 </div>
 
 <script>
+  import { shareOrCopy } from '../lib/browser/share';
   import { average, formatNumber, parseDecimal, roundHalfUp } from '../lib/calculators/core';
   import { parseSavedSubjects, upsertSavedSubject } from '../lib/storage/savedSubjects';
 
@@ -237,17 +238,11 @@ const initialAverage=average(initialNumbers);
     }
     if(calc()===null) return;
     const url=shareUrl();
-    try{
-      if(navigator.share){
-        await navigator.share({title:'Promedio de notas',url});
-        shareStatus.textContent='Cálculo compartido.';
-      }else{
-        await navigator.clipboard.writeText(url);
-        shareStatus.textContent='Enlace copiado al portapapeles.';
-      }
-    }catch{
-      shareStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
-    }
+    const shareResult=await shareOrCopy('Promedio de notas',url);
+    if(shareResult==='shared') shareStatus.textContent='Cálculo compartido.';
+    else if(shareResult==='copied') shareStatus.textContent='Enlace copiado al portapapeles.';
+    else if(shareResult==='cancelled') shareStatus.textContent='';
+    else shareStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
   });
 
   document.querySelector('#avg-reset')?.addEventListener('click',()=>{
