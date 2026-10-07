@@ -64,6 +64,7 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
 </div>
 
 <script>
+  import { shareOrCopy } from '../lib/browser/share';
   import { formatNumber, parseDecimal, roundHalfUp, weightedAverage, weightStatus } from '../lib/calculators/core';
 
   const list=document.querySelector<HTMLElement>('#w-list')!;
@@ -195,17 +196,11 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
       return;
     }
     const url=shareUrl();
-    try{
-      if(navigator.share){
-        await navigator.share({title:'Notas con porcentaje',url});
-        shareStatus.textContent='Cálculo compartido.';
-      }else{
-        await navigator.clipboard.writeText(url);
-        shareStatus.textContent='Enlace copiado al portapapeles.';
-      }
-    }catch{
-      shareStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
-    }
+    const shareResult=await shareOrCopy('Notas con porcentaje',url);
+    if(shareResult==='shared') shareStatus.textContent='Cálculo compartido.';
+    else if(shareResult==='copied') shareStatus.textContent='Enlace copiado al portapapeles.';
+    else if(shareResult==='cancelled') shareStatus.textContent='';
+    else shareStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
   });
 
   document.querySelector('#w-reset')?.addEventListener('click',()=>{
