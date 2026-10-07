@@ -184,7 +184,7 @@ main{min-height:70vh}
 .list-editor{display:grid;gap:10px}
 .row-editor{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
 .row-editor.simple{grid-template-columns:1fr auto}
-.icon-btn{width:48px;height:48px;border:1px solid var(--line);background:#fff;border-radius:12px;color:var(--error)}
+.icon-btn{width:48px;height:48px;border:1px solid var(--line);background:#fff;border-radius:12px;color:var(--error);font-size:1.45rem;font-weight:500;line-height:1}
 .saved-box{margin-top:20px;padding-top:20px;border-top:1px dashed var(--line)}
 .saved-items{display:grid;gap:8px;margin-top:10px}
 .saved-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:#fff}
