@@ -168,6 +168,10 @@ for (const route of canonicalRoutes) {
     if (!robots.includes('index,follow')) fail(`${route} should be indexable when PUBLIC_SITE_URL is set`);
     const expected = new URL(route, siteUrl).toString();
     if (canonical !== expected) fail(`${route} canonical mismatch: expected ${expected}, got ${canonical || '(missing)'}`);
+    const hreflang = html.match(/<link[^>]+rel="alternate"[^>]+hreflang="es-CL"[^>]+href="([^"]+)"/i)?.[1]
+      || html.match(/<link[^>]+hreflang="es-CL"[^>]+href="([^"]+)"[^>]+rel="alternate"/i)?.[1]
+      || '';
+    if (hreflang !== expected) fail(`${route} es-CL hreflang mismatch: expected ${expected}, got ${hreflang || '(missing)'}`);
   } else {
     if (!robots.includes('noindex,nofollow')) fail(`${route} must fail closed with noindex,nofollow without PUBLIC_SITE_URL`);
     if (canonical) fail(`${route} should not emit a canonical before PUBLIC_SITE_URL is configured`);
@@ -258,7 +262,7 @@ if (!existsSync(headersFile)) {
   fail('_headers is missing from the static output');
 } else {
   const headers = readFileSync(headersFile, 'utf8');
-  for (const required of ['X-Content-Type-Options: nosniff','Referrer-Policy: strict-origin-when-cross-origin','Permissions-Policy:']) {
+  for (const required of ['X-Content-Type-Options: nosniff','Referrer-Policy: strict-origin-when-cross-origin','Permissions-Policy:','X-Frame-Options: DENY','Content-Language: es-CL']) {
     if (!headers.includes(required)) fail(`_headers is missing required security header: ${required}`);
   }
 }
@@ -282,6 +286,25 @@ if (existsSync(astroAssets)) {
   if (totalJs > 120 * 1024) fail(`total built client JS exceeds 120 KB internal budget: ${totalJs} bytes`);
   if (totalCss > 80 * 1024) fail(`total built CSS exceeds 80 KB internal budget: ${totalCss} bytes`);
 }
+
+const manifestFile = join(dist, 'site.webmanifest');
+const faviconFile = join(dist, 'favicon.svg');
+if (!existsSync(manifestFile)) {
+  fail('site.webmanifest is missing');
+} else {
+  try {
+    const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'));
+    if (manifest.name !== 'NotaCL') fail('site.webmanifest name must be NotaCL');
+    if (manifest.lang !== 'es-CL') fail('site.webmanifest lang must be es-CL');
+    if (manifest.start_url !== '/') fail('site.webmanifest start_url must be /');
+    if (!Array.isArray(manifest.icons) || !manifest.icons.some((icon) => icon.src === '/favicon.svg')) {
+      fail('site.webmanifest must reference /favicon.svg');
+    }
+  } catch {
+    fail('site.webmanifest is not valid JSON');
+  }
+}
+if (!existsSync(faviconFile)) fail('favicon.svg is missing');
 
 const robotsFile = join(dist, 'robots.txt');
 const sitemapFile = join(dist, 'sitemap.xml');
