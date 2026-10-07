@@ -112,6 +112,12 @@ const productionResponse = await onRequest({
 });
 if (productionResponse.headers.has('X-Robots-Tag')) fail('production middleware must not emit preview noindex headers');
 
+const notFoundResponse = await onRequest({
+  request: new Request('https://notacl.cl/ruta-inexistente/'),
+  next: async () => new Response('missing', { status: 404 }),
+});
+if (notFoundResponse.headers.get('X-Robots-Tag') !== 'noindex, nofollow') fail('error responses must emit X-Robots-Tag noindex');
+
 const slashRedirect = await onRequest({
   request: new Request('https://notacl.cl/escala-de-notas?x=1'),
   next: async () => new Response('unexpected', { status: 200 }),
