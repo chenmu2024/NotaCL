@@ -34,10 +34,14 @@
       <div class="result-card" aria-live="polite">
         <div class="result-label">Resultado instantáneo</div>
         <div class="result-value" id="q-result">—</div>
-        <div class="result-meta">
+        <div class="result-meta result-meta-three">
           <div class="result-stat">
             <span class="result-stat-label">Porcentaje</span>
             <strong id="q-percent">—</strong>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-label">Exacto</span>
+            <strong id="q-exact">—</strong>
           </div>
           <div class="result-stat">
             <span class="result-stat-label">Estado</span>
@@ -50,10 +54,11 @@
   </div>
 </div>
 <script>
-  import { DEFAULT_GRADE_CONFIG, formatNumber, parseDecimal, scoreToGrade } from '../lib/calculators/core';
+  import { DEFAULT_GRADE_CONFIG, formatNumber, parseDecimal, scoreToExactGrade, scoreToGrade } from '../lib/calculators/core';
   const form = document.querySelector<HTMLFormElement>('#quick-form')!;
   const result = document.querySelector<HTMLElement>('#q-result')!;
   const percent = document.querySelector<HTMLElement>('#q-percent')!;
+  const exact = document.querySelector<HTMLElement>('#q-exact')!;
   const status = document.querySelector<HTMLElement>('#q-status')!;
   const error = document.querySelector<HTMLElement>('#q-error')!;
   const shareStatus = document.querySelector<HTMLElement>('#q-share-status')!;
@@ -84,9 +89,11 @@
       const max=parseDecimal((document.querySelector<HTMLInputElement>('#q-max')!).value);
       const exig=parseDecimal((document.querySelector<HTMLInputElement>('#q-exigency')!).value)/100;
       const cfg={...DEFAULT_GRADE_CONFIG,exigency:exig};
+      const exactGrade=scoreToExactGrade(score,max,cfg);
       const grade=scoreToGrade(score,max,cfg);
       result.textContent=formatNumber(grade,1);
       percent.textContent=`${formatNumber((score/max)*100,1)}%`;
+      exact.textContent=formatNumber(exactGrade,3);
       const passed=grade>=cfg.passGrade;
       status.textContent=passed?'Aprobado':'Reprobado';
       status.className=`status ${passed?'good':'bad'}`;
@@ -94,6 +101,7 @@
     } catch(e){
       result.textContent='—';
       percent.textContent='—';
+      exact.textContent='—';
       status.textContent='—';
       status.className='status';
       error.textContent=e instanceof Error?e.message:'Revisa los valores.';
