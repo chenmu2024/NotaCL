@@ -3,17 +3,22 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import GeneratorCalculator from '../../components/GeneratorCalculator.astro';
 import ToolCards from '../../components/ToolCards.astro';
-import { DEFAULT_GRADE_CONFIG, formatNumber, scoreToGrade } from '../../lib/calculators/core';
+import { DEFAULT_GRADE_CONFIG, formatNumber, scoreToExactGrade, scoreToGrade } from '../../lib/calculators/core';
 
 const title='Escala de Notas al 60% | Tabla de Notas Chile | NotaCL';
 const description='Genera una escala de notas al 60% de exigencia, revisa una tabla de referencia de 1,0 a 7,0 y calcula el puntaje necesario para obtener un 4,0.';
 
 const config={...DEFAULT_GRADE_CONFIG,exigency:0.6};
 const referencePercentages=[0,10,20,30,40,50,60,70,80,90,100];
-const referenceRows=referencePercentages.map(percentage=>({
-  percentage,
-  grade:scoreToGrade(percentage,100,config),
-}));
+const referenceRows=referencePercentages.map(percentage=>{
+  const exact=scoreToExactGrade(percentage,100,config);
+  return {
+    percentage,
+    exact,
+    grade:scoreToGrade(percentage,100,config),
+    passed:exact>=config.passGrade,
+  };
+});
 const commonTotals=[20,30,40,50,60,100].map(total=>({
   total,
   passing:total*config.exigency,
@@ -76,13 +81,13 @@ const schema={
       <div class="table-wrap">
         <table class="data-table">
           <caption class="sr-only">Referencia de porcentaje de logro a nota con exigencia del 60%.</caption>
-          <thead><tr><th>Porcentaje de logro</th><th>Nota</th><th>Estado</th></tr></thead>
+          <thead><tr><th>Porcentaje de logro</th><th>Nota</th><th>Estado según corte</th></tr></thead>
           <tbody>
             {referenceRows.map(row=>
               <tr>
                 <td>{row.percentage}%</td>
                 <td><strong>{formatNumber(row.grade,1)}</strong></td>
-                <td class:list={['status',row.grade>=config.passGrade?'good':'bad']}>{row.grade>=config.passGrade?'Aprobado':'Reprobado'}</td>
+                <td class:list={['status',row.passed?'good':'bad']}>{row.passed?'Cumple exigencia':'Bajo exigencia'}</td>
               </tr>
             )}
           </tbody>
