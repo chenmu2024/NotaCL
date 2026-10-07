@@ -34,7 +34,7 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
 
   <div class="home-calc-result" aria-live="polite">
     <div class="home-result-main">
-      <span class="home-result-label">Tu nota</span>
+      <span class="home-result-label">Nota mostrada</span>
       <strong id="hq-result">{formatNumber(initialGrade,1)}</strong>
     </div>
     <div class="home-result-stats">
@@ -44,7 +44,7 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
   </div>
 
   <div class="home-calc-footer">
-    <span id="hq-error">Cálculo local · sin registro</span>
+    <span id="hq-error">Redondeo a 1 decimal · cálculo local · sin registro</span>
     <a href="/escala-de-notas/">Abrir escala completa →</a>
   </div>
 </section>
@@ -71,7 +71,7 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
       const passed = exactGrade >= config.passGrade;
       status.textContent = passed ? 'Cumple exigencia' : 'Bajo exigencia';
       status.dataset.state = passed ? 'good' : 'bad';
-      error.textContent = 'Cálculo local · sin registro';
+      error.textContent = 'Redondeo a 1 decimal · cálculo local · sin registro';
     } catch (e) {
       result.textContent = '—';
       percent.textContent = '—';
