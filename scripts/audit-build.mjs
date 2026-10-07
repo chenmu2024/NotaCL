@@ -1,3 +1,4 @@
+import { isPreviewHost } from '../functions/_middleware.js';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
@@ -89,6 +90,10 @@ function normalizeInternalPath(href, currentRoute) {
 
 if (!existsSync(dist)) {
   fail('dist/ does not exist. Run npm run build before npm run audit.');
+}
+
+if (!isPreviewHost('notacl.pages.dev') || !isPreviewHost('preview.notacl.pages.dev') || isPreviewHost('notacl.cl')) {
+  fail('Cloudflare preview-host middleware classification is incorrect');
 }
 
 const titles = new Map();
