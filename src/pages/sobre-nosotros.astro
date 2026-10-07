@@ -1,11 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-const title='Sobre NotaCL';
-const description='Conoce el propósito, metodología y límites de NotaCL, un sitio gratuito de herramientas de cálculo de notas para Chile.';
+const title='Sobre NotaCL | Metodología y criterios';
+const description='Conoce cómo funciona NotaCL, qué cálculos realiza en el navegador, cómo trata las reglas variables y qué límites debes considerar al usar sus resultados.';
 ---
 <BaseLayout {title} {description} path="/sobre-nosotros/">
 <Breadcrumbs items={[{label:'Sobre nosotros'}]} />
-<section class="hero"><div class="container reading"><h1>Sobre NotaCL</h1><p class="lead">NotaCL crea herramientas gratuitas, rápidas y transparentes para cálculos de notas y promedios.</p></div></section>
-<section class="section"><div class="container reading prose"><h2>Cómo trabajamos</h2><p>Las fórmulas principales se ejecutan en el navegador y se prueban con casos límite. Cuando una regla depende de una institución o de información oficial cambiante, preferimos indicarlo y enlazar la fuente antes que inventar una regla universal.</p><h2>Qué no hacemos</h2><p>No somos un establecimiento educacional ni una entidad pública. Los resultados son una ayuda de cálculo y deben contrastarse con la normativa o pauta real de tu curso cuando corresponda.</p></div></section>
+<section class="hero"><div class="container reading"><p class="eyebrow">Transparencia</p><h1>Sobre NotaCL</h1><p class="lead">Creamos herramientas gratuitas para calcular notas, escalas, promedios y ponderaciones con parámetros visibles y resultados fáciles de revisar.</p></div></section>
+<section class="section"><div class="container reading prose">
+  <h2>Cómo trabajamos</h2>
+  <p>Las fórmulas principales se ejecutan en tu navegador y se prueban con casos normales y límites, como exigencia inválida, porcentajes incompletos, notas fuera de rango y valores de redondeo. El objetivo es que el resultado pueda explicarse y reproducirse.</p>
+
+  <h2>Parámetros, no reglas universales</h2>
+  <p>La escala inicial 1,0–7,0 y la exigencia de 60% son parámetros configurables del producto. No afirmamos que una sola fórmula o una sola regla de redondeo sea obligatoria para todos los establecimientos.</p>
+
+  <h2>Fuentes y datos cambiantes</h2>
+  <p>Cuando una página depende de información institucional o pública que puede cambiar, enlazamos una fuente oficial y mostramos la fecha de revisión cuando es relevante. Si no podemos verificar una regla específica, preferimos no publicarla como si fuera universal.</p>
+
+  <h2>Privacidad por diseño</h2>
+  <p>Los cálculos principales no requieren una cuenta. Cuando eliges guardar una materia, NotaCL usa el almacenamiento local del navegador para mantener esos datos en este dispositivo.</p>
+
+  <h2>Límites</h2>
+  <p>NotaCL no es un establecimiento educacional ni una entidad pública. Antes de usar un resultado para una decisión académica formal, compáralo con la pauta, reglamento o fuente institucional correspondiente.</p>
+
+  <p class="muted">Última revisión de esta página: 7 de octubre de 2026.</p>
+</div></section>
 </BaseLayout>
