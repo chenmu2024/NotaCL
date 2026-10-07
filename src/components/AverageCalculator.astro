@@ -1,0 +1,23 @@
+<div class="tool-shell">
+  <div class="tool-head"><div><h2>Calcula tu promedio</h2><p>Agrega o elimina notas. El cálculo exacto se mantiene separado del redondeo mostrado.</p></div><span class="badge">Guardado local opcional</span></div>
+  <div class="tool-grid">
+    <form class="tool-panel" id="avg-form">
+      <div class="list-editor" id="avg-list"></div>
+      <div class="actions"><button class="btn btn-secondary" type="button" id="avg-add">Agregar nota</button><button class="btn btn-primary" type="submit">Calcular</button></div>
+      <div class="saved-box"><div class="field"><label for="avg-subject">Guardar como materia (opcional)</label><input class="input" id="avg-subject" placeholder="Ej. Matemáticas" /></div><button class="btn btn-secondary" id="avg-save" type="button">Guardar en este dispositivo</button><div id="avg-saved" class="saved-items"></div></div>
+    </form>
+    <div class="tool-panel"><div class="result-card" aria-live="polite"><div class="result-label">Promedio</div><div class="result-value" id="avg-result">—</div><div class="result-meta"><span id="avg-exact">Resultado exacto: —</span><span id="avg-range">Rango: —</span></div></div><p id="avg-error" class="muted"></p></div>
+  </div>
+</div>
+<script>
+  import { average, formatNumber, parseDecimal, roundHalfUp } from '../lib/calculators/core';
+  const list=document.querySelector<HTMLElement>('#avg-list')!; const result=document.querySelector<HTMLElement>('#avg-result')!; const exact=document.querySelector<HTMLElement>('#avg-exact')!; const range=document.querySelector<HTMLElement>('#avg-range')!; const err=document.querySelector<HTMLElement>('#avg-error')!;
+  let values=['5,5','6,2','4,8','6,0'];
+  function renderRows(){list.innerHTML=values.map((v,i)=>`<div class="row-editor simple"><div class="field" style="margin:0"><label for="avg-${i}">Nota ${i+1}</label><input class="input avg-input" id="avg-${i}" data-i="${i}" value="${v}" inputmode="decimal"></div><button class="icon-btn" type="button" data-remove="${i}" aria-label="Eliminar nota ${i+1}">Eliminar</button></div>`).join(''); list.querySelectorAll<HTMLInputElement>('.avg-input').forEach(el=>el.addEventListener('input',()=>{values[Number(el.dataset.i)]=el.value;calc()}));list.querySelectorAll<HTMLButtonElement>('[data-remove]').forEach(b=>b.addEventListener('click',()=>{values.splice(Number(b.dataset.remove),1); if(!values.length)values=[''];renderRows();calc()}));}
+  function calc(){try{const nums=values.map(parseDecimal);const a=average(nums);result.textContent=formatNumber(roundHalfUp(a,1),1);exact.textContent=`Resultado exacto: ${formatNumber(a,3)}`;range.textContent=`Rango: ${formatNumber(Math.min(...nums),1)} – ${formatNumber(Math.max(...nums),1)}`;err.textContent='';return a}catch(e){result.textContent='—';exact.textContent='Resultado exacto: —';range.textContent='Rango: —';err.textContent=e instanceof Error?e.message:'Revisa las notas.';return null}}
+  document.querySelector('#avg-add')?.addEventListener('click',()=>{values.push('');renderRows();});document.querySelector('#avg-form')?.addEventListener('submit',e=>{e.preventDefault();calc()});
+  const key='notacl.saved.subjects';
+  function saved(){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return []}}
+  function renderSaved(){const box=document.querySelector<HTMLElement>('#avg-saved')!;const rows=saved();box.innerHTML=rows.map((r:any,i:number)=>`<div class="saved-item"><span><strong>${r.subject}</strong> · ${formatNumber(r.average,1)}</span><button class="btn btn-ghost" data-delete="${i}" type="button">Borrar</button></div>`).join('');box.querySelectorAll<HTMLButtonElement>('[data-delete]').forEach(b=>b.addEventListener('click',()=>{const a=saved();a.splice(Number(b.dataset.delete),1);localStorage.setItem(key,JSON.stringify(a));renderSaved()}));}
+  document.querySelector('#avg-save')?.addEventListener('click',()=>{const subject=(document.querySelector<HTMLInputElement>('#avg-subject')!).value.trim();const a=calc();if(!subject||a===null)return;const rows=saved();rows.push({subject,average:a,values,updatedAt:new Date().toISOString()});localStorage.setItem(key,JSON.stringify(rows));renderSaved();});renderRows();calc();renderSaved();
+</script>
