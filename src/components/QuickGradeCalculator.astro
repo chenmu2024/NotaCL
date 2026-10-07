@@ -63,6 +63,7 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
   </div>
 </div>
 <script>
+  import { shareOrCopy } from '../lib/browser/share';
   import { DEFAULT_GRADE_CONFIG, formatNumber, parseDecimal, scoreToExactGrade, scoreToGrade } from '../lib/calculators/core';
   const form = document.querySelector<HTMLFormElement>('#quick-form')!;
   const result = document.querySelector<HTMLElement>('#q-result')!;
@@ -130,17 +131,11 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
 
   document.querySelector('#q-share')?.addEventListener('click',async()=>{
     const url=shareUrl();
-    try{
-      if(navigator.share){
-        await navigator.share({title:'Escala de notas',url});
-        shareStatus.textContent='Cálculo compartido.';
-      }else{
-        await navigator.clipboard.writeText(url);
-        shareStatus.textContent='Enlace copiado al portapapeles.';
-      }
-    }catch{
-      shareStatus.textContent='No se pudo compartir el enlace.';
-    }
+    const shareResult=await shareOrCopy('Escala de notas',url);
+    if(shareResult==='shared') shareStatus.textContent='Cálculo compartido.';
+    else if(shareResult==='copied') shareStatus.textContent='Enlace copiado al portapapeles.';
+    else if(shareResult==='cancelled') shareStatus.textContent='';
+    else shareStatus.textContent='No se pudo compartir el enlace.';
   });
 
   readHash();
