@@ -6,6 +6,7 @@ const routes=[
   '/',
   '/generador-de-notas/',
   '/escala-de-notas/',
+  '/escala-de-notas/60/',
   '/promedio-de-notas/',
   '/notas-con-porcentaje/',
   '/que-nota-necesito/',
