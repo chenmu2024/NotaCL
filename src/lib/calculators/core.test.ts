@@ -77,6 +77,23 @@ describe('averages', () => {
     expect(result.contribution).toBeCloseTo(5.25);
   });
 
+  it('rejects impossible weighted totals while allowing near-100 rounding', () => {
+    expect(() => weightedAverage([
+      { grade: 6, weight: 60 },
+      { grade: 5, weight: 50 },
+    ])).toThrow('no puede superar 100%');
+    expect(() => weightedAverage([{ grade: 6, weight: 101 }])).toThrow('individual');
+
+    const result = weightedAverage([
+      { grade: 5, weight: 33.3 },
+      { grade: 5, weight: 33.3 },
+      { grade: 5, weight: 33.3 },
+    ]);
+    expect(result.totalWeight).toBeCloseTo(99.9);
+    expect(result.contribution).toBeCloseTo(4.995);
+    expect(weightStatus(result.totalWeight)).toBe('complete');
+  });
+
   it('handles 33.3 x 3 as a near-complete weight set', () => {
     const result = weightedAverage([
       { grade: 5, weight: 33.3 },
