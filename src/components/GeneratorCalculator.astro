@@ -66,6 +66,7 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
         <button class="btn btn-secondary" type="button" id="g-print">Imprimir / Guardar PDF</button>
         <button class="btn btn-secondary" type="button" id="g-download">Descargar CSV</button>
         <button class="btn btn-ghost" type="button" id="g-copy">Copiar CSV</button>
+        <button class="btn btn-ghost" type="button" id="g-reset">Restablecer</button>
       </div>
       <p id="g-action-status" class="muted" aria-live="polite"></p>
       <p id="g-error" class="notice error" hidden></p>
@@ -172,6 +173,20 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
     if(!currentRows.length) return;
     await navigator.clipboard.writeText(csvText());
     actionStatus.textContent='CSV copiado al portapapeles.';
+  });
+
+  document.querySelector('#g-reset')?.addEventListener('click',()=>{
+    (document.querySelector<HTMLInputElement>('#g-maxscore')!).value='60';
+    (document.querySelector<HTMLInputElement>('#g-exigency')!).value=String(initialExigency);
+    (document.querySelector<HTMLInputElement>('#g-min')!).value='1,0';
+    (document.querySelector<HTMLInputElement>('#g-pass')!).value='4,0';
+    (document.querySelector<HTMLInputElement>('#g-maxgrade')!).value='7,0';
+    (document.querySelector<HTMLSelectElement>('#g-decimals')!).value='1';
+    document.querySelectorAll<HTMLButtonElement>('[data-exigency]').forEach(button=>{
+      button.classList.toggle('active',button.dataset.exigency===String(initialExigency));
+    });
+    actionStatus.textContent='';
+    render();
   });
 
   document.querySelector('#g-download')?.addEventListener('click',()=>{
