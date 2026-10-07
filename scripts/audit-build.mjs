@@ -128,6 +128,7 @@ if (slashRedirect.status !== 308 || slashRedirect.headers.get('Location') !== 'h
 
 const titles = new Map();
 const descriptions = new Map();
+const incomingLinks = new Map(canonicalRoutes.map((route) => [route, 0]));
 let maxHtmlBytes = 0;
 let totalJsBytes = 0;
 let totalCssBytes = 0;
@@ -226,6 +227,15 @@ for (const route of canonicalRoutes) {
       ? routeFile(target)
       : join(dist, target.replace(/^\//, ''));
     if (!existsSync(targetFile)) fail(`${route} links to missing internal target ${href}`);
+    if (target !== route && incomingLinks.has(target)) {
+      incomingLinks.set(target, (incomingLinks.get(target) || 0) + 1);
+    }
+  }
+}
+
+for (const route of canonicalRoutes) {
+  if (route !== '/' && (incomingLinks.get(route) || 0) === 0) {
+    fail(`${route} is orphaned from the audited canonical-route graph`);
   }
 }
 
