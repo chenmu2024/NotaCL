@@ -5,7 +5,7 @@ const initialMax=60;
 const initialExact=scoreToExactGrade(initialScore,initialMax,DEFAULT_GRADE_CONFIG);
 const initialGrade=scoreToGrade(initialScore,initialMax,DEFAULT_GRADE_CONFIG);
 const initialPercent=(initialScore/initialMax)*100;
-const initialPassed=initialGrade>=DEFAULT_GRADE_CONFIG.passGrade;
+const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
 ---
 <div class="tool-shell quick-tool" id="calculadora">
   <div class="tool-head">
@@ -53,8 +53,8 @@ const initialPassed=initialGrade>=DEFAULT_GRADE_CONFIG.passGrade;
             <strong id="q-exact">{formatNumber(initialExact,3)}</strong>
           </div>
           <div class="result-stat">
-            <span class="result-stat-label">Estado</span>
-            <span id="q-status" class:list={['status',initialPassed?'good':'bad']}>{initialPassed?'Aprobado':'Reprobado'}</span>
+            <span class="result-stat-label">Estado según corte</span>
+            <span id="q-status" class:list={['status',initialPassed?'good':'bad']}>{initialPassed?'Cumple exigencia':'Bajo exigencia'}</span>
           </div>
         </div>
         <p id="q-error" style="margin:16px 0 0;color:#b9c5d9;font-size:.86rem"></p>
@@ -103,8 +103,8 @@ const initialPassed=initialGrade>=DEFAULT_GRADE_CONFIG.passGrade;
       result.textContent=formatNumber(grade,1);
       percent.textContent=`${formatNumber((score/max)*100,1)}%`;
       exact.textContent=formatNumber(exactGrade,3);
-      const passed=grade>=cfg.passGrade;
-      status.textContent=passed?'Aprobado':'Reprobado';
+      const passed=exactGrade>=cfg.passGrade;
+      status.textContent=passed?'Cumple exigencia':'Bajo exigencia';
       status.className=`status ${passed?'good':'bad'}`;
       error.textContent='';
     } catch(e){
