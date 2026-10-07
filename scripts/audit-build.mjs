@@ -128,12 +128,17 @@ if (slashRedirect.status !== 308 || slashRedirect.headers.get('Location') !== 'h
 
 const titles = new Map();
 const descriptions = new Map();
+let maxHtmlBytes = 0;
+let totalJsBytes = 0;
+let totalCssBytes = 0;
 
 for (const route of canonicalRoutes) {
   const html = readRoute(route);
   if (!html) continue;
 
-  if (Buffer.byteLength(html,'utf8') > 250 * 1024) fail(`${route} raw HTML exceeds 250 KB internal budget`);
+  const htmlBytes = Buffer.byteLength(html,'utf8');
+  maxHtmlBytes = Math.max(maxHtmlBytes, htmlBytes);
+  if (htmlBytes > 250 * 1024) fail(`${route} raw HTML exceeds 250 KB internal budget`);
   if (!/<html[^>]+lang="es-CL"/i.test(html)) fail(`${route} is missing lang="es-CL"`);
 
   const h1Count = countMatches(html, /<h1\b/gi);
@@ -268,6 +273,8 @@ if (existsSync(astroAssets)) {
   const cssFiles = assetFiles.filter((item) => item.name.endsWith('.css'));
   const totalJs = jsFiles.reduce((sum, item) => sum + item.size, 0);
   const totalCss = cssFiles.reduce((sum, item) => sum + item.size, 0);
+  totalJsBytes = totalJs;
+  totalCssBytes = totalCss;
 
   for (const item of jsFiles) {
     if (item.size > 40 * 1024) fail(`client JS chunk exceeds 40 KB internal budget: ${item.name} (${item.size} bytes)`);
@@ -300,5 +307,5 @@ if (existsSync(sitemapFile)) {
 }
 
 if (!process.exitCode) {
-  console.log(`SEO/GEO audit passed for ${canonicalRoutes.length} canonical routes.`);
+  console.log(`SEO/GEO audit passed for ${canonicalRoutes.length} canonical routes. Max HTML ${(maxHtmlBytes/1024).toFixed(1)} KB; client JS ${(totalJsBytes/1024).toFixed(1)} KB; CSS ${(totalCssBytes/1024).toFixed(1)} KB.`);
 }
