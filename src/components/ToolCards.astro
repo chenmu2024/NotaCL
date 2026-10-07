@@ -1,12 +1,22 @@
 ---
 const tools = [
-  ['/generador-de-notas/','Generador de notas','Crea una escala completa según puntaje máximo y exigencia.'],
-  ['/escala-de-notas/','Escala de notas','Convierte un puntaje en nota y revisa la tabla completa.'],
-  ['/promedio-de-notas/','Promedio de notas','Calcula el promedio simple de varias notas.'],
-  ['/notas-con-porcentaje/','Notas con porcentaje','Calcula ponderaciones y promedio ponderado.'],
-  ['/que-nota-necesito/','¿Qué nota necesito?','Descubre qué nota necesitas para alcanzar tu objetivo.'],
+  { href:'/generador-de-notas/', icon:'7,0', kicker:'Para docentes y estudiantes', title:'Generador de notas', description:'Crea una escala completa según puntaje máximo, exigencia y nota de aprobación.', className:'featured' },
+  { href:'/escala-de-notas/', icon:'↕', kicker:'Puntaje → nota', title:'Escala de notas', description:'Convierte un puntaje en nota y revisa la tabla completa con tus parámetros.', className:'accent' },
+  { href:'/promedio-de-notas/', icon:'Σ', kicker:'Promedio simple', title:'Promedio de notas', description:'Calcula el promedio de varias notas y guarda materias en este dispositivo.', className:'' },
+  { href:'/notas-con-porcentaje/', icon:'%', kicker:'Ponderaciones', title:'Notas con porcentaje', description:'Combina notas y pesos distintos para obtener un promedio ponderado correcto.', className:'' },
+  { href:'/que-nota-necesito/', icon:'?', kicker:'Objetivo final', title:'¿Qué nota necesito?', description:'Calcula la nota mínima que necesitas en la evaluación que falta.', className:'' },
 ];
 ---
-<div class="cards">
-  {tools.map(([href,title,description]) => <a class="card" href={href}><h3>{title}</h3><p>{description}</p></a>)}
+<div class="tool-cards">
+  {tools.map((tool) =>
+    <a class:list={['tool-card', tool.className]} href={tool.href}>
+      <div class="tool-card-top">
+        <span class="tool-card-icon" aria-hidden="true">{tool.icon}</span>
+        <span class="tool-card-arrow" aria-hidden="true">→</span>
+      </div>
+      <span class="tool-card-kicker">{tool.kicker}</span>
+      <h3>{tool.title}</h3>
+      <p>{tool.description}</p>
+    </a>
+  )}
 </div>
