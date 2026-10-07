@@ -2,7 +2,23 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 const dist = resolve('dist');
-const siteUrl = process.env.PUBLIC_SITE_URL || '';
+
+function normalizeAuditSiteOrigin(value) {
+  const raw = value?.trim();
+  if (!raw) return '';
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash) return '';
+    if (url.pathname !== '/' && url.pathname !== '') return '';
+    const host = url.hostname.toLowerCase();
+    if (host === 'localhost' || host.endsWith('.pages.dev') || host.endsWith('.vercel.app')) return '';
+    return url.origin;
+  } catch {
+    return '';
+  }
+}
+
+const siteUrl = normalizeAuditSiteOrigin(process.env.PUBLIC_SITE_URL);
 
 const canonicalRoutes = [
   '/',
