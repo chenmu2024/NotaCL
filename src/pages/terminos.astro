@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+const title='Términos de Uso | NotaCL';
+const description='Términos de uso y limitaciones de las calculadoras educativas de NotaCL.';
+---
+<BaseLayout {title} {description} path="/terminos/">
+<Breadcrumbs items={[{label:'Términos'}]} />
+<section class="hero"><div class="container reading"><h1>Términos de Uso</h1><p class="lead">NotaCL ofrece herramientas de apoyo de cálculo y contenido informativo.</p></div></section>
+<section class="section"><div class="container reading prose"><p>Los resultados dependen de los datos y parámetros ingresados. No garantizamos que una configuración predeterminada corresponda a la política de evaluación específica de tu establecimiento.</p><p>Antes de usar un resultado para una decisión académica formal, verifica la pauta, reglamento o fuente institucional correspondiente.</p></div></section>
+</BaseLayout>
