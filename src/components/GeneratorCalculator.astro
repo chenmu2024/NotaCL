@@ -1,0 +1,28 @@
+<div class="tool-shell" id="generador">
+  <div class="tool-head"><div><h2>Genera tu tabla de notas</h2><p>Ajusta los parámetros y crea una escala completa de puntaje a nota.</p></div><span class="badge">Sin registro</span></div>
+  <div class="tool-panel">
+    <form id="gen-form">
+      <div class="inline-fields">
+        <div class="field"><label for="g-maxscore">Puntaje máximo</label><input class="input" id="g-maxscore" value="60" inputmode="numeric" /></div>
+        <div class="field"><label for="g-exigency">Exigencia (%)</label><input class="input" id="g-exigency" value="60" inputmode="decimal" /></div>
+        <div class="field"><label for="g-min">Nota mínima</label><input class="input" id="g-min" value="1,0" inputmode="decimal" /></div>
+        <div class="field"><label for="g-pass">Nota de aprobación</label><input class="input" id="g-pass" value="4,0" inputmode="decimal" /></div>
+        <div class="field"><label for="g-maxgrade">Nota máxima</label><input class="input" id="g-maxgrade" value="7,0" inputmode="decimal" /></div>
+        <div class="field"><label for="g-decimals">Decimales</label><select class="select" id="g-decimals"><option value="1" selected>1 decimal</option><option value="2">2 decimales</option><option value="0">Sin decimales</option></select></div>
+      </div>
+      <div class="actions"><button class="btn btn-primary" type="submit">Generar tabla</button><button class="btn btn-secondary" type="button" id="g-print">Imprimir / Guardar PDF</button><button class="btn btn-secondary" type="button" id="g-copy">Copiar CSV</button></div>
+      <p id="g-error" class="notice error" hidden></p>
+    </form>
+  </div>
+  <div class="tool-panel"><div class="table-wrap"><table class="data-table"><thead><tr><th>Puntaje</th><th>Porcentaje</th><th>Nota</th><th>Estado</th></tr></thead><tbody id="g-body"></tbody></table></div></div>
+</div>
+<script>
+  import { buildGradeScale, formatNumber, parseDecimal } from '../lib/calculators/core';
+  const form=document.querySelector<HTMLFormElement>('#gen-form')!; const body=document.querySelector<HTMLElement>('#g-body')!; const error=document.querySelector<HTMLElement>('#g-error')!;
+  let currentRows: ReturnType<typeof buildGradeScale>=[];
+  function config(){return {minGrade:parseDecimal((document.querySelector<HTMLInputElement>('#g-min')!).value),passGrade:parseDecimal((document.querySelector<HTMLInputElement>('#g-pass')!).value),maxGrade:parseDecimal((document.querySelector<HTMLInputElement>('#g-maxgrade')!).value),exigency:parseDecimal((document.querySelector<HTMLInputElement>('#g-exigency')!).value)/100,decimals:Number((document.querySelector<HTMLSelectElement>('#g-decimals')!).value)}}
+  function render(){try{const max=Math.trunc(parseDecimal((document.querySelector<HTMLInputElement>('#g-maxscore')!).value)); const cfg=config(); currentRows=buildGradeScale(max,cfg); body.innerHTML=currentRows.map(r=>`<tr><td>${r.score}</td><td>${formatNumber(r.percentage,1)}%</td><td>${formatNumber(r.grade,cfg.decimals)}</td><td class="status ${r.passed?'good':'bad'}">${r.passed?'Aprobado':'Reprobado'}</td></tr>`).join(''); error.hidden=true;}catch(e){body.innerHTML='';error.textContent=e instanceof Error?e.message:'Revisa los valores.';error.hidden=false;}}
+  form.addEventListener('submit',e=>{e.preventDefault();render()}); form.addEventListener('input',render);
+  document.querySelector('#g-print')?.addEventListener('click',()=>window.print());
+  document.querySelector('#g-copy')?.addEventListener('click',async()=>{if(!currentRows.length)return;const cfg=config();const csv=['Puntaje,Porcentaje,Nota,Estado',...currentRows.map(r=>`${r.score},${r.percentage.toFixed(1)}%,${r.grade.toFixed(cfg.decimals)},${r.passed?'Aprobado':'Reprobado'}`)].join('\n');await navigator.clipboard.writeText(csv);}); render();
+</script>
