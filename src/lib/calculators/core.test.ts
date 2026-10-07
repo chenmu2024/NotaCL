@@ -9,6 +9,7 @@ import {
   roundHalfUp,
   scoreToGrade,
   validateGradeConfig,
+  validateChileGrade,
   weightedAverage,
   weightStatus,
 } from './core';
@@ -58,6 +59,13 @@ describe('averages', () => {
     expect(average([5.5, 6.2, 4.8, 6])).toBeCloseTo(5.625);
   });
 
+  it('rejects grades outside Chilean 1.0–7.0 range', () => {
+    expect(() => validateChileGrade(0.9)).toThrow();
+    expect(() => validateChileGrade(7.1)).toThrow();
+    expect(() => average([5.5, 8])).toThrow();
+    expect(() => weightedAverage([{ grade: 0, weight: 100 }])).toThrow();
+  });
+
   it('calculates the audited 5.25 weighted example', () => {
     const result = weightedAverage([
       { grade: 6, weight: 20 },
@@ -84,8 +92,10 @@ describe('required grade', () => {
     expect(requiredGrade({ currentAverage: 5, completedWeight: 70, finalWeight: 30, targetGrade: 5.4 })).toBeCloseTo(6.3333333);
   });
 
-  it('rejects incomplete weight totals', () => {
+  it('rejects incomplete weight totals and invalid grade targets', () => {
     expect(() => requiredGrade({ currentAverage: 5, completedWeight: 60, finalWeight: 30, targetGrade: 5.4 })).toThrow();
+    expect(() => requiredGrade({ currentAverage: 8, completedWeight: 70, finalWeight: 30, targetGrade: 5.4 })).toThrow();
+    expect(() => requiredGrade({ currentAverage: 5, completedWeight: 70, finalWeight: 30, targetGrade: 8 })).toThrow();
   });
 
   it('projects final grade scenarios with the same weights', () => {
