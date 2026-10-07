@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import QuickGradeCalculator from '../components/QuickGradeCalculator.astro';
+import ToolCards from '../components/ToolCards.astro';
+const title='Calculadora de Notas Chile | NotaCL';
+const description='Calcula notas, escalas, promedios y porcentajes en Chile. Herramientas gratuitas con parámetros configurables y resultados claros.';
+const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Calculadora de Notas Chile',applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL',description };
+---
+<BaseLayout {title} {description} path="/" {schema}>
+  <section class="hero"><div class="container"><p class="eyebrow">Herramientas de notas para Chile</p><h1>Calculadora de Notas Chile</h1><p class="lead">Calcula una nota a partir de tu puntaje y accede a herramientas para promedios, porcentajes, escalas y objetivos de nota. Sin registro y con parámetros configurables.</p></div></section>
+  <div class="container"><QuickGradeCalculator /></div>
+  <section class="section"><div class="container"><h2>Elige la herramienta que necesitas</h2><p>Usa una sola página por tarea: generar una escala completa, consultar una nota, calcular un promedio simple, ponderar porcentajes o resolver la nota que necesitas.</p><ToolCards /></div></section>
+  <section class="section"><div class="container reading prose"><h2>¿Cómo se calcula una nota con puntaje?</h2><p>NotaCL parte de una escala configurable. Con los valores iniciales, la nota mínima es 1,0, la aprobación es 4,0, la máxima es 7,0 y la exigencia es 60%. Bajo el umbral se aplica un tramo lineal entre 1,0 y 4,0; sobre el umbral, otro tramo entre 4,0 y 7,0.</p><div class="notice warning">La fórmula, la exigencia y el redondeo pueden variar por establecimiento, profesor o institución. Ajusta los parámetros cuando corresponda.</div><h2>Privacidad simple</h2><p>Las calculadoras funcionan en tu navegador. Si decides guardar una materia, sus datos permanecen en <code>localStorage</code> de este dispositivo; no necesitas crear una cuenta.</p></div></section>
+</BaseLayout>
