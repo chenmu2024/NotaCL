@@ -37,6 +37,8 @@ This repository now includes `functions/_middleware.js`. On Cloudflare Pages it 
 
 when the request hostname is `*.pages.dev`. The same helper also classifies localhost/vercel-style preview hosts as non-production for deterministic checks.
 
+The repository also includes `public/_routes.json` so hashed `/_astro/*` assets, the favicon and the manifest bypass the middleware. This keeps edge invocations focused on documents instead of static assets.
+
 After deployment, verify the real `pages.dev` HTTP response contains the noindex header. If Cloudflare changes Pages Functions behavior or the project moves hosts, update this middleware before allowing preview URLs to be public.
 
 ## Static response headers
