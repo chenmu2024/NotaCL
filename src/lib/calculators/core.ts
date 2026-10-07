@@ -72,7 +72,7 @@ export function buildGradeScale(maxScore: number, config: GradeConfig = DEFAULT_
       percentage: (score / maxScore) * 100,
       exact,
       grade,
-      passed: grade >= config.passGrade,
+      passed: exact >= config.passGrade,
     };
   }).reverse();
 }
