@@ -1,10 +1,11 @@
 ---
-import { DEFAULT_GRADE_CONFIG, formatNumber, scoreToGrade } from '../lib/calculators/core';
+import { DEFAULT_GRADE_CONFIG, formatNumber, scoreToExactGrade, scoreToGrade } from '../lib/calculators/core';
 const initialScore=42;
 const initialMax=60;
+const initialExact=scoreToExactGrade(initialScore,initialMax,DEFAULT_GRADE_CONFIG);
 const initialGrade=scoreToGrade(initialScore,initialMax,DEFAULT_GRADE_CONFIG);
 const initialPercent=(initialScore/initialMax)*100;
-const initialPassed=initialGrade>=DEFAULT_GRADE_CONFIG.passGrade;
+const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
 ---
 <section class="home-calculator" id="calculadora" aria-labelledby="home-calc-title">
   <div class="home-calculator-head">
@@ -38,7 +39,7 @@ const initialPassed=initialGrade>=DEFAULT_GRADE_CONFIG.passGrade;
     </div>
     <div class="home-result-stats">
       <div><span>Porcentaje</span><strong id="hq-percent">{formatNumber(initialPercent,1)}%</strong></div>
-      <div><span>Estado</span><strong id="hq-status" data-state={initialPassed?'good':'bad'}>{initialPassed?'Aprobado':'Reprobado'}</strong></div>
+      <div><span>Estado según corte</span><strong id="hq-status" data-state={initialPassed?'good':'bad'}>{initialPassed?'Cumple exigencia':'Bajo exigencia'}</strong></div>
     </div>
   </div>
 
@@ -49,7 +50,7 @@ const initialPassed=initialGrade>=DEFAULT_GRADE_CONFIG.passGrade;
 </section>
 
 <script>
-  import { DEFAULT_GRADE_CONFIG, formatNumber, parseDecimal, scoreToGrade } from '../lib/calculators/core';
+  import { DEFAULT_GRADE_CONFIG, formatNumber, parseDecimal, scoreToExactGrade, scoreToGrade } from '../lib/calculators/core';
 
   const form = document.querySelector<HTMLFormElement>('#home-quick-form')!;
   const result = document.querySelector<HTMLElement>('#hq-result')!;
@@ -63,11 +64,12 @@ const initialPassed=initialGrade>=DEFAULT_GRADE_CONFIG.passGrade;
       const max = parseDecimal((document.querySelector<HTMLInputElement>('#hq-max')!).value);
       const exigency = parseDecimal((document.querySelector<HTMLInputElement>('#hq-exigency')!).value) / 100;
       const config = { ...DEFAULT_GRADE_CONFIG, exigency };
+      const exactGrade = scoreToExactGrade(score, max, config);
       const grade = scoreToGrade(score, max, config);
       result.textContent = formatNumber(grade, 1);
       percent.textContent = `${formatNumber((score / max) * 100, 1)}%`;
-      const passed = grade >= config.passGrade;
-      status.textContent = passed ? 'Aprobado' : 'Reprobado';
+      const passed = exactGrade >= config.passGrade;
+      status.textContent = passed ? 'Cumple exigencia' : 'Bajo exigencia';
       status.dataset.state = passed ? 'good' : 'bad';
       error.textContent = 'Cálculo local · sin registro';
     } catch (e) {
