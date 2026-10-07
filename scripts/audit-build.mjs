@@ -137,6 +137,26 @@ for (const route of forbiddenRoutes) {
   if (routeExists(route)) fail(`forbidden/conditional route was emitted: ${route}`);
 }
 
+const notFoundFile = join(dist, '404.html');
+if (!existsSync(notFoundFile)) {
+  fail('404.html is missing');
+} else {
+  const notFound = readFileSync(notFoundFile, 'utf8');
+  const robots = extract(notFound, /<meta[^>]+name="robots"[^>]+content="([^"]+)"/i)
+    || extract(notFound, /<meta[^>]+content="([^"]+)"[^>]+name="robots"/i);
+  if (!robots.includes('noindex,nofollow')) fail('404.html must always be noindex,nofollow');
+}
+
+const headersFile = join(dist, '_headers');
+if (!existsSync(headersFile)) {
+  fail('_headers is missing from the static output');
+} else {
+  const headers = readFileSync(headersFile, 'utf8');
+  for (const required of ['X-Content-Type-Options: nosniff','Referrer-Policy: strict-origin-when-cross-origin','Permissions-Policy:']) {
+    if (!headers.includes(required)) fail(`_headers is missing required security header: ${required}`);
+  }
+}
+
 const robotsFile = join(dist, 'robots.txt');
 const sitemapFile = join(dist, 'sitemap.xml');
 if (!existsSync(robotsFile)) fail('robots.txt is missing');
