@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+const title='Sobre NotaCL';
+const description='Conoce el propósito, metodología y límites de NotaCL, un sitio gratuito de herramientas de cálculo de notas para Chile.';
+---
+<BaseLayout {title} {description} path="/sobre-nosotros/">
+<Breadcrumbs items={[{label:'Sobre nosotros'}]} />
+<section class="hero"><div class="container reading"><h1>Sobre NotaCL</h1><p class="lead">NotaCL crea herramientas gratuitas, rápidas y transparentes para cálculos de notas y promedios.</p></div></section>
+<section class="section"><div class="container reading prose"><h2>Cómo trabajamos</h2><p>Las fórmulas principales se ejecutan en el navegador y se prueban con casos límite. Cuando una regla depende de una institución o de información oficial cambiante, preferimos indicarlo y enlazar la fuente antes que inventar una regla universal.</p><h2>Qué no hacemos</h2><p>No somos un establecimiento educacional ni una entidad pública. Los resultados son una ayuda de cálculo y deben contrastarse con la normativa o pauta real de tu curso cuando corresponda.</p></div></section>
+</BaseLayout>
