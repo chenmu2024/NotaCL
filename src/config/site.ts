@@ -3,7 +3,7 @@ export const SITE_NAME = import.meta.env.PUBLIC_SITE_NAME || 'NotaCL';
 export const SITE_URL = normalizeSiteOrigin(import.meta.env.PUBLIC_SITE_URL);
 export const INDEXING_ENABLED = Boolean(SITE_URL);
 export const DEFAULT_LOCALE = 'es-CL';
-export const LAST_UPDATED = '2026-10-07';
+export const LAST_UPDATED = '2026-10-08';
 
 export const navItems = [
   { href: '/generador-de-notas/', label: 'Generador' },
