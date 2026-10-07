@@ -1,5 +1,6 @@
 const rawOrigin = process.env.PRODUCTION_URL?.trim();
 const rawPreview = process.env.PREVIEW_URL?.trim();
+const rawAlternate = process.env.ALTERNATE_ORIGIN?.trim();
 
 function fail(message) {
   console.error(`PRODUCTION AUDIT FAIL: ${message}`);
@@ -23,6 +24,7 @@ function normalizeOrigin(value, label) {
 
 const origin = normalizeOrigin(rawOrigin, 'PRODUCTION_URL');
 const previewOrigin = normalizeOrigin(rawPreview, 'PREVIEW_URL');
+const alternateOrigin = normalizeOrigin(rawAlternate, 'ALTERNATE_ORIGIN');
 
 if (!origin) {
   fail('Set PRODUCTION_URL to the final HTTPS origin, for example https://example.cl');
@@ -136,6 +138,17 @@ if (sitemapResponse) {
   }
 }
 
+if (alternateOrigin) {
+  const alternateResponse = await request(new URL('/', alternateOrigin), { redirect: 'manual' });
+  if (alternateResponse) {
+    const expectedLocation = new URL('/', origin).toString();
+    const location = alternateResponse.headers.get('location');
+    if (![301, 308].includes(alternateResponse.status) || location !== expectedLocation) {
+      fail(`alternate host ${alternateOrigin} must redirect 301/308 to ${expectedLocation}; got ${alternateResponse.status} → ${location || '(missing)'}`);
+    }
+  }
+}
+
 if (previewOrigin) {
   const previewResponse = await request(new URL('/', previewOrigin), { redirect: 'manual' });
   if (previewResponse) {
@@ -148,5 +161,6 @@ if (previewOrigin) {
 
 if (!process.exitCode) {
   console.log(`Production audit passed for ${routes.length} canonical routes on ${origin}.`);
+  if (alternateOrigin) console.log(`Alternate-host redirect verified from ${alternateOrigin}.`);
   if (previewOrigin) console.log(`Preview noindex header verified on ${previewOrigin}.`);
 }
