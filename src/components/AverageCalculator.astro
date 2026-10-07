@@ -184,7 +184,14 @@
   document.querySelector('#avg-save')?.addEventListener('click',()=>{
     const subject=(document.querySelector<HTMLInputElement>('#avg-subject')!).value.trim();
     const a=calc();
-    if(!subject || a===null) return;
+    if(!subject){
+      storageStatus.textContent='Escribe un nombre para la materia antes de guardarla.';
+      return;
+    }
+    if(a===null){
+      storageStatus.textContent='Corrige las notas antes de guardar la materia.';
+      return;
+    }
 
     const rows=saved();
     const record={subject,average:a,values:[...values],updatedAt:new Date().toISOString()};
