@@ -1,0 +1,80 @@
+<section class="home-calculator" id="calculadora" aria-labelledby="home-calc-title">
+  <div class="home-calculator-head">
+    <div>
+      <span class="home-calc-kicker">Calculadora rápida</span>
+      <h2 id="home-calc-title">Tu nota, al instante.</h2>
+    </div>
+    <span class="home-calc-badge">Escala configurable</span>
+  </div>
+
+  <form id="home-quick-form" class="home-calc-form">
+    <label class="home-calc-field">
+      <span>Puntaje obtenido</span>
+      <input id="hq-score" inputmode="decimal" value="42" />
+    </label>
+    <label class="home-calc-field">
+      <span>Puntaje máximo</span>
+      <input id="hq-max" inputmode="decimal" value="60" />
+    </label>
+    <label class="home-calc-field">
+      <span>Exigencia</span>
+      <span class="home-calc-input-wrap"><input id="hq-exigency" inputmode="decimal" value="60" /><b>%</b></span>
+    </label>
+    <button class="home-calc-submit" type="submit">Calcular</button>
+  </form>
+
+  <div class="home-calc-result" aria-live="polite">
+    <div class="home-result-main">
+      <span class="home-result-label">Tu nota</span>
+      <strong id="hq-result">—</strong>
+    </div>
+    <div class="home-result-stats">
+      <div><span>Porcentaje</span><strong id="hq-percent">—</strong></div>
+      <div><span>Estado</span><strong id="hq-status">—</strong></div>
+    </div>
+  </div>
+
+  <div class="home-calc-footer">
+    <span id="hq-error">Usa coma o punto decimal. Exigencia entre 0% y 100%.</span>
+    <a href="/escala-de-notas/">Abrir escala completa →</a>
+  </div>
+</section>
+
+<script>
+  import { DEFAULT_GRADE_CONFIG, formatNumber, parseDecimal, scoreToGrade } from '../lib/calculators/core';
+
+  const form = document.querySelector<HTMLFormElement>('#home-quick-form')!;
+  const result = document.querySelector<HTMLElement>('#hq-result')!;
+  const percent = document.querySelector<HTMLElement>('#hq-percent')!;
+  const status = document.querySelector<HTMLElement>('#hq-status')!;
+  const error = document.querySelector<HTMLElement>('#hq-error')!;
+
+  function run() {
+    try {
+      const score = parseDecimal((document.querySelector<HTMLInputElement>('#hq-score')!).value);
+      const max = parseDecimal((document.querySelector<HTMLInputElement>('#hq-max')!).value);
+      const exigency = parseDecimal((document.querySelector<HTMLInputElement>('#hq-exigency')!).value) / 100;
+      const config = { ...DEFAULT_GRADE_CONFIG, exigency };
+      const grade = scoreToGrade(score, max, config);
+      result.textContent = formatNumber(grade, 1);
+      percent.textContent = `${formatNumber((score / max) * 100, 1)}%`;
+      const passed = grade >= config.passGrade;
+      status.textContent = passed ? 'Aprobado' : 'Reprobado';
+      status.dataset.state = passed ? 'good' : 'bad';
+      error.textContent = 'Cálculo local · sin registro';
+    } catch (e) {
+      result.textContent = '—';
+      percent.textContent = '—';
+      status.textContent = 'Revisa los datos';
+      delete status.dataset.state;
+      error.textContent = e instanceof Error ? e.message : 'Revisa los valores.';
+    }
+  }
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    run();
+  });
+  form.addEventListener('input', run);
+  run();
+</script>
