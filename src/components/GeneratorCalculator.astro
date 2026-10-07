@@ -1,9 +1,16 @@
 ---
+import { DEFAULT_GRADE_CONFIG, buildGradeScale, formatNumber } from '../lib/calculators/core';
+
 interface Props {
   initialExigency?: number;
   lockExigency?: boolean;
 }
 const { initialExigency = 60, lockExigency = false } = Astro.props;
+const initialMaxScore=60;
+const initialConfig={...DEFAULT_GRADE_CONFIG,exigency:initialExigency/100};
+const initialRows=buildGradeScale(initialMaxScore,initialConfig);
+const initialFirstPassing=initialRows.filter(row=>row.passed).at(-1)?.score;
+const initialThreshold=initialMaxScore*initialConfig.exigency;
 ---
 <div class="tool-shell" id="generador" data-initial-exigency={initialExigency}>
   <div class="tool-head">
@@ -56,9 +63,9 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
       </div>
 
       <div class="generator-summary" aria-live="polite">
-        <div><span>Corte teórico</span><strong id="g-threshold">—</strong></div>
-        <div><span>Primer puntaje con nota mostrada ≥ aprobación</span><strong id="g-count">—</strong></div>
-        <div><span>Escala</span><strong id="g-range">—</strong></div>
+        <div><span>Corte teórico</span><strong id="g-threshold">{formatNumber(initialThreshold,1)} pts</strong></div>
+        <div><span>Primer puntaje con nota mostrada ≥ aprobación</span><strong id="g-count">{initialFirstPassing ?? '—'}{initialFirstPassing !== undefined ? ' pts' : ''}</strong></div>
+        <div><span>Escala</span><strong id="g-range">{formatNumber(initialConfig.minGrade,1)}–{formatNumber(initialConfig.maxGrade,1)}</strong></div>
       </div>
       <p class="muted generator-status-note">El estado de la tabla compara la nota mostrada, después del redondeo elegido, con la nota de aprobación. Verifica la regla de tu establecimiento si estás justo en el límite.</p>
 
@@ -77,12 +84,21 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
   <div class="tool-panel">
     <div class="print-only print-summary">
       <h2>Escala de notas</h2>
-      <p><strong>Puntaje máximo:</strong> <span id="g-print-max">—</span> · <strong>Exigencia:</strong> <span id="g-print-exigency">—</span> · <strong>Escala:</strong> <span id="g-print-scale">—</span></p>
+      <p><strong>Puntaje máximo:</strong> <span id="g-print-max">{formatNumber(initialMaxScore,0)}</span> · <strong>Exigencia:</strong> <span id="g-print-exigency">{formatNumber(initialConfig.exigency*100,1)}%</span> · <strong>Escala:</strong> <span id="g-print-scale">{formatNumber(initialConfig.minGrade,1)}–{formatNumber(initialConfig.maxGrade,1)}</span></p>
     </div>
     <div class="table-wrap">
       <table class="data-table">
         <thead><tr><th>Puntaje</th><th>Porcentaje</th><th>Nota</th><th>Estado</th></tr></thead>
-        <tbody id="g-body"></tbody>
+        <tbody id="g-body">
+          {initialRows.map(row=>
+            <tr>
+              <td>{row.score}</td>
+              <td>{formatNumber(row.percentage,1)}%</td>
+              <td><strong>{formatNumber(row.grade,initialConfig.decimals)}</strong></td>
+              <td class:list={['status',row.passed?'good':'bad']}>{row.passed?'Aprobado':'Reprobado'}</td>
+            </tr>
+          )}
+        </tbody>
       </table>
     </div>
   </div>
