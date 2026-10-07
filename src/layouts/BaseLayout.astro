@@ -28,7 +28,7 @@ const baseSchema = [
     '@context':'https://schema.org',
     '@type':'Organization',
     name:SITE_NAME,
-    ...(SITE_URL ? {'@id':organizationId,url:SITE_URL} : {})
+    ...(SITE_URL ? {'@id':organizationId,url:SITE_URL,logo:new URL('/favicon.svg',SITE_URL).toString()} : {})
   }
 ];
 
@@ -39,6 +39,7 @@ const pageSchemas = schemas.map((item) => {
   if (enhanced['@type'] === 'WebApplication') {
     enhanced.url ??= canonical;
     enhanced.provider ??= { '@id': organizationId };
+    enhanced.areaServed ??= { '@type':'Country', name:'Chile' };
   }
 
   if (enhanced['@type'] === 'Article') {
