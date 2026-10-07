@@ -30,7 +30,7 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
         </div>
         <div class="field">
           <label for="g-exigency">Exigencia (%)</label>
-          <input class="input" id="g-exigency" value={String(initialExigencyValue)} inputmode="decimal" readonly={lockExigency} />
+          <input class="input" id="g-exigency" value={String(initialExigency)} inputmode="decimal" readonly={lockExigency} />
           {lockExigency && <small>Fijada en {initialExigency}% para esta escala.</small>}
         </div>
         <div class="field">
