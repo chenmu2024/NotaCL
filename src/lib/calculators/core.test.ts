@@ -57,6 +57,17 @@ describe('grade scale', () => {
     expect(() => buildGradeScale(1001)).toThrow();
     expect(() => buildGradeScale(10.5)).toThrow();
   });
+
+  it('does not turn a below-threshold score into a pass only because display rounding reaches 4.0', () => {
+    expect(scoreToGrade(59, 100)).toBe(4);
+    const rows = buildGradeScale(100);
+    const below = rows.find((row) => row.score === 59);
+    const threshold = rows.find((row) => row.score === 60);
+    expect(below?.exact).toBeCloseTo(3.95);
+    expect(below?.grade).toBe(4);
+    expect(below?.passed).toBe(false);
+    expect(threshold?.passed).toBe(true);
+  });
 });
 
 describe('averages', () => {
