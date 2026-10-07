@@ -11,7 +11,7 @@ interface Props {
   noindex?: boolean;
 }
 const { title, description, path='/', type='website', schema=[], noindex=false } = Astro.props;
-const canonical = SITE_URL ? new URL(path, SITE_URL).toString() : undefined;
+const canonical = SITE_URL && !noindex ? new URL(path, SITE_URL).toString() : undefined;
 const schemas = Array.isArray(schema) ? schema : [schema];
 const organizationId = SITE_URL ? `${SITE_URL}#organization` : undefined;
 const websiteId = SITE_URL ? `${SITE_URL}#website` : undefined;
