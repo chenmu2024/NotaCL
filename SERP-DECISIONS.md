@@ -12,6 +12,7 @@ Purpose: document the search-result evidence used to decide whether similar keyw
 | `escala de notas` vs `tabla de notas` | “tabla de notas” results substantially overlap broad scale/generator content, including pages whose main product is the same score→grade table | Keep table inside `/escala-de-notas/`; do not ship `/tabla-de-notas/` |
 | `escala de notas` vs `puntaje a nota` | “puntaje a nota” results are dominated by pages explicitly titled/positioned as escala de notas / score-to-grade calculators | Keep score→grade conversion in `/escala-de-notas/`; do not ship `/puntaje-a-nota/` |
 | `generador de notas` vs generic scale | Search results include dedicated generator pages focused on producing the full table, while generic scale results include quick conversion and explanatory pages | Keep `/generador-de-notas/` separate from `/escala-de-notas/` |
+| `calculador/calculadora de notas` vs `promedio de notas` | “Calculador de notas” results include direct puntaje→nota tools and broad multi-tool hubs; “promedio de notas” remains a distinct averaging task | Keep homepage as general hub with fast score→grade calculator; keep `/promedio-de-notas/` as the dedicated average intent |
 
 ## Evidence snapshots
 
@@ -62,3 +63,13 @@ Re-run the comparison when:
 3. The owner provides newer Semrush/SERP exports that materially change the evidence.
 
 Do not create a new indexable route merely because a synonym has measurable volume.
+
+
+### Calculador / calculadora de notas vs promedio
+
+Representative results observed for the broad calculator intent:
+- https://calculanotas.cl/calculador-de-notas — direct score/total/exigency → grade calculator
+- https://www.edu21.cl/herramientas/calculadora-notas — broad student calculator combining averages, required grades and score→grade
+- https://tgb.cl/notas/ — broad calculator covering average, exam target and score conversion
+
+This supports a broad homepage/hub while preserving `/promedio-de-notas/` for the specific arithmetic-average task rather than making the homepage duplicate the full average calculator.
