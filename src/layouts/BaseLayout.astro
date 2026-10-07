@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { INDEXING_ENABLED, SITE_NAME, SITE_URL, navItems } from '../config/site';
+import { INDEXING_ENABLED, LAST_UPDATED, SITE_NAME, SITE_URL, navItems } from '../config/site';
 
 interface Props {
   title: string;
@@ -12,16 +12,42 @@ interface Props {
 const { title, description, path='/', type='website', schema=[] } = Astro.props;
 const canonical = SITE_URL ? new URL(path, SITE_URL).toString() : undefined;
 const schemas = Array.isArray(schema) ? schema : [schema];
+const organizationId = SITE_URL ? `${SITE_URL}#organization` : undefined;
+const websiteId = SITE_URL ? `${SITE_URL}#website` : undefined;
+
 const baseSchema = [
   {
-    '@context':'https://schema.org', '@type':'WebSite', name:SITE_NAME,
-    ...(SITE_URL ? {url:SITE_URL} : {}), inLanguage:'es-CL'
+    '@context':'https://schema.org',
+    '@type':'WebSite',
+    name:SITE_NAME,
+    inLanguage:'es-CL',
+    ...(SITE_URL ? {'@id':websiteId,url:SITE_URL,publisher:{'@id':organizationId}} : {})
   },
   {
-    '@context':'https://schema.org', '@type':'Organization', name:SITE_NAME,
-    ...(SITE_URL ? {'@id':`${SITE_URL}#organization`, url:SITE_URL} : {})
+    '@context':'https://schema.org',
+    '@type':'Organization',
+    name:SITE_NAME,
+    ...(SITE_URL ? {'@id':organizationId,url:SITE_URL} : {})
   }
 ];
+
+const pageSchemas = schemas.map((item) => {
+  const enhanced = { ...item } as Record<string, unknown>;
+  if (!canonical) return enhanced;
+
+  if (enhanced['@type'] === 'WebApplication') {
+    enhanced.url ??= canonical;
+    enhanced.provider ??= { '@id': organizationId };
+  }
+
+  if (enhanced['@type'] === 'Article') {
+    enhanced.mainEntityOfPage ??= { '@type':'WebPage', '@id':canonical };
+    enhanced.dateModified ??= LAST_UPDATED;
+    enhanced.publisher ??= { '@id': organizationId };
+  }
+
+  return enhanced;
+});
 ---
 <!doctype html>
 <html lang="es-CL">
@@ -42,7 +68,7 @@ const baseSchema = [
   <meta name="theme-color" content="#0b1736" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="/site.webmanifest" />
-  {[...baseSchema, ...schemas].map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+  {[...baseSchema, ...pageSchemas].map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
 </head>
 <body class:list={[path === '/' && 'home-page']}>
   <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
