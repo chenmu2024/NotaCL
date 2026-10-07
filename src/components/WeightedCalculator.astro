@@ -13,6 +13,7 @@
       <div class="actions">
         <button class="btn btn-secondary" type="button" id="w-add">Agregar evaluación</button>
         <button class="btn btn-primary" type="submit">Calcular ponderación</button>
+        <button class="btn btn-ghost" type="button" id="w-reset">Restablecer</button>
       </div>
     </form>
 
@@ -20,7 +21,7 @@
       <div class="result-card" aria-live="polite">
         <div class="result-label">Promedio ponderado</div>
         <div class="result-value" id="w-result">—</div>
-        <div class="result-meta">
+        <div class="result-meta result-meta-three">
           <div class="result-stat">
             <span class="result-stat-label">Peso utilizado</span>
             <strong id="w-used">—</strong>
@@ -129,6 +130,12 @@
   });
   document.querySelector('#w-form')?.addEventListener('submit',e=>{
     e.preventDefault();
+    calc();
+  });
+
+  document.querySelector('#w-reset')?.addEventListener('click',()=>{
+    items=[['6,0','20'],['5,5','30'],['4,8','50']];
+    draw();
     calc();
   });
 
