@@ -1,14 +1,121 @@
 <div class="tool-shell">
-  <div class="tool-head"><div><h2>Calculadora de notas con porcentaje</h2><p>Combina notas y ponderaciones para obtener tu promedio ponderado.</p></div><span class="badge">Peso visible</span></div>
+  <div class="tool-head">
+    <div>
+      <h2>Calculadora de notas con porcentaje</h2>
+      <p>Combina notas y ponderaciones para obtener tu promedio ponderado y ver cuánto peso falta.</p>
+    </div>
+    <span class="badge">Peso visible</span>
+  </div>
+
   <div class="tool-grid">
-    <form class="tool-panel" id="w-form"><div class="list-editor" id="w-list"></div><div class="actions"><button class="btn btn-secondary" type="button" id="w-add">Agregar evaluación</button><button class="btn btn-primary" type="submit">Calcular</button></div></form>
-    <div class="tool-panel"><div class="result-card" aria-live="polite"><div class="result-label">Promedio ponderado</div><div class="result-value" id="w-result">—</div><div class="result-meta"><span id="w-used">Peso utilizado: —</span><span id="w-left">Peso restante: —</span></div></div><p id="w-error" class="muted"></p></div>
+    <form class="tool-panel" id="w-form">
+      <div class="list-editor" id="w-list"></div>
+      <div class="actions">
+        <button class="btn btn-secondary" type="button" id="w-add">Agregar evaluación</button>
+        <button class="btn btn-primary" type="submit">Calcular ponderación</button>
+      </div>
+    </form>
+
+    <div class="tool-panel result-panel">
+      <div class="result-card" aria-live="polite">
+        <div class="result-label">Promedio ponderado</div>
+        <div class="result-value" id="w-result">—</div>
+        <div class="result-meta">
+          <div class="result-stat">
+            <span class="result-stat-label">Peso utilizado</span>
+            <strong id="w-used">—</strong>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-label">Peso restante</span>
+            <strong id="w-left">—</strong>
+          </div>
+        </div>
+        <p id="w-status" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem"></p>
+      </div>
+      <p id="w-error" class="muted"></p>
+    </div>
   </div>
 </div>
+
 <script>
   import { formatNumber, parseDecimal, roundHalfUp, weightedAverage, weightStatus } from '../lib/calculators/core';
-  const list=document.querySelector<HTMLElement>('#w-list')!;let items=[['6,0','20'],['5,5','30'],['4,8','50']];
-  function draw(){list.innerHTML=items.map((r,i)=>`<div class="row-editor"><div class="field" style="margin:0"><label>Nota ${i+1}</label><input class="input w-grade" data-i="${i}" value="${r[0]}" inputmode="decimal"></div><div class="field" style="margin:0"><label>Peso (%)</label><input class="input w-weight" data-i="${i}" value="${r[1]}" inputmode="decimal"></div><button class="icon-btn" type="button" data-remove="${i}">Eliminar</button></div>`).join('');list.querySelectorAll<HTMLInputElement>('.w-grade').forEach(e=>e.addEventListener('input',()=>{items[Number(e.dataset.i)][0]=e.value;calc()}));list.querySelectorAll<HTMLInputElement>('.w-weight').forEach(e=>e.addEventListener('input',()=>{items[Number(e.dataset.i)][1]=e.value;calc()}));list.querySelectorAll<HTMLButtonElement>('[data-remove]').forEach(b=>b.addEventListener('click',()=>{items.splice(Number(b.dataset.remove),1);if(!items.length)items=[['','']];draw();calc()}));}
-  function calc(){const out=document.querySelector<HTMLElement>('#w-result')!,used=document.querySelector<HTMLElement>('#w-used')!,left=document.querySelector<HTMLElement>('#w-left')!,error=document.querySelector<HTMLElement>('#w-error')!;try{const parsed=items.map(([g,w])=>({grade:parseDecimal(g),weight:parseDecimal(w)}));const r=weightedAverage(parsed);out.textContent=formatNumber(roundHalfUp(r.average,2),2);used.textContent=`Peso utilizado: ${formatNumber(r.totalWeight,1)}%`;left.textContent=`Peso restante: ${formatNumber(Math.max(0,100-r.totalWeight),1)}%`;const s=weightStatus(r.totalWeight);error.textContent=s==='over'?'La suma supera 100%. Revisa las ponderaciones.':s==='under'?'El cálculo usa solo el porcentaje ingresado; aún falta peso por completar.':'';}catch(e){out.textContent='—';used.textContent='Peso utilizado: —';left.textContent='Peso restante: —';error.textContent=e instanceof Error?e.message:'Revisa los datos.'}}
-  document.querySelector('#w-add')?.addEventListener('click',()=>{items.push(['','']);draw()});document.querySelector('#w-form')?.addEventListener('submit',e=>{e.preventDefault();calc()});draw();calc();
+
+  const list=document.querySelector<HTMLElement>('#w-list')!;
+  let items=[['6,0','20'],['5,5','30'],['4,8','50']];
+
+  function draw(){
+    list.innerHTML=items.map((row,i)=>`
+      <div class="row-editor">
+        <div class="field" style="margin:0">
+          <label for="w-grade-${i}">Nota ${i+1}</label>
+          <input class="input w-grade" id="w-grade-${i}" data-i="${i}" value="${row[0]}" inputmode="decimal">
+        </div>
+        <div class="field" style="margin:0">
+          <label for="w-weight-${i}">Peso (%)</label>
+          <input class="input w-weight" id="w-weight-${i}" data-i="${i}" value="${row[1]}" inputmode="decimal">
+        </div>
+        <button class="icon-btn" type="button" data-remove="${i}" aria-label="Eliminar evaluación ${i+1}">Eliminar</button>
+      </div>`).join('');
+
+    list.querySelectorAll<HTMLInputElement>('.w-grade').forEach(input=>input.addEventListener('input',()=>{
+      items[Number(input.dataset.i)][0]=input.value;
+      calc();
+    }));
+    list.querySelectorAll<HTMLInputElement>('.w-weight').forEach(input=>input.addEventListener('input',()=>{
+      items[Number(input.dataset.i)][1]=input.value;
+      calc();
+    }));
+    list.querySelectorAll<HTMLButtonElement>('[data-remove]').forEach(button=>button.addEventListener('click',()=>{
+      items.splice(Number(button.dataset.remove),1);
+      if(!items.length) items=[['','']];
+      draw();
+      calc();
+    }));
+  }
+
+  function calc(){
+    const out=document.querySelector<HTMLElement>('#w-result')!;
+    const used=document.querySelector<HTMLElement>('#w-used')!;
+    const left=document.querySelector<HTMLElement>('#w-left')!;
+    const status=document.querySelector<HTMLElement>('#w-status')!;
+    const error=document.querySelector<HTMLElement>('#w-error')!;
+
+    try{
+      const parsed=items.map(([grade,weight])=>({grade:parseDecimal(grade),weight:parseDecimal(weight)}));
+      const result=weightedAverage(parsed);
+      out.textContent=formatNumber(roundHalfUp(result.average,2),2);
+      used.textContent=`${formatNumber(result.totalWeight,1)}%`;
+      left.textContent=`${formatNumber(Math.max(0,100-result.totalWeight),1)}%`;
+
+      const state=weightStatus(result.totalWeight);
+      if(state==='complete'){
+        status.textContent='Ponderación completa: los porcentajes suman aproximadamente 100%.';
+        error.textContent='';
+      } else if(state==='under'){
+        status.textContent='Resultado calculado sobre el peso ingresado.';
+        error.textContent='Aún falta porcentaje por completar.';
+      } else {
+        status.textContent='La ponderación supera 100%.';
+        error.textContent='Revisa los porcentajes antes de usar este resultado.';
+      }
+    }catch(e){
+      out.textContent='—';
+      used.textContent='—';
+      left.textContent='—';
+      status.textContent='';
+      error.textContent=e instanceof Error?e.message:'Revisa los datos.';
+    }
+  }
+
+  document.querySelector('#w-add')?.addEventListener('click',()=>{
+    items.push(['','']);
+    draw();
+  });
+  document.querySelector('#w-form')?.addEventListener('submit',e=>{
+    e.preventDefault();
+    calc();
+  });
+
+  draw();
+  calc();
 </script>
