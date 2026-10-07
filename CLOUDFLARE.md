@@ -1,17 +1,64 @@
 # NotaCL Cloudflare Deployment
 
-- Production domain: TBD `.cl`; set via `PUBLIC_SITE_URL`
+- Production domain: TBD `.cl`
 - GitHub repository: `chenmu2024/NotaCL`
 - Production branch: `main`
 - Framework: Astro static
 - Build command: `npm run build`
 - Output directory: `dist`
-- Environment variable: `PUBLIC_SITE_URL=https://FINAL-DOMAIN.cl`
-- Optional: `PUBLIC_SITE_NAME=NotaCL`
+- Node: 22
+- Required production environment variable: `PUBLIC_SITE_URL=https://FINAL-DOMAIN.cl`
+- Optional environment variable: `PUBLIC_SITE_NAME=NotaCL`
+- Static headers: `public/_headers`
 
-## Required pre-launch rules
+## Before connecting the domain
 
-1. Custom `.cl` must be the only indexable host.
-2. `*.pages.dev` and preview deployments must redirect or emit `X-Robots-Tag: noindex`/equivalent host-level protection.
-3. Verify homepage + five core tool routes, `robots.txt`, `sitemap.xml`, canonical origin and 404 behavior on the real production host.
-4. Do not consider a successful Pages build equivalent to production QA.
+1. Keep `PUBLIC_SITE_URL` unset on an ordinary temporary preview if you do not want it indexed.
+2. Confirm CI passes test → check → build → audit.
+3. Confirm the production-like CI build/audit passes with the test origin.
+4. Do not submit a `pages.dev` URL to Search Console.
+
+## Custom domain
+
+1. Connect the final `.cl` to the Pages project.
+2. Set `PUBLIC_SITE_URL` to the exact preferred HTTPS origin, with no path.
+3. Rebuild production after setting the variable.
+4. Pick one canonical host form (apex or `www`) and permanently redirect the other to it.
+5. Ensure the custom domain is the only public indexable copy.
+
+## pages.dev / preview protection
+
+Canonical tags are not sufficient protection for duplicate preview hosts. Configure Cloudflare so `*.pages.dev` and preview deployments either:
+
+- redirect to the canonical `.cl` where appropriate; or
+- emit `X-Robots-Tag: noindex, nofollow`; or
+- are access-restricted for non-production previews.
+
+Verify the chosen behavior from the real HTTP response after deployment.
+
+## Static response headers
+
+`public/_headers` currently sets:
+
+- `X-Content-Type-Options: nosniff`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `Permissions-Policy: geolocation=(), camera=(), microphone=()`
+- `X-Frame-Options: DENY`
+- long immutable caching for `/_astro/*`
+
+Any future external script such as analytics or AdSense must be tested before introducing a strict CSP.
+
+## Production release checks
+
+- Homepage returns HTTP 200.
+- Core tools and `/escala-de-notas/60/` return 200 and function.
+- A nonsense URL returns a real HTTP 404.
+- `/robots.txt` returns 200 and allows production crawling.
+- `/sitemap.xml` returns 200 and contains only intended canonical routes.
+- Every important raw HTML document contains the final `.cl` canonical.
+- `pages.dev`/preview does not become indexable.
+- Static JS/CSS load without mixed content.
+- Mobile navigation and calculator controls work.
+- Generator Print → Save as PDF produces a readable table.
+- Lab LCP/INP/CLS are recorded after the final domain is live.
+- GSC is verified and the sitemap is submitted only after the production host passes these checks.
