@@ -45,6 +45,7 @@ const pageSchemas = schemas.map((item) => {
   if (enhanced['@type'] === 'Article') {
     enhanced.mainEntityOfPage ??= { '@type':'WebPage', '@id':canonical };
     enhanced.dateModified ??= LAST_UPDATED;
+    enhanced.author ??= { '@id': organizationId };
     enhanced.publisher ??= { '@id': organizationId };
   }
 
@@ -60,6 +61,7 @@ const pageSchemas = schemas.map((item) => {
   <meta name="description" content={description} />
   <meta name="robots" content={INDEXING_ENABLED && !noindex ? 'index,follow,max-image-preview:large' : 'noindex,nofollow'} />
   {canonical && <link rel="canonical" href={canonical} />}
+  {canonical && <link rel="alternate" hreflang="es-CL" href={canonical} />}
   <meta property="og:type" content={type} />
   <meta property="og:locale" content="es_CL" />
   <meta property="og:site_name" content={SITE_NAME} />
