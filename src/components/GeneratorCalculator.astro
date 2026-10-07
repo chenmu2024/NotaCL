@@ -156,7 +156,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       gmaxnota:(document.querySelector<HTMLInputElement>('#g-maxgrade')!).value.trim(),
       gdecimales:(document.querySelector<HTMLSelectElement>('#g-decimals')!).value,
     });
-    return `${window.location.origin}${window.location.pathname}${window.location.search}#${params.toString()}`;
+    return `${window.location.origin}${window.location.pathname}#${params.toString()}`;
   }
 
   function csvText(){
