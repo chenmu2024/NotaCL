@@ -29,6 +29,10 @@
             <span class="result-stat-label">Peso restante</span>
             <strong id="w-left">—</strong>
           </div>
+          <div class="result-stat">
+            <span class="result-stat-label">Aporte sobre 100%</span>
+            <strong id="w-contribution">—</strong>
+          </div>
         </div>
         <p id="w-status" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem"></p>
       </div>
@@ -87,6 +91,7 @@
     const used=document.querySelector<HTMLElement>('#w-used')!;
     const left=document.querySelector<HTMLElement>('#w-left')!;
     const status=document.querySelector<HTMLElement>('#w-status')!;
+    const contribution=document.querySelector<HTMLElement>('#w-contribution')!;
     const error=document.querySelector<HTMLElement>('#w-error')!;
 
     try{
@@ -95,6 +100,7 @@
       out.textContent=formatNumber(roundHalfUp(result.average,2),2);
       used.textContent=`${formatNumber(result.totalWeight,1)}%`;
       left.textContent=`${formatNumber(Math.max(0,100-result.totalWeight),1)}%`;
+      contribution.textContent=formatNumber(roundHalfUp(result.contribution,2),2);
 
       const state=weightStatus(result.totalWeight);
       if(state==='complete'){
@@ -111,6 +117,7 @@
       out.textContent='—';
       used.textContent='—';
       left.textContent='—';
+      contribution.textContent='—';
       status.textContent='';
       error.textContent=e instanceof Error?e.message:'Revisa los datos.';
     }
