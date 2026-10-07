@@ -60,4 +60,5 @@
 - [x] `npm run build`
 - [x] `npm run audit`
 - [x] Production-like canonical build + audit
+- [x] Preview-host and production-like URL modes are both exercised in CI.
 - [ ] Final production URL verified after domain connection.
