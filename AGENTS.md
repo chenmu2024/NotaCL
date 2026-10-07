@@ -11,7 +11,11 @@ This project follows `chenmu2024/Website-Starter-Standard`.
 7. Chilean defaults are configurable assumptions, not claims of a nationwide mandatory grading rule.
 8. Public SEO copy must be in crawlable static HTML. JavaScript enhances calculation only.
 9. No backend/database/account/paid API without explicit owner approval.
-10. Before launch run `npm run test`, `npm run check`, `npm run build`, responsive QA, route/metadata/schema checks, and production verification.
+10. After SEO-sensitive changes run `npm run test`, `npm run check`, `npm run build`, and `npm run audit`. Before launch also run responsive/visual QA and `npm run audit:production` against the final domain.
 
 11. Read `SOURCE-REGISTRY.md` before adding or changing institutional, admissions, NEM/PAES, university-specific or other time-sensitive factual claims.
 12. A changing external claim must have a source, checked date, refresh rule and failure fallback before its page is indexable.
+
+13. Shareable calculator state must remain in URL fragments (`#...`), never in crawlable query-string page variants. Canonical URLs always point to the clean base route.
+14. Do not weaken the fail-closed indexing policy: invalid/missing production origin and preview hosts must remain noindex; real production behavior must be checked after deployment.
+15. Do not add a new indexable keyword route merely because a synonym has volume. Update `SERP-DECISIONS.md` with evidence before changing intent ownership.
