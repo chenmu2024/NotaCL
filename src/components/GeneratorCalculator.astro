@@ -107,6 +107,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
 </div>
 
 <script>
+  import { shareOrCopy } from '../lib/browser/share';
   import { buildGradeScale, formatNumber, parseDecimal } from '../lib/calculators/core';
 
   const shell=document.querySelector<HTMLElement>('#generador')!;
@@ -225,17 +226,11 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
   document.querySelector('#g-share')?.addEventListener('click',async()=>{
     if(!currentRows.length) return;
     const url=shareUrl();
-    try{
-      if(navigator.share){
-        await navigator.share({title:'Configuración de escala de notas',url});
-        actionStatus.textContent='Configuración compartida.';
-      }else{
-        await navigator.clipboard.writeText(url);
-        actionStatus.textContent='Enlace de configuración copiado.';
-      }
-    }catch{
-      actionStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
-    }
+    const shareResult=await shareOrCopy('Configuración de escala de notas',url);
+    if(shareResult==='shared') actionStatus.textContent='Configuración compartida.';
+    else if(shareResult==='copied') actionStatus.textContent='Enlace de configuración copiado.';
+    else if(shareResult==='cancelled') actionStatus.textContent='';
+    else actionStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
   });
 
   document.querySelector('#g-copy')?.addEventListener('click',async()=>{
