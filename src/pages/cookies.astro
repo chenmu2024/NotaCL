@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+const title='Cookies y Almacenamiento Local | NotaCL';
+const description='Información sobre cookies y localStorage en NotaCL.';
+---
+<BaseLayout {title} {description} path="/cookies/">
+<Breadcrumbs items={[{label:'Cookies'}]} />
+<section class="hero"><div class="container reading"><h1>Cookies y almacenamiento local</h1><p class="lead">La versión base usa almacenamiento local opcional para guardar materias en tu dispositivo.</p></div></section>
+<section class="section"><div class="container reading prose"><p>NotaCL puede usar <code>localStorage</code> cuando eliges guardar cálculos. Esto no requiere una cuenta y los datos permanecen en el navegador hasta que los borres.</p><p>Si en producción se incorporan servicios de analítica o publicidad que utilicen cookies, esta página y el mecanismo de consentimiento se actualizarán antes de activarlos.</p></div></section>
+</BaseLayout>
