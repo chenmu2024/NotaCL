@@ -56,8 +56,8 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
       </div>
 
       <div class="generator-summary" aria-live="polite">
-        <div><span>Umbral de aprobación</span><strong id="g-threshold">—</strong></div>
-        <div><span>Filas generadas</span><strong id="g-count">—</strong></div>
+        <div><span>Corte teórico</span><strong id="g-threshold">—</strong></div>
+        <div><span>Primer puntaje entero aprobado</span><strong id="g-count">—</strong></div>
         <div><span>Escala</span><strong id="g-range">—</strong></div>
       </div>
 
@@ -135,8 +135,9 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
           <td class="status ${row.passed?'good':'bad'}">${row.passed?'Aprobado':'Reprobado'}</td>
         </tr>`).join('');
 
+      const firstPassing=currentRows.filter(row=>row.passed).at(-1)?.score;
       (document.querySelector<HTMLElement>('#g-threshold')!).textContent=`${formatNumber(max*cfg.exigency,1)} pts`;
-      (document.querySelector<HTMLElement>('#g-count')!).textContent=String(currentRows.length);
+      (document.querySelector<HTMLElement>('#g-count')!).textContent=firstPassing===undefined?'—':`${firstPassing} pts`;
       (document.querySelector<HTMLElement>('#g-range')!).textContent=`${formatNumber(cfg.minGrade,1)}–${formatNumber(cfg.maxGrade,1)}`;
       (document.querySelector<HTMLElement>('#g-print-max')!).textContent=formatNumber(max,0);
       (document.querySelector<HTMLElement>('#g-print-exigency')!).textContent=`${formatNumber(cfg.exigency*100,1)}%`;
