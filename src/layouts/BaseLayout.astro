@@ -39,7 +39,7 @@ const baseSchema = [
   <meta property="og:description" content={description} />
   {canonical && <meta property="og:url" content={canonical} />}
   <meta name="twitter:card" content="summary" />
-  <meta name="theme-color" content="#3157d5" />
+  <meta name="theme-color" content="#0d1b36" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="/site.webmanifest" />
   {[...baseSchema, ...schemas].map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
@@ -47,21 +47,39 @@ const baseSchema = [
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="/" aria-label={`${SITE_NAME}, inicio`}>Nota<span>CL</span></a>
+      <a class="brand" href="/" aria-label={`${SITE_NAME}, inicio`}>
+        <span class="brand-mark" aria-hidden="true">N</span>
+        <span class="brand-word">Nota<span>CL</span></span>
+      </a>
       <nav class="nav" aria-label="Herramientas principales">
         {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
       </nav>
+      <a class="header-cta" href="/#calculadora">Calcular ahora</a>
     </div>
   </header>
   <main><slot /></main>
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <a class="brand" href="/">Nota<span>CL</span></a>
-        <p class="muted">Herramientas gratuitas para calcular notas, escalas, promedios y ponderaciones. Los parámetros pueden variar según cada establecimiento.</p>
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">N</span>
+          <span class="brand-word">Nota<span>CL</span></span>
+        </a>
+        <p>Herramientas gratuitas para calcular notas, escalas, promedios y ponderaciones. Los parámetros pueden variar según cada establecimiento.</p>
       </div>
-      <div class="footer-links"><strong>Herramientas</strong>{navItems.slice(0,4).map((item)=><a href={item.href}>{item.label}</a>)}</div>
-      <div class="footer-links"><strong>Información</strong><a href="/sobre-nosotros/">Sobre nosotros</a><a href="/contacto/">Contacto</a><a href="/politica-de-privacidad/">Privacidad</a><a href="/terminos/">Términos</a><a href="/cookies/">Cookies</a></div>
+      <div class="footer-links">
+        <strong>Herramientas</strong>
+        {navItems.slice(0,4).map((item)=><a href={item.href}>{item.label}</a>)}
+      </div>
+      <div class="footer-links">
+        <strong>Información</strong>
+        <a href="/guias/">Guías</a>
+        <a href="/sobre-nosotros/">Sobre nosotros</a>
+        <a href="/contacto/">Contacto</a>
+        <a href="/politica-de-privacidad/">Privacidad</a>
+        <a href="/terminos/">Términos</a>
+        <a href="/cookies/">Cookies</a>
+      </div>
     </div>
   </footer>
 </body>
