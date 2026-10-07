@@ -133,6 +133,7 @@ for (const route of canonicalRoutes) {
   const html = readRoute(route);
   if (!html) continue;
 
+  if (Buffer.byteLength(html,'utf8') > 250 * 1024) fail(`${route} raw HTML exceeds 250 KB internal budget`);
   if (!/<html[^>]+lang="es-CL"/i.test(html)) fail(`${route} is missing lang="es-CL"`);
 
   const h1Count = countMatches(html, /<h1\b/gi);
