@@ -29,6 +29,7 @@ const initialAverage=average(initialNumbers);
       <div class="actions">
         <button class="btn btn-secondary" type="button" id="avg-add">Agregar nota</button>
         <button class="btn btn-primary" type="submit">Calcular promedio</button>
+        <button class="btn btn-secondary" type="button" id="avg-share">Compartir cálculo</button>
         <button class="btn btn-ghost" type="button" id="avg-reset">Restablecer</button>
       </div>
 
@@ -42,6 +43,7 @@ const initialAverage=average(initialNumbers);
           <button class="btn btn-secondary" id="avg-save" type="button">Guardar materia</button>
           <button class="btn btn-ghost" id="avg-clear-all" type="button">Borrar guardadas</button>
         </div>
+        <p id="avg-share-status" class="muted" aria-live="polite"></p>
         <p id="avg-storage-status" class="muted" aria-live="polite"></p>
         <div id="avg-saved" class="saved-items" aria-live="polite"></div>
       </div>
@@ -78,7 +80,21 @@ const initialAverage=average(initialNumbers);
   const err=document.querySelector<HTMLElement>('#avg-error')!;
   const key='notacl.saved.subjects';
   const storageStatus=document.querySelector<HTMLElement>('#avg-storage-status')!;
+  const shareStatus=document.querySelector<HTMLElement>('#avg-share-status')!;
   let values=['5,5','6,2','4,8','6,0'];
+
+  function readHash(){
+    const params=new URLSearchParams(window.location.hash.replace(/^#/,''));
+    const raw=params.get('notas');
+    if(!raw) return;
+    const parsed=raw.split('|').map(value=>value.trim()).filter(Boolean).slice(0,50);
+    if(parsed.length) values=parsed;
+  }
+
+  function shareUrl(){
+    const params=new URLSearchParams({notas:values.map(value=>value.trim()).join('|')});
+    return `${window.location.origin}${window.location.pathname}${window.location.search}#${params.toString()}`;
+  }
 
   function escapeHTML(value: unknown){
     return String(value)
@@ -214,9 +230,31 @@ const initialAverage=average(initialNumbers);
     if(persist(upsertSavedSubject(rows,record))) renderSaved();
   });
 
+  document.querySelector('#avg-share')?.addEventListener('click',async()=>{
+    if(values.length>50){
+      shareStatus.textContent='Para compartir, reduce la lista a 50 notas o menos.';
+      return;
+    }
+    if(calc()===null) return;
+    const url=shareUrl();
+    try{
+      if(navigator.share){
+        await navigator.share({title:'Promedio de notas',url});
+        shareStatus.textContent='Cálculo compartido.';
+      }else{
+        await navigator.clipboard.writeText(url);
+        shareStatus.textContent='Enlace copiado al portapapeles.';
+      }
+    }catch{
+      shareStatus.textContent='No se pudo compartir. Puedes copiar la URL del navegador como alternativa.';
+    }
+  });
+
   document.querySelector('#avg-reset')?.addEventListener('click',()=>{
     values=['5,5','6,2','4,8','6,0'];
     (document.querySelector<HTMLInputElement>('#avg-subject')!).value='';
+    shareStatus.textContent='';
+    history.replaceState(null,'',window.location.pathname+window.location.search);
     renderRows();
     calc();
   });
@@ -233,6 +271,7 @@ const initialAverage=average(initialNumbers);
     }
   });
 
+  readHash();
   renderRows();
   calc();
   renderSaved();
