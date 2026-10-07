@@ -7,6 +7,8 @@ function productionOrigin(value) {
     const url = new URL(raw);
     if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash) return undefined;
     if (url.pathname !== '/' && url.pathname !== '') return undefined;
+    const host = url.hostname.toLowerCase();
+    if (host === 'localhost' || host.endsWith('.pages.dev') || host.endsWith('.vercel.app')) return undefined;
     return url.origin;
   } catch {
     return undefined;
