@@ -60,12 +60,21 @@
   const key='notacl.saved.subjects';
   let values=['5,5','6,2','4,8','6,0'];
 
+  function escapeHTML(value: unknown){
+    return String(value)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#039;');
+  }
+
   function renderRows(){
     list.innerHTML=values.map((v,i)=>`
       <div class="row-editor simple">
         <div class="field" style="margin:0">
           <label for="avg-${i}">Nota ${i+1}</label>
-          <input class="input avg-input" id="avg-${i}" data-i="${i}" value="${v}" inputmode="decimal" aria-label="Nota ${i+1}">
+          <input class="input avg-input" id="avg-${i}" data-i="${i}" value="${escapeHTML(v)}" inputmode="decimal" aria-label="Nota ${i+1}">
         </div>
         <button class="icon-btn" type="button" data-remove="${i}" aria-label="Eliminar nota ${i+1}">Eliminar</button>
       </div>`).join('');
@@ -124,7 +133,7 @@
 
     box.innerHTML=rows.map((row:any,i:number)=>`
       <div class="saved-item">
-        <span><strong>${row.subject}</strong><small>${formatNumber(row.average,1)} · ${Array.isArray(row.values)?row.values.length:0} notas</small></span>
+        <span><strong>${escapeHTML(row.subject)}</strong><small>${formatNumber(row.average,1)} · ${Array.isArray(row.values)?row.values.length:0} notas</small></span>
         <span class="saved-actions">
           <button class="btn btn-ghost" data-load="${i}" type="button">Cargar</button>
           <button class="btn btn-ghost" data-delete="${i}" type="button">Borrar</button>
