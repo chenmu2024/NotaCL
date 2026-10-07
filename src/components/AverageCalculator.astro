@@ -94,7 +94,7 @@ const initialAverage=average(initialNumbers);
 
   function shareUrl(){
     const params=new URLSearchParams({notas:values.map(value=>value.trim()).join('|')});
-    return `${window.location.origin}${window.location.pathname}${window.location.search}#${params.toString()}`;
+    return `${window.location.origin}${window.location.pathname}#${params.toString()}`;
   }
 
   function escapeHTML(value: unknown){
