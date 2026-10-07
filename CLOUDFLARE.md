@@ -77,8 +77,9 @@ After the final domain is connected and the current build is deployed:
 
 ```bash
 PRODUCTION_URL=https://FINAL-DOMAIN.cl \
+ALTERNATE_ORIGIN=https://www.FINAL-DOMAIN.cl \
 PREVIEW_URL=https://YOUR-PROJECT.pages.dev \
 npm run audit:production
 ```
 
-The command verifies the canonical routes, live canonical tags, indexability, security/language headers, trailing-slash redirect, real 404 status/noindex header, robots.txt, sitemap coverage and preview-host noindex response. It does not replace visual QA, keyboard testing or Lighthouse/CWV measurement.
+The command verifies the canonical routes, live canonical tags, indexability, security/language headers, trailing-slash redirect, optional apex/www alternate-host redirect, real 404 status/noindex header, robots.txt, sitemap coverage and preview-host noindex response. It does not replace visual QA, keyboard testing or Lighthouse/CWV measurement.
