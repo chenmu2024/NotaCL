@@ -36,10 +36,14 @@
       <div class="result-card" aria-live="polite">
         <div class="result-label">Necesitas</div>
         <div class="result-value" id="r-result">—</div>
-        <div class="result-meta">
+        <div class="result-meta result-meta-three">
           <div class="result-stat">
             <span class="result-stat-label">Objetivo</span>
             <strong id="r-target-summary">—</strong>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-label">Exacto</span>
+            <strong id="r-exact">—</strong>
           </div>
           <div class="result-stat">
             <span class="result-stat-label">Factibilidad</span>
@@ -77,6 +81,7 @@
     const msg=document.querySelector<HTMLElement>('#r-message')!;
     const err=document.querySelector<HTMLElement>('#r-error')!;
     const targetSummary=document.querySelector<HTMLElement>('#r-target-summary')!;
+    const exact=document.querySelector<HTMLElement>('#r-exact')!;
     const feasibility=document.querySelector<HTMLElement>('#r-feasibility')!;
     const scenarios=document.querySelector<HTMLElement>('#r-scenarios')!;
 
@@ -88,6 +93,7 @@
 
       const grade=requiredGrade({currentAverage,completedWeight,finalWeight,targetGrade});
       out.textContent=formatNumber(roundHalfUp(grade,1),1);
+      exact.textContent=formatNumber(grade,3);
       targetSummary.textContent=formatNumber(targetGrade,1);
 
       if(grade>7){
@@ -110,6 +116,7 @@
     }catch(e){
       out.textContent='—';
       targetSummary.textContent='—';
+      exact.textContent='—';
       feasibility.textContent='—';
       msg.textContent='Revisa los porcentajes y las notas.';
       scenarios.innerHTML='';
