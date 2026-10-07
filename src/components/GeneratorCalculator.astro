@@ -67,7 +67,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
         <div><span>Primer puntaje con nota mostrada ≥ aprobación</span><strong id="g-count">{initialFirstPassing ?? '—'}{initialFirstPassing !== undefined ? ' pts' : ''}</strong></div>
         <div><span>Escala</span><strong id="g-range">{formatNumber(initialConfig.minGrade,1)}–{formatNumber(initialConfig.maxGrade,1)}</strong></div>
       </div>
-      <p class="muted generator-status-note">El estado de la tabla compara la nota mostrada, después del redondeo elegido, con la nota de aprobación. Verifica la regla de tu establecimiento si estás justo en el límite.</p>
+      <p class="muted generator-status-note">El estado compara el resultado exacto con la nota de aprobación, antes del redondeo visual. Así, un 3,95 que se muestre como 4,0 no se marca automáticamente como aprobado. Verifica la regla de tu establecimiento si estás justo en el límite.</p>
 
       <div class="actions">
         <button class="btn btn-primary" type="submit">Generar tabla</button>
@@ -89,14 +89,14 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
     <div class="table-wrap">
       <table class="data-table">
         <caption class="sr-only">Tabla de puntaje, porcentaje, nota calculada y estado según la configuración elegida.</caption>
-        <thead><tr><th>Puntaje</th><th>Porcentaje</th><th>Nota</th><th>Estado</th></tr></thead>
+        <thead><tr><th>Puntaje</th><th>Porcentaje</th><th>Nota</th><th>Estado según corte</th></tr></thead>
         <tbody id="g-body">
           {initialRows.map(row=>
             <tr>
               <td>{row.score}</td>
               <td>{formatNumber(row.percentage,1)}%</td>
               <td><strong>{formatNumber(row.grade,initialConfig.decimals)}</strong></td>
-              <td class:list={['status',row.passed?'good':'bad']}>{row.passed?'Aprobado':'Reprobado'}</td>
+              <td class:list={['status',row.passed?'good':'bad']}>{row.passed?'Cumple exigencia':'Bajo exigencia'}</td>
             </tr>
           )}
         </tbody>
@@ -134,7 +134,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
         row.score,
         `${formatNumber(row.percentage,1)}%`,
         formatNumber(row.grade,cfg.decimals),
-        row.passed?'Aprobado':'Reprobado'
+        row.passed?'Cumple exigencia':'Bajo exigencia'
       ].join(';'))
     ].join('\n');
   }
@@ -150,7 +150,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
           <td>${row.score}</td>
           <td>${formatNumber(row.percentage,1)}%</td>
           <td><strong>${formatNumber(row.grade,cfg.decimals)}</strong></td>
-          <td class="status ${row.passed?'good':'bad'}">${row.passed?'Aprobado':'Reprobado'}</td>
+          <td class="status ${row.passed?'good':'bad'}">${row.passed?'Cumple exigencia':'Bajo exigencia'}</td>
         </tr>`).join('');
 
       const firstPassing=currentRows.filter(row=>row.passed).at(-1)?.score;
