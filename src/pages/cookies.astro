@@ -6,6 +6,17 @@ const description='Conoce cómo NotaCL usa almacenamiento local para guardar cá
 ---
 <BaseLayout {title} {description} path="/cookies/">
 <Breadcrumbs items={[{label:'Cookies'}]} />
-<section class="hero"><div class="container reading"><h1>Cookies y almacenamiento local</h1><p class="lead">La versión base usa almacenamiento local opcional para guardar materias en tu dispositivo.</p></div></section>
-<section class="section"><div class="container reading prose"><p>NotaCL puede usar <code>localStorage</code> cuando eliges guardar cálculos. Esto no requiere una cuenta y los datos permanecen en el navegador hasta que los borres.</p><p>Si en producción se incorporan servicios de analítica o publicidad que utilicen cookies, esta página y el mecanismo de consentimiento se actualizarán antes de activarlos.</p></div></section>
+<section class="hero"><div class="container reading"><p class="eyebrow">Almacenamiento</p><h1>Cookies y almacenamiento local</h1><p class="lead">Las funciones principales de NotaCL no requieren una cuenta ni una cookie de inicio de sesión.</p></div></section>
+<section class="section"><div class="container reading prose">
+  <h2>localStorage</h2>
+  <p>Cuando eliges guardar una materia, NotaCL puede usar <code>localStorage</code> para conservar el nombre, las notas y el promedio en este navegador. Puedes borrar esos datos desde la propia herramienta o desde la configuración del navegador.</p>
+
+  <h2>Cookies de terceros</h2>
+  <p>Si en el futuro se incorporan servicios de analítica o publicidad que utilicen cookies u otras tecnologías similares, esta página se actualizará antes de activarlos y se aplicará el mecanismo de consentimiento que corresponda.</p>
+
+  <h2>Más información</h2>
+  <p>Consulta también la <a href="/politica-de-privacidad/">política de privacidad</a> para conocer cómo se tratan los datos relacionados con el uso del sitio.</p>
+
+  <p class="muted">Última revisión: 7 de octubre de 2026.</p>
+</div></section>
 </BaseLayout>
