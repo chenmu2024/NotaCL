@@ -8,8 +8,9 @@ interface Props {
   path?: string;
   type?: 'website' | 'article';
   schema?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
 }
-const { title, description, path='/', type='website', schema=[] } = Astro.props;
+const { title, description, path='/', type='website', schema=[], noindex=false } = Astro.props;
 const canonical = SITE_URL ? new URL(path, SITE_URL).toString() : undefined;
 const schemas = Array.isArray(schema) ? schema : [schema];
 const organizationId = SITE_URL ? `${SITE_URL}#organization` : undefined;
@@ -56,7 +57,7 @@ const pageSchemas = schemas.map((item) => {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  <meta name="robots" content={INDEXING_ENABLED ? 'index,follow,max-image-preview:large' : 'noindex,nofollow'} />
+  <meta name="robots" content={INDEXING_ENABLED && !noindex ? 'index,follow,max-image-preview:large' : 'noindex,nofollow'} />
   {canonical && <link rel="canonical" href={canonical} />}
   <meta property="og:type" content={type} />
   <meta property="og:locale" content="es_CL" />
