@@ -64,7 +64,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
 
       <div class="generator-summary" aria-live="polite">
         <div><span>Corte teórico</span><strong id="g-threshold">{formatNumber(initialThreshold,1)} pts</strong></div>
-        <div><span>Primer puntaje con nota mostrada ≥ aprobación</span><strong id="g-count">{initialFirstPassing ?? '—'}{initialFirstPassing !== undefined ? ' pts' : ''}</strong></div>
+        <div><span>Primer puntaje entero que cumple exigencia</span><strong id="g-count">{initialFirstPassing ?? '—'}{initialFirstPassing !== undefined ? ' pts' : ''}</strong></div>
         <div><span>Escala</span><strong id="g-range">{formatNumber(initialConfig.minGrade,1)}–{formatNumber(initialConfig.maxGrade,1)}</strong></div>
       </div>
       <p class="muted generator-status-note">El estado compara el resultado exacto con la nota de aprobación, antes del redondeo visual. Así, un 3,95 que se muestre como 4,0 no se marca automáticamente como aprobado. Verifica la regla de tu establecimiento si estás justo en el límite.</p>
@@ -129,7 +129,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
   function csvText(){
     const cfg=config();
     return [
-      'Puntaje;Porcentaje;Nota;Estado',
+      'Puntaje;Porcentaje;Nota;Estado según corte',
       ...currentRows.map(row=>[
         row.score,
         `${formatNumber(row.percentage,1)}%`,
