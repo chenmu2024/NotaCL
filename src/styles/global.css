@@ -24,7 +24,7 @@
   --radius-sm:10px;
   --radius-md:14px;
   --radius-lg:20px;
-  --radius-xl:26px;
+  --radius-xl:28px;
   --max:1180px;
   --read:760px;
   --shadow-tool:0 24px 70px rgba(11,23,54,.10);
@@ -41,6 +41,9 @@ a:hover{color:var(--link-hover)}
 button,input,select,textarea{font:inherit}
 button,input,select,textarea{min-height:44px}
 button{cursor:pointer}
+button:disabled,.btn[aria-disabled="true"]{cursor:not-allowed;opacity:.55;transform:none!important}
+input:disabled,select:disabled{cursor:not-allowed;opacity:.65;background:#f1f2f4}
+input[readonly]{background:#f7f8fa;color:#48546a}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .container{width:min(var(--max),calc(100% - 56px));margin-inline:auto}
 .reading{max-width:var(--read)}
@@ -102,8 +105,8 @@ main{min-height:70vh}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;border:0;border-radius:12px;padding:0 18px;font-weight:760;text-decoration:none;transition:background .15s ease-out,border-color .15s ease-out,color .15s ease-out,transform .15s ease-out}
 .btn:hover{transform:translateY(-1px)}
-.btn-primary{background:var(--primary);color:#fff}
-.btn-primary:hover{background:var(--primary-hover);color:#fff}
+.btn-primary{background:var(--primary);color:var(--ink)}
+.btn-primary:hover{background:var(--primary-hover);color:var(--ink)}
 .btn-secondary{background:#fff;color:var(--ink);border:1px solid var(--line-strong)}
 .btn-secondary:hover{border-color:#889bb6;color:var(--ink)}
 .btn-ghost{background:transparent;color:var(--link)}
