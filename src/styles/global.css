@@ -499,3 +499,8 @@ body:not(.home-page) .section:nth-of-type(even){background:#fff}
 .official-note-kicker{display:block;margin-bottom:6px;color:#9b3d1f;font-size:.72rem;font-weight:820;text-transform:uppercase;letter-spacing:.075em}
 .official-note h2{margin:0 0 10px!important;font-size:1.35rem!important}
 .official-note p{margin:8px 0}
+
+.result-meta-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:700px){
+  .result-meta-three{grid-template-columns:1fr}
+}
