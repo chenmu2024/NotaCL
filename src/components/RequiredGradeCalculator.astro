@@ -59,6 +59,7 @@ const initialScenarios=[4,5,6,7].map(exam=>({
           </div>
         </div>
         <p id="r-message" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem">Nota estimada necesaria en la evaluación final.</p>
+        <p id="r-range" style="margin:6px 0 0;color:#9eacc3;font-size:.8rem">Rango final posible: 3,8–5,6</p>
       </div>
       <p id="r-error" class="muted" aria-live="polite"></p>
     </div>
@@ -95,6 +96,7 @@ const initialScenarios=[4,5,6,7].map(exam=>({
     const exact=document.querySelector<HTMLElement>('#r-exact')!;
     const feasibility=document.querySelector<HTMLElement>('#r-feasibility')!;
     const scenarios=document.querySelector<HTMLElement>('#r-scenarios')!;
+    const range=document.querySelector<HTMLElement>('#r-range')!;
 
     try{
       const currentAverage=parseDecimal((document.querySelector<HTMLInputElement>('#r-current')!).value);
@@ -103,17 +105,22 @@ const initialScenarios=[4,5,6,7].map(exam=>({
       const targetGrade=parseDecimal((document.querySelector<HTMLInputElement>('#r-target')!).value);
 
       const grade=requiredGrade({currentAverage,completedWeight,finalWeight,targetGrade});
-      out.textContent=formatNumber(roundHalfUp(grade,1),1);
+      const minFinal=projectedFinalGrade({currentAverage,completedWeight,finalGrade:1,finalWeight});
+      const maxFinal=projectedFinalGrade({currentAverage,completedWeight,finalGrade:7,finalWeight});
       exact.textContent=formatNumber(grade,3);
       targetSummary.textContent=formatNumber(targetGrade,1);
+      range.textContent=`Rango final posible: ${formatNumber(roundHalfUp(minFinal,2),2)}–${formatNumber(roundHalfUp(maxFinal,2),2)}`;
 
       if(grade>7){
+        out.textContent='> 7,0';
         feasibility.textContent='No alcanzable';
         msg.textContent='Con una escala máxima de 7,0, este objetivo no es alcanzable con el peso restante.';
       }else if(grade<1){
+        out.textContent='≤ 1,0';
         feasibility.textContent='Objetivo cubierto';
         msg.textContent='Tu objetivo ya está cubierto matemáticamente con una nota mínima.';
       }else{
+        out.textContent=formatNumber(roundHalfUp(grade,1),1);
         feasibility.textContent='Alcanzable';
         msg.textContent='Nota estimada necesaria en la evaluación final.';
       }
@@ -131,6 +138,7 @@ const initialScenarios=[4,5,6,7].map(exam=>({
       feasibility.textContent='—';
       msg.textContent='Revisa los porcentajes y las notas.';
       scenarios.innerHTML='';
+      range.textContent='';
       err.textContent=e instanceof Error?e.message:'Revisa los datos.';
     }
   }
