@@ -221,7 +221,12 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
     render();
   }));
 
-  document.querySelector('#g-print')?.addEventListener('click',()=>window.print());
+  document.querySelector('#g-print')?.addEventListener('click',()=>{
+    document.body.classList.add('print-generator-only');
+    window.print();
+    document.body.classList.remove('print-generator-only');
+  });
+  window.addEventListener('afterprint',()=>document.body.classList.remove('print-generator-only'));
 
   document.querySelector('#g-share')?.addEventListener('click',async()=>{
     if(!currentRows.length) return;
