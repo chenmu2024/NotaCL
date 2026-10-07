@@ -1,3 +1,8 @@
+---
+import { formatNumber, roundHalfUp, weightedAverage } from '../lib/calculators/core';
+const initialItems=[['6,0','20'],['5,5','30'],['4,8','50']];
+const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30},{grade:4.8,weight:50}]);
+---
 <div class="tool-shell">
   <div class="tool-head">
     <div>
@@ -9,7 +14,21 @@
 
   <div class="tool-grid">
     <form class="tool-panel" id="w-form">
-      <div class="list-editor" id="w-list"></div>
+      <div class="list-editor" id="w-list">
+        {initialItems.map((row,index)=>
+          <div class="row-editor">
+            <div class="field" style="margin:0">
+              <label for={`w-grade-${index}`}>Nota {index+1}</label>
+              <input class="input w-grade" id={`w-grade-${index}`} data-i={index} value={row[0]} inputmode="decimal" />
+            </div>
+            <div class="field" style="margin:0">
+              <label for={`w-weight-${index}`}>Peso (%)</label>
+              <input class="input w-weight" id={`w-weight-${index}`} data-i={index} value={row[1]} inputmode="decimal" />
+            </div>
+            <button class="icon-btn" type="button" data-remove={index} aria-label={`Eliminar evaluación ${index+1}`} title="Eliminar evaluación">×</button>
+          </div>
+        )}
+      </div>
       <div class="actions">
         <button class="btn btn-secondary" type="button" id="w-add">Agregar evaluación</button>
         <button class="btn btn-primary" type="submit">Calcular ponderación</button>
@@ -20,22 +39,22 @@
     <div class="tool-panel result-panel">
       <div class="result-card" aria-live="polite">
         <div class="result-label" id="w-result-label">Promedio ponderado</div>
-        <div class="result-value" id="w-result">—</div>
+        <div class="result-value" id="w-result">{formatNumber(roundHalfUp(initialWeighted.average,2),2)}</div>
         <div class="result-meta result-meta-three">
           <div class="result-stat">
             <span class="result-stat-label">Peso utilizado</span>
-            <strong id="w-used">—</strong>
+            <strong id="w-used">{formatNumber(initialWeighted.totalWeight,1)}%</strong>
           </div>
           <div class="result-stat">
             <span class="result-stat-label">Peso restante</span>
-            <strong id="w-left">—</strong>
+            <strong id="w-left">{formatNumber(100-initialWeighted.totalWeight,1)}%</strong>
           </div>
           <div class="result-stat">
             <span class="result-stat-label">Aporte sobre 100%</span>
-            <strong id="w-contribution">—</strong>
+            <strong id="w-contribution">{formatNumber(roundHalfUp(initialWeighted.contribution,2),2)}</strong>
           </div>
         </div>
-        <p id="w-status" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem"></p>
+        <p id="w-status" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem">Ponderación completa: los porcentajes suman aproximadamente 100%.</p>
       </div>
       <p id="w-error" class="muted"></p>
     </div>
