@@ -411,3 +411,19 @@ body:not(.home-page) .site-footer{background:var(--ink)}
   .home-page .tool-card.featured,.home-page .tool-card.accent,.home-page .tool-card:nth-child(3),.home-page .tool-card:nth-child(4),.home-page .tool-card:nth-child(5){grid-column:auto}
   .home-tools-section,.home-method-section,.home-trust-section{padding:64px 0}
 }
+
+/* Inner-page product framing */
+body:not(.home-page) .hero{margin-top:18px;padding:60px 0 92px;background:var(--ink)}
+body:not(.home-page) .hero .eyebrow{color:#ffb293}
+body:not(.home-page) .hero .eyebrow::before{background:var(--primary)}
+body:not(.home-page) .hero h1,
+body:not(.home-page) .hero .page-title{color:#fff}
+body:not(.home-page) .hero .lead{color:#c4cde0}
+body:not(.home-page) .hero + .container > .tool-shell{margin-top:-48px;position:relative;z-index:2}
+body:not(.home-page) .breadcrumbs{padding-bottom:0}
+body:not(.home-page) .section{background:var(--canvas)}
+body:not(.home-page) .section:nth-of-type(even){background:#fff}
+@media(max-width:700px){
+  body:not(.home-page) .hero{padding:42px 0 72px}
+  body:not(.home-page) .hero + .container > .tool-shell{margin-top:-34px}
+}
