@@ -40,11 +40,11 @@ The rest of the site alternates between warm off-white, pure white and ink secti
 | link | #8d351b | Text links on light surfaces |
 | cool-accent | #9ec5ff | Secondary informational accent |
 | success | #137a55 | Pass state |
-| success-soft | #e4f6ef | Pass surface |
+| success-soft | #dff6eb | Pass surface |
 | warning | #8a5a00 | Warning |
-| warning-soft | #fff4dc | Warning surface |
+| warning-soft | #fff3d6 | Warning surface |
 | error | #b42318 | Error/fail |
-| error-soft | #ffebe8 | Error surface |
+| error-soft | #ffebe9 | Error surface |
 | focus | #9ec5ff | Focus ring |
 
 Rules:
