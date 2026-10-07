@@ -1,3 +1,10 @@
+---
+interface Props {
+  initialExigency?: number;
+  lockExigency?: boolean;
+}
+const { initialExigency = 60, lockExigency = false } = Astro.props;
+---
 <div class="tool-shell" id="generador">
   <div class="tool-head">
     <div>
@@ -9,12 +16,12 @@
 
   <div class="tool-panel">
     <form id="gen-form" class="no-print">
-      <div class="preset-row" aria-label="Exigencias rápidas">
+      {!lockExigency && <div class="preset-row" aria-label="Exigencias rápidas">
         <span>Exigencia rápida</span>
-        <button type="button" class="preset-chip" data-exigency="50">50%</button>
-        <button type="button" class="preset-chip active" data-exigency="60">60%</button>
-        <button type="button" class="preset-chip" data-exigency="70">70%</button>
-      </div>
+        <button type="button" class:list={['preset-chip', initialExigency === 50 && 'active']} data-exigency="50">50%</button>
+        <button type="button" class:list={['preset-chip', initialExigency === 60 && 'active']} data-exigency="60">60%</button>
+        <button type="button" class:list={['preset-chip', initialExigency === 70 && 'active']} data-exigency="70">70%</button>
+      </div>}
 
       <div class="inline-fields">
         <div class="field">
@@ -23,7 +30,8 @@
         </div>
         <div class="field">
           <label for="g-exigency">Exigencia (%)</label>
-          <input class="input" id="g-exigency" value="60" inputmode="decimal" />
+          <input class="input" id="g-exigency" value={String(initialExigency)} inputmode="decimal" readonly={lockExigency} />
+          {lockExigency && <small>Fijada en {initialExigency}% para esta escala.</small>}
         </div>
         <div class="field">
           <label for="g-min">Nota mínima</label>
