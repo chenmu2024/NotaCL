@@ -474,3 +474,8 @@ body:not(.home-page) .section:nth-of-type(even){background:#fff}
 @media(max-width:560px){
   .header-cta{display:none}
 }
+
+.nav a[aria-current="page"]{background:var(--primary-soft);color:#9b3d1f}
+.home-page .nav a[aria-current="page"]{background:rgba(255,122,69,.16);color:#ffb293}
+.mobile-menu-panel a[aria-current="page"]{background:var(--primary-soft);color:#9b3d1f}
+.home-page .mobile-menu-panel a[aria-current="page"]{background:rgba(255,122,69,.16);color:#ffb293}
