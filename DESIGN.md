@@ -32,15 +32,16 @@ The rest of the site alternates between warm off-white, pure white and ink secti
 | ink-soft | #16264a | Secondary dark surface |
 | body | #39445a | Body copy |
 | muted | #5f6b7a | Secondary text with AA-safe contrast on light surfaces |
-| hairline | #d8dde6 | Borders/dividers |
+| line | #d8e0eb | Borders/dividers |
+| line-strong | #bcc8d8 | Strong input/table borders |
 | primary | #ff7a45 | Primary action / warm signal |
 | primary-hover | #e76534 | Primary hover |
 | primary-soft | #fff0e8 | Soft warm surface |
 | link | #8d351b | Text links on light surfaces |
 | cool-accent | #9ec5ff | Secondary informational accent |
-| success | #16815e | Pass state |
+| success | #137a55 | Pass state |
 | success-soft | #e4f6ef | Pass surface |
-| warning | #8b5e12 | Warning |
+| warning | #8a5a00 | Warning |
 | warning-soft | #fff4dc | Warning surface |
 | error | #b42318 | Error/fail |
 | error-soft | #ffebe8 | Error surface |
@@ -92,7 +93,7 @@ Base unit: 4px.
 
 ## 6. Grid & layout
 
-- Max content width: 1200px.
+- Max content width: 1180px.
 - Reading width: 760px.
 - Desktop gutters: 28px.
 - Mobile gutters: 16px.
@@ -107,7 +108,7 @@ Base unit: 4px.
 
 | Token | Radius | Use |
 |---|---:|---|
-| sm | 8px | Inputs |
+| sm | 10px | Inputs |
 | md | 14px | Compact cards |
 | lg | 20px | Tool cards |
 | xl | 28px | Main calculator |
@@ -124,16 +125,16 @@ Base unit: 4px.
 ## 9. Components
 
 ### Header
-Homepage header visually merges with the ink hero. Tool/content pages use warm-light header. Logo uses square N mark + wordmark. Desktop nav is compact; mobile keeps the primary CTA.
+Homepage header visually merges with the ink hero. Tool/content pages use warm-light header. Logo uses square N mark + wordmark. Desktop nav is compact; tablet/mobile uses a native `details` menu. The primary CTA remains visible on medium mobile widths and hides below 560px to protect the header from crowding.
 
 ### Hero
 Full-bleed ink background. H1 is large and left-aligned. Supporting copy is restrained. The calculator is visible above the fold and is the main visual.
 
 ### Primary button
-Orange fill, dark/white text based on contrast, 48px minimum height, 10–12px radius. Hover darkens orange, never scales dramatically.
+Orange fill with ink text for reliable contrast, 48px minimum height, 10–12px radius. Hover darkens orange, never scales dramatically. Disabled actions use reduced opacity, no lift/transform and a not-allowed cursor.
 
 ### Inputs
-50–52px tall, white, high-contrast border, explicit label, strong focus state.
+50–52px tall, white, high-contrast border, explicit label, strong focus state. Read-only values use a quieter neutral surface; disabled controls reduce opacity and remain visibly non-interactive.
 
 ### Result
 Ink or orange polarity-flipped block with oversized numeric value and compact status/meta.
@@ -178,12 +179,16 @@ Primary touch targets 48px where practical.
 
 ## 13. Accessibility
 
-- WCAG AA contrast.
-- Visible focus ring.
-- Labels are always visible.
-- Results use `aria-live="polite"`.
+- WCAG AA contrast for normal text and controls.
+- Visible 3px focus ring with offset.
+- Labels are always visible; placeholders never replace labels.
+- Results and validation/share feedback use `aria-live="polite"` where state changes dynamically.
 - Status includes text, not color alone.
-- Semantic landmarks/headings.
+- Buttons and primary controls are at least 44px high globally and 48px where practical.
+- Disabled/read-only states must remain distinguishable without relying on color alone.
+- Local calculator operations are synchronous, so no fake loading state is introduced; if an asynchronous feature is added later it must expose a text loading state.
+- Semantic landmarks/headings and table captions are required where they improve navigation.
+- Reduced-motion mode removes nonessential transitions.
 
 ## 14. Do / Don't
 
