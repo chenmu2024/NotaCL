@@ -130,6 +130,11 @@
   }
 
   document.querySelector('#w-add')?.addEventListener('click',()=>{
+    const error=document.querySelector<HTMLElement>('#w-error')!;
+    if(items.length>=100){
+      error.textContent='Puedes trabajar con hasta 100 evaluaciones por cálculo.';
+      return;
+    }
     items.push(['','']);
     draw();
   });
