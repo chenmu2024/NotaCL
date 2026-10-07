@@ -91,7 +91,7 @@ export function average(values: number[]): number {
 
 export type WeightedItem = { grade: number; weight: number };
 
-export function weightedAverage(items: WeightedItem[]): { average: number; totalWeight: number } {
+export function weightedAverage(items: WeightedItem[]): { average: number; totalWeight: number; contribution: number } {
   if (!items.length) throw new Error('Agrega al menos una nota.');
   for (const [index, item] of items.entries()) {
     validateChileGrade(item.grade, `La nota ${index + 1}`);
@@ -101,7 +101,7 @@ export function weightedAverage(items: WeightedItem[]): { average: number; total
   const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
   if (totalWeight <= 0) throw new Error('El porcentaje total debe ser mayor que 0.');
   const total = items.reduce((sum, item) => sum + item.grade * item.weight, 0);
-  return { average: total / totalWeight, totalWeight };
+  return { average: total / totalWeight, totalWeight, contribution: total / 100 };
 }
 
 export function weightStatus(totalWeight: number, tolerance = 0.11): 'complete' | 'under' | 'over' {
