@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 const dist = resolve('dist');
@@ -188,6 +188,24 @@ if (!existsSync(headersFile)) {
   for (const required of ['X-Content-Type-Options: nosniff','Referrer-Policy: strict-origin-when-cross-origin','Permissions-Policy:']) {
     if (!headers.includes(required)) fail(`_headers is missing required security header: ${required}`);
   }
+}
+
+const astroAssets = join(dist, '_astro');
+if (existsSync(astroAssets)) {
+  const assetFiles = readdirSync(astroAssets)
+    .map((name) => ({ name, size: statSync(join(astroAssets, name)).size }))
+    .filter((item) => item.name.endsWith('.js') || item.name.endsWith('.css'));
+
+  const jsFiles = assetFiles.filter((item) => item.name.endsWith('.js'));
+  const cssFiles = assetFiles.filter((item) => item.name.endsWith('.css'));
+  const totalJs = jsFiles.reduce((sum, item) => sum + item.size, 0);
+  const totalCss = cssFiles.reduce((sum, item) => sum + item.size, 0);
+
+  for (const item of jsFiles) {
+    if (item.size > 40 * 1024) fail(`client JS chunk exceeds 40 KB internal budget: ${item.name} (${item.size} bytes)`);
+  }
+  if (totalJs > 120 * 1024) fail(`total built client JS exceeds 120 KB internal budget: ${totalJs} bytes`);
+  if (totalCss > 80 * 1024) fail(`total built CSS exceeds 80 KB internal budget: ${totalCss} bytes`);
 }
 
 const robotsFile = join(dist, 'robots.txt');
