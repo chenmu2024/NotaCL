@@ -76,7 +76,7 @@
           <label for="avg-${i}">Nota ${i+1}</label>
           <input class="input avg-input" id="avg-${i}" data-i="${i}" value="${escapeHTML(v)}" inputmode="decimal" aria-label="Nota ${i+1}">
         </div>
-        <button class="icon-btn" type="button" data-remove="${i}" aria-label="Eliminar nota ${i+1}">Eliminar</button>
+        <button class="icon-btn" type="button" data-remove="${i}" aria-label="Eliminar nota ${i+1}" title="Eliminar nota">×</button>
       </div>`).join('');
 
     list.querySelectorAll<HTMLInputElement>('.avg-input').forEach(el=>el.addEventListener('input',()=>{
