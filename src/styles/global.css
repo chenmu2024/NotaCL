@@ -515,3 +515,5 @@ body:not(.home-page) .section:nth-of-type(even){background:#fff}
 .popular-links a:hover{border-color:var(--primary);background:var(--primary-soft);color:#8d351b}
 
 .generator-status-note{margin:10px 0 0;font-size:.8rem;line-height:1.5}
+
+.result-value,.data-table,.formula-line strong,.home-result-main strong,.home-result-stats strong,.generator-summary strong{font-variant-numeric:tabular-nums lining-nums}
