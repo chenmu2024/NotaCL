@@ -1,3 +1,12 @@
+---
+import { DEFAULT_GRADE_CONFIG, formatNumber, scoreToExactGrade, scoreToGrade } from '../lib/calculators/core';
+const initialScore=42;
+const initialMax=60;
+const initialExact=scoreToExactGrade(initialScore,initialMax,DEFAULT_GRADE_CONFIG);
+const initialGrade=scoreToGrade(initialScore,initialMax,DEFAULT_GRADE_CONFIG);
+const initialPercent=(initialScore/initialMax)*100;
+const initialPassed=initialGrade>=DEFAULT_GRADE_CONFIG.passGrade;
+---
 <div class="tool-shell quick-tool" id="calculadora">
   <div class="tool-head">
     <div>
@@ -33,19 +42,19 @@
     <div class="tool-panel result-panel">
       <div class="result-card" aria-live="polite">
         <div class="result-label">Resultado instantáneo</div>
-        <div class="result-value" id="q-result">—</div>
+        <div class="result-value" id="q-result">{formatNumber(initialGrade,1)}</div>
         <div class="result-meta result-meta-three">
           <div class="result-stat">
             <span class="result-stat-label">Porcentaje</span>
-            <strong id="q-percent">—</strong>
+            <strong id="q-percent">{formatNumber(initialPercent,1)}%</strong>
           </div>
           <div class="result-stat">
             <span class="result-stat-label">Exacto</span>
-            <strong id="q-exact">—</strong>
+            <strong id="q-exact">{formatNumber(initialExact,3)}</strong>
           </div>
           <div class="result-stat">
             <span class="result-stat-label">Estado</span>
-            <span id="q-status" class="status">—</span>
+            <span id="q-status" class:list={['status',initialPassed?'good':'bad']}>{initialPassed?'Aprobado':'Reprobado'}</span>
           </div>
         </div>
         <p id="q-error" style="margin:16px 0 0;color:#b9c5d9;font-size:.86rem"></p>
