@@ -65,7 +65,7 @@ main{min-height:70vh}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 16px;color:var(--primary);font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.085em}
 .eyebrow::before{content:"";width:22px;height:3px;border-radius:999px;background:var(--primary)}
 .home-hero h1,.hero h1,.page-title{margin:0;color:var(--ink);font-size:clamp(2.7rem,6vw,4.65rem);line-height:.98;letter-spacing:-.055em;font-weight:800;max-width:900px}
-.hero h1,.page-title{font-size:clamp(2.25rem,5vw,3.7rem)}
+.hero h1,.page-title{font-size:clamp(2.25rem,5vw,3.7rem)}\n.hero-tagline{margin:10px 0 0;color:var(--primary);font-size:clamp(1.45rem,2.5vw,2.05rem);line-height:1.15;font-weight:760;letter-spacing:-.03em}
 .lead{margin:22px 0 0;max-width:760px;color:#465572;font-size:1.125rem;line-height:1.65}
 .hero-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
 .hero-chip{display:inline-flex;align-items:center;min-height:34px;padding:0 11px;border:1px solid #cbd7ea;border-radius:999px;background:rgba(255,255,255,.72);color:#40506a;font-size:.84rem;font-weight:700}
