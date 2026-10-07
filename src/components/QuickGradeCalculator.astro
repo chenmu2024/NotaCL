@@ -23,8 +23,10 @@
       </div>
       <div class="actions">
         <button class="btn btn-primary" type="submit">Calcular nota</button>
-        <a class="btn btn-secondary" href="/escala-de-notas/">Ver escala completa</a>
+        <button class="btn btn-secondary" type="button" id="q-share">Compartir cálculo</button>
+        <a class="btn btn-ghost" href="#tabla">Ver tabla completa</a>
       </div>
+      <p id="q-share-status" class="muted" aria-live="polite"></p>
       <p class="notice warning">El 60% y la escala 1,0–7,0 son valores iniciales. Ajusta la exigencia si tu evaluación usa otra regla.</p>
     </form>
     <div class="tool-panel result-panel">
@@ -53,6 +55,28 @@
   const percent = document.querySelector<HTMLElement>('#q-percent')!;
   const status = document.querySelector<HTMLElement>('#q-status')!;
   const error = document.querySelector<HTMLElement>('#q-error')!;
+  const shareStatus = document.querySelector<HTMLElement>('#q-share-status')!;
+
+  function readHash(){
+    const raw=window.location.hash.replace(/^#/,'');
+    if(!raw) return;
+    const params=new URLSearchParams(raw);
+    const score=params.get('score');
+    const max=params.get('max');
+    const exigencia=params.get('exigencia');
+    if(score) (document.querySelector<HTMLInputElement>('#q-score')!).value=score;
+    if(max) (document.querySelector<HTMLInputElement>('#q-max')!).value=max;
+    if(exigencia) (document.querySelector<HTMLInputElement>('#q-exigency')!).value=exigencia;
+  }
+
+  function shareUrl(){
+    const params=new URLSearchParams({
+      score:(document.querySelector<HTMLInputElement>('#q-score')!).value.trim(),
+      max:(document.querySelector<HTMLInputElement>('#q-max')!).value.trim(),
+      exigencia:(document.querySelector<HTMLInputElement>('#q-exigency')!).value.trim(),
+    });
+    return `${window.location.origin}${window.location.pathname}#${params.toString()}`;
+  }
   function run(){
     try {
       const score=parseDecimal((document.querySelector<HTMLInputElement>('#q-score')!).value);
@@ -76,5 +100,22 @@
   }
   form.addEventListener('submit',(e)=>{e.preventDefault();run()});
   form.addEventListener('input',run);
+
+  document.querySelector('#q-share')?.addEventListener('click',async()=>{
+    const url=shareUrl();
+    try{
+      if(navigator.share){
+        await navigator.share({title:'Escala de notas',url});
+        shareStatus.textContent='Cálculo compartido.';
+      }else{
+        await navigator.clipboard.writeText(url);
+        shareStatus.textContent='Enlace copiado al portapapeles.';
+      }
+    }catch{
+      shareStatus.textContent='No se pudo compartir el enlace.';
+    }
+  });
+
+  readHash();
   run();
 </script>
