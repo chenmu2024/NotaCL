@@ -77,9 +77,15 @@ export function buildGradeScale(maxScore: number, config: GradeConfig = DEFAULT_
   }).reverse();
 }
 
+export function validateChileGrade(value: number, label = 'La nota'): number {
+  if (!Number.isFinite(value)) throw new Error(`${label} debe ser un número válido.`);
+  if (value < 1 || value > 7) throw new Error(`${label} debe estar entre 1,0 y 7,0.`);
+  return value;
+}
+
 export function average(values: number[]): number {
   if (!values.length) throw new Error('Agrega al menos una nota.');
-  if (values.some((v) => !Number.isFinite(v))) throw new Error('Todas las notas deben ser números válidos.');
+  values.forEach((value, index) => validateChileGrade(value, `La nota ${index + 1}`));
   return values.reduce((sum, value) => sum + value, 0) / values.length;
 }
 
@@ -87,8 +93,9 @@ export type WeightedItem = { grade: number; weight: number };
 
 export function weightedAverage(items: WeightedItem[]): { average: number; totalWeight: number } {
   if (!items.length) throw new Error('Agrega al menos una nota.');
-  for (const item of items) {
-    if (!Number.isFinite(item.grade) || !Number.isFinite(item.weight)) throw new Error('Revisa las notas y porcentajes.');
+  for (const [index, item] of items.entries()) {
+    validateChileGrade(item.grade, `La nota ${index + 1}`);
+    if (!Number.isFinite(item.weight)) throw new Error('Revisa los porcentajes.');
     if (item.weight < 0) throw new Error('Los porcentajes no pueden ser negativos.');
   }
   const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
@@ -110,6 +117,8 @@ export function requiredGrade(params: {
 }): number {
   const { currentAverage, completedWeight, finalWeight, targetGrade } = params;
   if (![currentAverage, completedWeight, finalWeight, targetGrade].every(Number.isFinite)) throw new Error('Completa todos los campos con números válidos.');
+  validateChileGrade(currentAverage, 'El promedio actual');
+  validateChileGrade(targetGrade, 'La nota objetivo');
   if (completedWeight < 0 || finalWeight <= 0) throw new Error('Los porcentajes deben ser positivos.');
   const total = completedWeight + finalWeight;
   if (Math.abs(total - 100) > 0.11) throw new Error('El porcentaje completado más el examen debe sumar 100%.');
@@ -125,6 +134,8 @@ export function projectedFinalGrade(params: {
 }): number {
   const { currentAverage, completedWeight, finalGrade, finalWeight } = params;
   if (![currentAverage, completedWeight, finalGrade, finalWeight].every(Number.isFinite)) throw new Error('Completa todos los campos con números válidos.');
+  validateChileGrade(currentAverage, 'El promedio actual');
+  validateChileGrade(finalGrade, 'La nota del examen');
   if (completedWeight < 0 || finalWeight < 0) throw new Error('Los porcentajes no pueden ser negativos.');
   const total = completedWeight + finalWeight;
   if (Math.abs(total - 100) > 0.11) throw new Error('El porcentaje completado más el examen debe sumar 100%.');
