@@ -4,6 +4,7 @@ import {
   average,
   buildGradeScale,
   parseDecimal,
+  projectedFinalGrade,
   requiredGrade,
   roundHalfUp,
   scoreToGrade,
@@ -85,5 +86,10 @@ describe('required grade', () => {
 
   it('rejects incomplete weight totals', () => {
     expect(() => requiredGrade({ currentAverage: 5, completedWeight: 60, finalWeight: 30, targetGrade: 5.4 })).toThrow();
+  });
+
+  it('projects final grade scenarios with the same weights', () => {
+    expect(projectedFinalGrade({ currentAverage: 5, completedWeight: 70, finalGrade: 4, finalWeight: 30 })).toBeCloseTo(4.7);
+    expect(projectedFinalGrade({ currentAverage: 5, completedWeight: 70, finalGrade: 6, finalWeight: 30 })).toBeCloseTo(5.3);
   });
 });
