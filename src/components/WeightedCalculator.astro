@@ -43,16 +43,25 @@
   const list=document.querySelector<HTMLElement>('#w-list')!;
   let items=[['6,0','20'],['5,5','30'],['4,8','50']];
 
+  function escapeHTML(value: unknown){
+    return String(value)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#039;');
+  }
+
   function draw(){
     list.innerHTML=items.map((row,i)=>`
       <div class="row-editor">
         <div class="field" style="margin:0">
           <label for="w-grade-${i}">Nota ${i+1}</label>
-          <input class="input w-grade" id="w-grade-${i}" data-i="${i}" value="${row[0]}" inputmode="decimal">
+          <input class="input w-grade" id="w-grade-${i}" data-i="${i}" value="${escapeHTML(row[0])}" inputmode="decimal">
         </div>
         <div class="field" style="margin:0">
           <label for="w-weight-${i}">Peso (%)</label>
-          <input class="input w-weight" id="w-weight-${i}" data-i="${i}" value="${row[1]}" inputmode="decimal">
+          <input class="input w-weight" id="w-weight-${i}" data-i="${i}" value="${escapeHTML(row[1])}" inputmode="decimal">
         </div>
         <button class="icon-btn" type="button" data-remove="${i}" aria-label="Eliminar evaluación ${i+1}">Eliminar</button>
       </div>`).join('');
