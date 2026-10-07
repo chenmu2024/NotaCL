@@ -13,7 +13,8 @@
 |---|---|---|
 | `/` | general grade calculator | `calculador de notas` 90,500 / KD39; `calculadora de notas` 60,500 / KD34; `calcular nota` 22,200 / KD30 |
 | `/generador-de-notas/` | generate a full grading scale/table | `generador de notas` 90,500 / KD23; `tabla generadora de notas` 1,600 / KD26; `generador de escala` 1,300 / KD32; `pauta de evaluacion` 1,000 / KD21 |
-| `/escala-de-notas/` | convert score to grade and inspect scale | `escala de notas` 165,000 / KD33 / CPC 0.20; `escala notas` 12,100 / KD23; typo `escalada de notas` 8,100 / KD24; `escala de notas chile` 1,000 / KD31 |
+| `/escala-de-notas/` | convert score to grade and inspect configurable scale | `escala de notas` 165,000 / KD33 / CPC 0.20; `escala notas` 12,100 / KD23; typo `escalada de notas` 8,100 / KD24; `escala de notas chile` 1,000 / KD31 |
+| `/escala-de-notas/60/` | fixed 60% exigency scale/table | `escala de notas al 60` 27,100 / KD32; `tabla de notas al 60` 3,600 / KD27; `escala al 60` 1,000 / KD21 |
 | `/promedio-de-notas/` | simple arithmetic grade average | `promedio de notas` 49,500 / KD41; `calcular promedio` 22,200 / KD40; `como sacar promedio` 8,100 / KD24; `promedio notas` 6,600 / KD36 |
 | `/notas-con-porcentaje/` | weighted grades/percentages | `porcentaje de notas` 22,200 / KD37; `notas con porcentaje` 18,100 / KD29; `porcentaje notas` 18,100 / KD29; `nota con porcentajes` 18,100 / KD31; `calcular porcentaje nota` 12,100 / KD30; `calcula notas con porcentaje` 5,400 / KD28; `calcular promedio con porcentaje` 1,000 / KD17 |
 | `/que-nota-necesito/` | reverse-calculate required future grade | `que nota necesito` 1,900 / KD27; related exam calculator variants are secondary only |
@@ -23,8 +24,7 @@
 Do not ship as separate indexable routes until Chile SERP overlap/page-type review justifies separation:
 - `/tabla-de-notas/` — keyword 49,500 / KD31
 - `/puntaje-a-nota/` — cluster led by `puntaje nota` 4,400 / KD24
-- `/escala-de-notas/60/` — `escala de notas al 60` 27,100 / KD32; `tabla de notas al 60` 3,600 / KD27
-- `/escala-de-notas/50/` — 260 / KD14
+ - `/escala-de-notas/50/` — 260 / KD14
 
 ## Special handling
 
