@@ -1,3 +1,11 @@
+---
+import { formatNumber, projectedFinalGrade, requiredGrade, roundHalfUp } from '../lib/calculators/core';
+const initialRequired=requiredGrade({currentAverage:5,completedWeight:70,finalWeight:30,targetGrade:5.4});
+const initialScenarios=[4,5,6,7].map(exam=>({
+  exam,
+  projected:projectedFinalGrade({currentAverage:5,completedWeight:70,finalGrade:exam,finalWeight:30})
+}));
+---
 <div class="tool-shell">
   <div class="tool-head">
     <div>
@@ -35,22 +43,22 @@
     <div class="tool-panel result-panel">
       <div class="result-card" aria-live="polite">
         <div class="result-label">Necesitas</div>
-        <div class="result-value" id="r-result">—</div>
+        <div class="result-value" id="r-result">{formatNumber(roundHalfUp(initialRequired,1),1)}</div>
         <div class="result-meta result-meta-three">
           <div class="result-stat">
             <span class="result-stat-label">Objetivo</span>
-            <strong id="r-target-summary">—</strong>
+            <strong id="r-target-summary">5,4</strong>
           </div>
           <div class="result-stat">
             <span class="result-stat-label">Exacto</span>
-            <strong id="r-exact">—</strong>
+            <strong id="r-exact">{formatNumber(initialRequired,3)}</strong>
           </div>
           <div class="result-stat">
             <span class="result-stat-label">Factibilidad</span>
-            <strong id="r-feasibility">—</strong>
+            <strong id="r-feasibility">Alcanzable</strong>
           </div>
         </div>
-        <p id="r-message" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem">Completa los datos.</p>
+        <p id="r-message" style="margin:16px 0 0;color:#b9c5d9;font-size:.88rem">Nota estimada necesaria en la evaluación final.</p>
       </div>
       <p id="r-error" class="muted"></p>
     </div>
@@ -67,7 +75,9 @@
     <div class="table-wrap">
       <table class="data-table">
         <thead><tr><th>Nota examen</th><th>Nota final proyectada</th></tr></thead>
-        <tbody id="r-scenarios"></tbody>
+        <tbody id="r-scenarios">
+          {initialScenarios.map(row=><tr><td>{formatNumber(row.exam,1)}</td><td><strong>{formatNumber(roundHalfUp(row.projected,2),2)}</strong></td></tr>)}
+        </tbody>
       </table>
     </div>
   </div>
