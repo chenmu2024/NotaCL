@@ -1,4 +1,4 @@
-import { isPreviewHost } from '../functions/_middleware.js';
+import { isPreviewHost, needsTrailingSlash } from '../functions/_middleware.js';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
@@ -94,6 +94,9 @@ if (!existsSync(dist)) {
 
 if (!isPreviewHost('notacl.pages.dev') || !isPreviewHost('preview.notacl.pages.dev') || isPreviewHost('notacl.cl')) {
   fail('Cloudflare preview-host middleware classification is incorrect');
+}
+if (!needsTrailingSlash('/escala-de-notas') || needsTrailingSlash('/escala-de-notas/') || needsTrailingSlash('/robots.txt') || needsTrailingSlash('/')) {
+  fail('Cloudflare trailing-slash middleware classification is incorrect');
 }
 
 const titles = new Map();
