@@ -26,7 +26,10 @@
         <label for="r-target">Nota final deseada</label>
         <input class="input" id="r-target" value="5,4" inputmode="decimal" />
       </div>
-      <button class="btn btn-primary" type="submit">Calcular nota necesaria</button>
+      <div class="actions">
+        <button class="btn btn-primary" type="submit">Calcular nota necesaria</button>
+        <button class="btn btn-ghost" type="button" id="r-reset">Restablecer</button>
+      </div>
     </form>
 
     <div class="tool-panel result-panel">
@@ -116,5 +119,12 @@
 
   document.querySelector('#r-form')?.addEventListener('submit',e=>{e.preventDefault();calc()});
   document.querySelector('#r-form')?.addEventListener('input',calc);
+  document.querySelector('#r-reset')?.addEventListener('click',()=>{
+    (document.querySelector<HTMLInputElement>('#r-current')!).value='5,0';
+    (document.querySelector<HTMLInputElement>('#r-completed')!).value='70';
+    (document.querySelector<HTMLInputElement>('#r-finalweight')!).value='30';
+    (document.querySelector<HTMLInputElement>('#r-target')!).value='5,4';
+    calc();
+  });
   calc();
 </script>
