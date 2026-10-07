@@ -175,8 +175,12 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
 
   document.querySelector('#g-copy')?.addEventListener('click',async()=>{
     if(!currentRows.length) return;
-    await navigator.clipboard.writeText(csvText());
-    actionStatus.textContent='CSV copiado al portapapeles.';
+    try{
+      await navigator.clipboard.writeText(csvText());
+      actionStatus.textContent='CSV copiado al portapapeles.';
+    }catch{
+      actionStatus.textContent='No se pudo copiar automáticamente. Usa “Descargar CSV” como alternativa.';
+    }
   });
 
   document.querySelector('#g-reset')?.addEventListener('click',()=>{
