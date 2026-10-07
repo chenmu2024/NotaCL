@@ -97,9 +97,11 @@ export function weightedAverage(items: WeightedItem[]): { average: number; total
     validateChileGrade(item.grade, `La nota ${index + 1}`);
     if (!Number.isFinite(item.weight)) throw new Error('Revisa los porcentajes.');
     if (item.weight < 0) throw new Error('Los porcentajes no pueden ser negativos.');
+    if (item.weight > 100) throw new Error('Un porcentaje individual no puede superar 100%.');
   }
   const totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
   if (totalWeight <= 0) throw new Error('El porcentaje total debe ser mayor que 0.');
+  if (totalWeight > 100.11) throw new Error('La suma de porcentajes no puede superar 100%.');
   const total = items.reduce((sum, item) => sum + item.grade * item.weight, 0);
   return { average: total / totalWeight, totalWeight, contribution: total / 100 };
 }
