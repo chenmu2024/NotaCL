@@ -19,13 +19,14 @@
       <div class="saved-box">
         <div class="field">
           <label for="avg-subject">Guardar como materia</label>
-          <input class="input" id="avg-subject" placeholder="Ej. Matemáticas" />
+          <input class="input" id="avg-subject" placeholder="Ej. Matemáticas" maxlength="80" />
           <small>Se guarda únicamente en este dispositivo.</small>
         </div>
         <div class="actions">
           <button class="btn btn-secondary" id="avg-save" type="button">Guardar materia</button>
           <button class="btn btn-ghost" id="avg-clear-all" type="button">Borrar guardadas</button>
         </div>
+        <p id="avg-storage-status" class="muted" aria-live="polite"></p>
         <div id="avg-saved" class="saved-items" aria-live="polite"></div>
       </div>
     </form>
@@ -60,6 +61,7 @@
   const range=document.querySelector<HTMLElement>('#avg-range')!;
   const err=document.querySelector<HTMLElement>('#avg-error')!;
   const key='notacl.saved.subjects';
+  const storageStatus=document.querySelector<HTMLElement>('#avg-storage-status')!;
   let values=['5,5','6,2','4,8','6,0'];
 
   function escapeHTML(value: unknown){
@@ -113,11 +115,23 @@
   }
 
   function saved(){
-    return parseSavedSubjects(localStorage.getItem(key));
+    try{
+      return parseSavedSubjects(localStorage.getItem(key));
+    }catch{
+      storageStatus.textContent='El almacenamiento local no está disponible en este navegador.';
+      return [];
+    }
   }
 
   function persist(rows: ReturnType<typeof parseSavedSubjects>){
-    localStorage.setItem(key,JSON.stringify(rows));
+    try{
+      localStorage.setItem(key,JSON.stringify(rows));
+      storageStatus.textContent='Guardado en este dispositivo.';
+      return true;
+    }catch{
+      storageStatus.textContent='No se pudo guardar en este dispositivo. El cálculo sigue funcionando normalmente.';
+      return false;
+    }
   }
 
   function renderSaved(){
@@ -149,12 +163,15 @@
     box.querySelectorAll<HTMLButtonElement>('[data-delete]').forEach(button=>button.addEventListener('click',()=>{
       const rows=saved();
       rows.splice(Number(button.dataset.delete),1);
-      persist(rows);
-      renderSaved();
+      if(persist(rows)) renderSaved();
     }));
   }
 
   document.querySelector('#avg-add')?.addEventListener('click',()=>{
+    if(values.length>=200){
+      storageStatus.textContent='Puedes trabajar con hasta 200 notas por materia.';
+      return;
+    }
     values.push('');
     renderRows();
   });
@@ -171,8 +188,7 @@
 
     const rows=saved();
     const record={subject,average:a,values:[...values],updatedAt:new Date().toISOString()};
-    persist(upsertSavedSubject(rows,record));
-    renderSaved();
+    if(persist(upsertSavedSubject(rows,record))) renderSaved();
   });
 
   document.querySelector('#avg-reset')?.addEventListener('click',()=>{
@@ -185,8 +201,13 @@
   document.querySelector('#avg-clear-all')?.addEventListener('click',()=>{
     if(!saved().length) return;
     if(!window.confirm('¿Borrar todas las materias guardadas en este dispositivo?')) return;
-    localStorage.removeItem(key);
-    renderSaved();
+    try{
+      localStorage.removeItem(key);
+      storageStatus.textContent='Materias guardadas eliminadas.';
+      renderSaved();
+    }catch{
+      storageStatus.textContent='No se pudo modificar el almacenamiento local de este navegador.';
+    }
   });
 
   renderRows();
