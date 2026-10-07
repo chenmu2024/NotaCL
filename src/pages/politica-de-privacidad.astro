@@ -2,10 +2,27 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 const title='Política de Privacidad | NotaCL';
-const description='Política de privacidad de NotaCL: cálculos locales, almacenamiento opcional en el dispositivo y futura analítica/publicidad.';
+const description='Consulta cómo NotaCL trata los cálculos locales, el almacenamiento opcional en tu dispositivo y cualquier futura incorporación de analítica o publicidad.';
 ---
 <BaseLayout {title} {description} path="/politica-de-privacidad/">
 <Breadcrumbs items={[{label:'Política de privacidad'}]} />
-<section class="hero"><div class="container reading"><h1>Política de Privacidad</h1><p class="lead">La arquitectura base de NotaCL minimiza la recopilación de datos.</p></div></section>
-<section class="section"><div class="container reading prose"><h2>Cálculos y almacenamiento local</h2><p>Los cálculos se realizan en tu navegador. Si guardas una materia, la información se conserva en el almacenamiento local de ese dispositivo y puedes eliminarla desde la herramienta.</p><h2>Analítica y publicidad</h2><p>La versión de desarrollo no incorpora una plataforma publicitaria. Si se activan analítica o anuncios en producción, esta política y el sistema de consentimiento se actualizarán antes de su uso, indicando los proveedores aplicables.</p><h2>Contacto</h2><p>El canal público de contacto definitivo se publicará antes del lanzamiento comercial.</p></div></section>
+<section class="hero"><div class="container reading"><p class="eyebrow">Privacidad</p><h1>Política de Privacidad</h1><p class="lead">NotaCL está diseñado para que puedas usar las calculadoras sin crear una cuenta.</p></div></section>
+<section class="section"><div class="container reading prose">
+  <h2>Datos de las calculadoras</h2>
+  <p>Los cálculos principales se realizan en tu navegador. NotaCL no necesita que envíes tus notas a una base de datos de la aplicación para obtener un resultado.</p>
+
+  <h2>Almacenamiento local</h2>
+  <p>Si decides guardar una materia, se usa <code>localStorage</code> del navegador. Esos datos permanecen en este dispositivo hasta que los elimines desde la herramienta o desde la configuración de almacenamiento del navegador.</p>
+
+  <h2>Analítica y publicidad</h2>
+  <p>Si NotaCL incorpora servicios externos de analítica o publicidad, esta política y, cuando corresponda, el mecanismo de consentimiento se actualizarán antes de activar esas funciones. La página de <a href="/cookies/">cookies y almacenamiento local</a> detallará los proveedores y finalidades aplicables.</p>
+
+  <h2>Infraestructura</h2>
+  <p>Como cualquier sitio web, el proveedor de alojamiento y red puede procesar datos técnicos necesarios para entregar la página y proteger el servicio. NotaCL no utiliza esos datos para calcular tus notas.</p>
+
+  <h2>Contacto</h2>
+  <p>Para preguntas o reportes relacionados con esta política, utiliza el <a href="/contacto/">canal de contacto</a> publicado en el sitio.</p>
+
+  <p class="muted">Última revisión: 7 de octubre de 2026.</p>
+</div></section>
 </BaseLayout>
