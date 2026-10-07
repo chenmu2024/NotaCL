@@ -309,7 +309,7 @@ main{min-height:70vh}
 .home-product-copy{max-width:560px}
 .home-overline{margin:0 0 18px;color:#ffb293;font-size:.76rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
 .home-overline.dark{color:var(--link)}
-.home-overline.light{color:#ffe0d2}
+.home-overline.light{color:var(--ink)}
 .home-product-copy h1{margin:0;color:#fff;font-size:clamp(3.3rem,6.8vw,5.9rem);line-height:.91;letter-spacing:-.065em;font-weight:820}
 .home-product-lead{margin:26px 0 0;color:#c4cde0;font-size:1.12rem;line-height:1.7;max-width:540px}
 .home-proof-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:34px 0 28px;border-top:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.14)}
@@ -346,14 +346,14 @@ main{min-height:70vh}
 .home-result-stats strong{display:block;margin-top:5px;color:#fff;font-size:1rem}
 .home-result-stats strong[data-state="good"]{color:#7de0b7}
 .home-result-stats strong[data-state="bad"]{color:#ff9b90}
-.home-calc-footer{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:16px;color:#7a8497;font-size:.78rem}
+.home-calc-footer{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:16px;color:var(--muted);font-size:.78rem}
 .home-calc-footer a{color:#9b3d1f;font-weight:760;text-decoration:none}
 
 /* tool discovery */
 .home-tools-section{padding:96px 0;background:var(--canvas)}
 .home-section-head{display:grid;grid-template-columns:1fr minmax(300px,.65fr);gap:64px;align-items:end;margin-bottom:36px}
-.home-section-index{display:block;margin-bottom:14px;color:#b0b6c2;font-size:.78rem;font-weight:820;letter-spacing:.12em}
-.home-section-index.light{color:#68270f}
+.home-section-index{display:block;margin-bottom:14px;color:var(--muted);font-size:.78rem;font-weight:820;letter-spacing:.12em}
+.home-section-index.light{color:var(--ink)}
 .home-section-head h2,.home-method-copy h2,.home-trust-grid h2{margin:0;color:var(--ink);font-size:clamp(2.1rem,4vw,3.35rem);line-height:1.0;letter-spacing:-.05em}
 .home-section-head>p{margin:0;color:#667085;font-size:1rem;line-height:1.7}
 .home-page .tool-cards{grid-template-columns:repeat(12,minmax(0,1fr));gap:18px}
@@ -364,7 +364,7 @@ main{min-height:70vh}
 .home-page .tool-card.featured .tool-card-icon{background:var(--ink);color:#fff}
 .home-page .tool-card.accent .tool-card-icon{background:var(--primary-soft);color:#9b3d1f}
 .home-page .tool-card-icon{width:52px;height:52px;border-radius:12px;background:#f0f1f3;color:var(--ink)}
-.home-page .tool-card.featured .tool-card-kicker,.home-page .tool-card.featured p,.home-page .tool-card.featured .tool-card-arrow{color:#6d2d15}
+.home-page .tool-card.featured .tool-card-kicker,.home-page .tool-card.featured p,.home-page .tool-card.featured .tool-card-arrow{color:var(--ink)}
 .home-page .tool-card.featured h3{color:var(--ink)}
 .home-page .tool-card h3{font-size:1.35rem}
 .home-page .tool-card p{font-size:.95rem;max-width:520px}
@@ -376,12 +376,12 @@ main{min-height:70vh}
 .home-inline-link{display:inline-flex;margin-top:8px;color:#9b3d1f;font-weight:760;text-decoration:none}
 .home-method-board{border:1px solid #d6dbe4;border-radius:24px;background:var(--surface-2);padding:30px}
 .home-method-board-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding-bottom:22px;border-bottom:1px solid #cfd6e1}
-.home-method-board-head span{color:#6f7b90;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.home-method-board-head span{color:var(--muted);font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
 .home-method-board-head strong{color:var(--ink);font-size:1.15rem}
 .home-method-board dl{margin:0}
 .home-method-board dl>div{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0;border-bottom:1px solid #d5dbe5}
 .home-method-board dl>div:last-child{border-bottom:0}
-.home-method-board dt{color:#657187;font-size:.88rem}
+.home-method-board dt{color:var(--muted);font-size:.88rem}
 .home-method-board dd{margin:0;color:var(--ink);font-size:1.15rem;font-weight:820}
 
 /* trust */

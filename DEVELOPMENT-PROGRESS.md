@@ -23,6 +23,9 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 - Build SEO/GEO audit passes without a production origin, with a pages.dev preview origin, and with the production-like test origin `https://notacl.example`.
 - npm dependency audit: 0 known vulnerabilities at verification time.
 - Headless Microsoft Edge browser checks: average and weighted precision/truncation; local save/reload/load; invalid input; weighted fragment share/restore; required-grade minimum/impossible/zero-weight paths; generator CSV and invalid exigency; fixed-60% protection; mobile menu; keyboard skip link; print-media layout.
+- Additional Edge checks pass for clearing/corrupt/blocked local storage, native-share failure, clipboard failure and manual fragment copying.
+- Local mobile Lighthouse: performance 100, accessibility 100, best practices 100; CLS 0 and TBT 0 ms. Preview SEO score is reduced intentionally by noindex/blocked crawling. This is lab evidence, not field INP/CWV certification.
+- Fixed measured homepage small-text contrast failures using existing design tokens and removed the logo accessible-name override that disagreed with visible text.
 - 40 responsive checks: 8 main routes at 360, 390, 768, 1280 and 1536px, without page-level horizontal overflow.
 - Screenshots reviewed for the homepage, weighted calculator and generator print layout. This is local browser evidence, not final deployed-host evidence or paginated PDF certification.
 
