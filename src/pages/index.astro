@@ -1,80 +1,82 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import QuickGradeCalculator from '../components/QuickGradeCalculator.astro';
+import HomeQuickCalculator from '../components/HomeQuickCalculator.astro';
 import ToolCards from '../components/ToolCards.astro';
 const title='Calculadora de Notas Chile | NotaCL';
 const description='Calcula notas, escalas, promedios y porcentajes en Chile. Herramientas gratuitas con parámetros configurables y resultados claros.';
 const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Calculadora de Notas Chile',applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL',description };
 ---
 <BaseLayout {title} {description} path="/" {schema}>
-  <section class="home-hero">
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow">Herramientas de notas para Chile</p>
-        <h1>Calculadora de Notas Chile</h1>\n        <p class="hero-tagline">Sin adivinar la fórmula.</p>
-        <p class="lead">Convierte puntajes, calcula promedios y ponderaciones, o descubre qué nota necesitas. Todo en una escala configurable de 1,0 a 7,0 y sin crear una cuenta.</p>
-        <div class="hero-chips" aria-label="Características principales">
-          <span class="hero-chip">Escala 1,0–7,0</span>
-          <span class="hero-chip">Exigencia configurable</span>
-          <span class="hero-chip">Sin registro</span>
-          <span class="hero-chip">Funciona en tu navegador</span>
+  <section class="home-product-hero">
+    <div class="container home-product-grid">
+      <div class="home-product-copy">
+        <p class="home-overline">Herramientas de notas para Chile</p>
+        <h1>Calculadora de Notas Chile</h1>
+        <p class="home-product-lead">Calcula tu nota, promedio o ponderación con parámetros claros y editables. Sin registro, sin fórmulas escondidas y sin perder tiempo en planillas.</p>
+        <div class="home-proof-row">
+          <div><strong>1,0–7,0</strong><span>Escala inicial</span></div>
+          <div><strong>60%</strong><span>Exigencia editable</span></div>
+          <div><strong>0 cuentas</strong><span>Cálculo local</span></div>
         </div>
+        <a class="home-text-link" href="#herramientas">Ver todas las herramientas ↓</a>
       </div>
-      <aside class="hero-sidecard" aria-label="Cómo usar NotaCL">
-        <span class="side-kicker">En menos de un minuto</span>
-        <h2>Del puntaje al resultado, sin vueltas.</h2>
-        <div class="hero-steps">
-          <div class="hero-step"><span class="hero-step-number">1</span><div><strong>Ingresa tus datos</strong><span>Puntaje, máximo y exigencia.</span></div></div>
-          <div class="hero-step"><span class="hero-step-number">2</span><div><strong>Ajusta la escala</strong><span>Usa los parámetros reales de tu evaluación.</span></div></div>
-          <div class="hero-step"><span class="hero-step-number">3</span><div><strong>Obtén tu nota</strong><span>Resultado claro, porcentaje y estado.</span></div></div>
-        </div>
-      </aside>
+      <HomeQuickCalculator />
     </div>
   </section>
 
-  <div class="container"><QuickGradeCalculator /></div>
-
-  <section class="section-band">
+  <section class="home-tools-section" id="herramientas">
     <div class="container">
-      <div class="section-intro">
-        <div><p class="eyebrow">Más herramientas</p><h2>Elige la calculadora que necesitas</h2></div>
-        <p>Cada tarea tiene su propia herramienta para evitar fórmulas confusas y páginas duplicadas.</p>
+      <div class="home-section-head">
+        <div>
+          <span class="home-section-index">01</span>
+          <p class="home-overline dark">Herramientas</p>
+          <h2>Una calculadora para cada tarea.</h2>
+        </div>
+        <p>No mezclamos todas las fórmulas en una sola pantalla. Cada intención tiene una herramienta clara y una URL propia.</p>
       </div>
       <ToolCards />
     </div>
   </section>
 
-  <section class="section-soft">
-    <div class="container explain-grid">
-      <div>
-        <p class="eyebrow">Metodología transparente</p>
-        <h2>Sabes qué fórmula estamos usando.</h2>
-        <p>NotaCL parte de una escala configurable. Con los valores iniciales, la nota mínima es 1,0, la aprobación es 4,0, la máxima es 7,0 y la exigencia es 60%. Bajo el umbral se aplica un tramo lineal entre 1,0 y 4,0; sobre el umbral, otro tramo entre 4,0 y 7,0.</p>
-        <p>La fórmula, la exigencia y el redondeo pueden variar por establecimiento, profesor o institución. Por eso los parámetros principales siempre quedan visibles y editables.</p>
-        <p><a href="/escala-de-notas/">Ver cómo funciona la escala de notas →</a></p>
+  <section class="home-method-section">
+    <div class="container home-method-grid">
+      <div class="home-method-copy">
+        <span class="home-section-index">02</span>
+        <p class="home-overline dark">Metodología</p>
+        <h2>La fórmula está a la vista.</h2>
+        <p>Con los valores iniciales, la nota mínima es 1,0, la aprobación es 4,0, la máxima es 7,0 y la exigencia es 60%. NotaCL usa dos tramos lineales: uno hasta la nota de aprobación y otro desde la aprobación hasta la nota máxima.</p>
+        <p>Tu establecimiento puede usar otra exigencia o regla de redondeo. Por eso los parámetros están visibles y se pueden ajustar antes de calcular.</p>
+        <a class="home-inline-link" href="/escala-de-notas/">Ver la escala completa →</a>
       </div>
-      <aside class="formula-card">
-        <span class="formula-kicker">Configuración inicial</span>
-        <h3>Una escala clara y editable</h3>
-        <div class="formula-line"><span>Nota mínima</span><strong>1,0</strong></div>
-        <div class="formula-line"><span>Nota de aprobación</span><strong>4,0</strong></div>
-        <div class="formula-line"><span>Nota máxima</span><strong>7,0</strong></div>
-        <div class="formula-line"><span>Exigencia</span><strong>60%</strong></div>
-      </aside>
+      <div class="home-method-board" aria-label="Configuración inicial">
+        <div class="home-method-board-head">
+          <span>Configuración inicial</span>
+          <strong>Escala editable</strong>
+        </div>
+        <dl>
+          <div><dt>Nota mínima</dt><dd>1,0</dd></div>
+          <div><dt>Nota de aprobación</dt><dd>4,0</dd></div>
+          <div><dt>Nota máxima</dt><dd>7,0</dd></div>
+          <div><dt>Exigencia</dt><dd>60%</dd></div>
+        </dl>
+      </div>
     </div>
   </section>
 
-  <section class="section-band">
-    <div class="container trust-strip">
+  <section class="home-trust-section">
+    <div class="container home-trust-grid">
       <div>
-        <p class="eyebrow">Privacidad simple</p>
-        <h2>Tu cálculo ocurre en este dispositivo.</h2>
-        <p>No necesitas una cuenta. Cuando una herramienta permite guardar una materia, los datos se mantienen en el almacenamiento local del navegador hasta que decidas borrarlos.</p>
+        <span class="home-section-index light">03</span>
+        <p class="home-overline light">Privacidad simple</p>
+        <h2>Calcula sin entregar tus datos.</h2>
       </div>
-      <div class="trust-points">
-        <div class="trust-point"><strong>Sin registro</strong><span>Entra, calcula y sigue.</span></div>
-        <div class="trust-point"><strong>Sin base de datos</strong><span>Los cálculos principales son locales.</span></div>
-        <div class="trust-point"><strong>Parámetros visibles</strong><span>No escondemos la escala usada.</span></div>
+      <div class="home-trust-copy">
+        <p>Los cálculos principales ocurren en tu navegador. Si una herramienta permite guardar una materia, se usa almacenamiento local de este dispositivo y puedes borrarlo cuando quieras.</p>
+        <div class="home-trust-list">
+          <span>Sin registro</span>
+          <span>Sin base de datos para tus notas</span>
+          <span>Parámetros visibles</span>
+        </div>
       </div>
     </div>
   </section>
