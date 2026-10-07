@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "vitest run",
-    "audit": "node scripts/audit-build.mjs"
+    "audit": "node scripts/audit-build.mjs",
+    "audit:production": "node scripts/audit-production.mjs"
   },
   "dependencies": {
     "astro": "^5.0.0"
