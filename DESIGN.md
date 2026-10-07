@@ -31,11 +31,12 @@ The rest of the site alternates between warm off-white, pure white and ink secti
 | ink | #0b1736 | Hero/result/footer |
 | ink-soft | #16264a | Secondary dark surface |
 | body | #39445a | Body copy |
-| muted | #778197 | Secondary text |
+| muted | #5f6b7a | Secondary text with AA-safe contrast on light surfaces |
 | hairline | #d8dde6 | Borders/dividers |
 | primary | #ff7a45 | Primary action / warm signal |
 | primary-hover | #e76534 | Primary hover |
 | primary-soft | #fff0e8 | Soft warm surface |
+| link | #8d351b | Text links on light surfaces |
 | cool-accent | #9ec5ff | Secondary informational accent |
 | success | #16815e | Pass state |
 | success-soft | #e4f6ef | Pass surface |
