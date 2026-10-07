@@ -12,3 +12,6 @@ This project follows `chenmu2024/Website-Starter-Standard`.
 8. Public SEO copy must be in crawlable static HTML. JavaScript enhances calculation only.
 9. No backend/database/account/paid API without explicit owner approval.
 10. Before launch run `npm run test`, `npm run check`, `npm run build`, responsive QA, route/metadata/schema checks, and production verification.
+
+11. Read `SOURCE-REGISTRY.md` before adding or changing institutional, admissions, NEM/PAES, university-specific or other time-sensitive factual claims.
+12. A changing external claim must have a source, checked date, refresh rule and failure fallback before its page is indexable.
