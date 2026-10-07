@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+const title='Política de Privacidad | NotaCL';
+const description='Política de privacidad de NotaCL: cálculos locales, almacenamiento opcional en el dispositivo y futura analítica/publicidad.';
+---
+<BaseLayout {title} {description} path="/politica-de-privacidad/">
+<Breadcrumbs items={[{label:'Política de privacidad'}]} />
+<section class="hero"><div class="container reading"><h1>Política de Privacidad</h1><p class="lead">La arquitectura base de NotaCL minimiza la recopilación de datos.</p></div></section>
+<section class="section"><div class="container reading prose"><h2>Cálculos y almacenamiento local</h2><p>Los cálculos se realizan en tu navegador. Si guardas una materia, la información se conserva en el almacenamiento local de ese dispositivo y puedes eliminarla desde la herramienta.</p><h2>Analítica y publicidad</h2><p>La versión de desarrollo no incorpora una plataforma publicitaria. Si se activan analítica o anuncios en producción, esta política y el sistema de consentimiento se actualizarán antes de su uso, indicando los proveedores aplicables.</p><h2>Contacto</h2><p>El canal público de contacto definitivo se publicará antes del lanzamiento comercial.</p></div></section>
+</BaseLayout>
