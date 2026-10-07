@@ -1,4 +1,4 @@
-import { isPreviewHost, needsTrailingSlash } from '../functions/_middleware.js';
+import { isPreviewHost, needsTrailingSlash, onRequest } from '../functions/_middleware.js';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
@@ -97,6 +97,27 @@ if (!isPreviewHost('notacl.pages.dev') || !isPreviewHost('preview.notacl.pages.d
 }
 if (!needsTrailingSlash('/escala-de-notas') || needsTrailingSlash('/escala-de-notas/') || needsTrailingSlash('/robots.txt') || needsTrailingSlash('/')) {
   fail('Cloudflare trailing-slash middleware classification is incorrect');
+}
+
+const previewResponse = await onRequest({
+  request: new Request('https://notacl.pages.dev/escala-de-notas/'),
+  next: async () => new Response('ok', { status: 200, headers: { 'Content-Type': 'text/html' } }),
+});
+if (previewResponse.headers.get('X-Robots-Tag') !== 'noindex, nofollow') fail('preview middleware must emit X-Robots-Tag noindex');
+if (previewResponse.headers.get('Cache-Control') !== 'no-store') fail('preview middleware must disable cache');
+
+const productionResponse = await onRequest({
+  request: new Request('https://notacl.cl/escala-de-notas/'),
+  next: async () => new Response('ok', { status: 200 }),
+});
+if (productionResponse.headers.has('X-Robots-Tag')) fail('production middleware must not emit preview noindex headers');
+
+const slashRedirect = await onRequest({
+  request: new Request('https://notacl.cl/escala-de-notas?x=1'),
+  next: async () => new Response('unexpected', { status: 200 }),
+});
+if (slashRedirect.status !== 308 || slashRedirect.headers.get('Location') !== 'https://notacl.cl/escala-de-notas/?x=1') {
+  fail('edge middleware must 308 extensionless routes to trailing-slash URLs while preserving query strings');
 }
 
 const titles = new Map();
