@@ -44,7 +44,7 @@ const baseSchema = [
   <link rel="manifest" href="/site.webmanifest" />
   {[...baseSchema, ...schemas].map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
 </head>
-<body>
+<body class:list={[path === '/' && 'home-page']}>
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="/" aria-label={`${SITE_NAME}, inicio`}>
