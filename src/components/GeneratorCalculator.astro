@@ -57,9 +57,10 @@ const { initialExigency = 60, lockExigency = false } = Astro.props;
 
       <div class="generator-summary" aria-live="polite">
         <div><span>Corte teórico</span><strong id="g-threshold">—</strong></div>
-        <div><span>Primer puntaje entero aprobado</span><strong id="g-count">—</strong></div>
+        <div><span>Primer puntaje con nota mostrada ≥ aprobación</span><strong id="g-count">—</strong></div>
         <div><span>Escala</span><strong id="g-range">—</strong></div>
       </div>
+      <p class="muted generator-status-note">El estado de la tabla compara la nota mostrada, después del redondeo elegido, con la nota de aprobación. Verifica la regla de tu establecimiento si estás justo en el límite.</p>
 
       <div class="actions">
         <button class="btn btn-primary" type="submit">Generar tabla</button>
