@@ -16,8 +16,10 @@ describe('saved subject storage', () => {
     expect(parseSavedSubjects(JSON.stringify([{ ...valid, values: [5.5] }]))).toEqual([]);
   });
 
-  it('keeps valid saved subjects', () => {
+  it('keeps valid saved subjects and rejects oversized payloads', () => {
     expect(parseSavedSubjects(JSON.stringify([valid]))).toEqual([valid]);
+    expect(parseSavedSubjects(JSON.stringify([{ ...valid, subject: 'x'.repeat(81) }]))).toEqual([]);
+    expect(parseSavedSubjects(JSON.stringify([{ ...valid, values: Array(201).fill('5,0') }]))).toEqual([]);
   });
 
   it('updates the same subject name instead of duplicating it', () => {
