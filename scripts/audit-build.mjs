@@ -194,6 +194,20 @@ for (const route of canonicalRoutes) {
     fail(`${route} is missing BreadcrumbList structured data in production-like output`);
   }
 
+  const rawToolChecks = {
+    '/': /id="hq-result">\s*[^—<][^<]*/i,
+    '/generador-de-notas/': /<tbody[^>]+id="g-body"[^>]*>[\s\S]*?<tr>/i,
+    '/escala-de-notas/': /id="q-result">\s*[^—<][^<]*/i,
+    '/escala-de-notas/60/': /<tbody[^>]+id="g-body"[^>]*>[\s\S]*?<tr>/i,
+    '/promedio-de-notas/': /id="avg-result">\s*[^—<][^<]*/i,
+    '/notas-con-porcentaje/': /id="w-result">\s*[^—<][^<]*/i,
+    '/que-nota-necesito/': /id="r-result">\s*[^—<][^<]*/i,
+  };
+  const rawToolCheck = rawToolChecks[route];
+  if (rawToolCheck && !rawToolCheck.test(html)) {
+    fail(`${route} does not expose its primary default tool output in raw HTML`);
+  }
+
   const hrefs = [...html.matchAll(/href="([^"]+)"/gi)].map(match => match[1]);
   for (const href of hrefs) {
     const target = normalizeInternalPath(href, route);
