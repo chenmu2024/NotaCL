@@ -8,6 +8,7 @@ const canonicalRoutes = [
   '/',
   '/generador-de-notas/',
   '/escala-de-notas/',
+  '/escala-de-notas/60/',
   '/promedio-de-notas/',
   '/notas-con-porcentaje/',
   '/que-nota-necesito/',
@@ -25,7 +26,6 @@ const canonicalRoutes = [
 const forbiddenRoutes = [
   '/tabla-de-notas/',
   '/puntaje-a-nota/',
-  '/escala-de-notas/60/',
   '/escala-de-notas/50/',
   '/mi-promedio/',
   '/sacar-promedio/',
@@ -127,7 +127,7 @@ for (const route of canonicalRoutes) {
   if (!schemaTypes.has('WebSite')) fail(`${route} is missing WebSite structured data`);
   if (!schemaTypes.has('Organization')) fail(`${route} is missing Organization structured data`);
 
-  if (['/','/generador-de-notas/','/escala-de-notas/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/'].includes(route) && !schemaTypes.has('WebApplication')) {
+  if (['/','/generador-de-notas/','/escala-de-notas/','/escala-de-notas/60/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/'].includes(route) && !schemaTypes.has('WebApplication')) {
     fail(`${route} is missing WebApplication structured data`);
   }
 
