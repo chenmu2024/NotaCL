@@ -1,0 +1,64 @@
+# NotaCL SERP Architecture Decisions
+
+Checked: 2026-10-07  
+Market: Chile / Spanish  
+Purpose: document the search-result evidence used to decide whether similar keywords deserve separate canonical pages. These are project architecture decisions, not Google ranking rules.
+
+## Decision summary
+
+| Intent pair | Observed result pattern | Decision |
+|---|---|---|
+| `escala de notas` vs `escala de notas al 60` | Generic query returns broad configurable calculators/guides; 60% query returns multiple dedicated 60%-specific tables/tools and institutional 60% documents | Keep generic `/escala-de-notas/` and ship specialized `/escala-de-notas/60/` |
+| `escala de notas` vs `tabla de notas` | “tabla de notas” results substantially overlap broad scale/generator content, including pages whose main product is the same score→grade table | Keep table inside `/escala-de-notas/`; do not ship `/tabla-de-notas/` |
+| `escala de notas` vs `puntaje a nota` | “puntaje a nota” results are dominated by pages explicitly titled/positioned as escala de notas / score-to-grade calculators | Keep score→grade conversion in `/escala-de-notas/`; do not ship `/puntaje-a-nota/` |
+| `generador de notas` vs generic scale | Search results include dedicated generator pages focused on producing the full table, while generic scale results include quick conversion and explanatory pages | Keep `/generador-de-notas/` separate from `/escala-de-notas/` |
+
+## Evidence snapshots
+
+### Generic escala de notas
+
+Representative results observed:
+- https://calculador.cl/guias/escala-de-notas-chile
+- https://calculika.com/cl/escala-de-notas/
+- https://calculanotas.cl/
+- https://notaclara.cl/
+
+The result set mixes configurable tools and explanatory scale pages.
+
+### Escala de notas al 60
+
+Representative results observed:
+- https://calculanotas.cl/escala-notas-60
+- https://minota.cl/blog/tabla-de-notas-al-60
+- https://escaladenotas.com/escala-de-notas-60-de-exigencia/
+- Mineduc-hosted school evaluation PDFs containing explicit 60%-exigency tables/rules
+
+This set has a materially stronger fixed-60% page type, supporting a specialized route with its own fixed configuration, reference table and approval-point examples.
+
+### Tabla de notas
+
+Representative results observed:
+- https://minota.cl/blog/escala-de-notas-chile-tabla-completa
+- https://calculanotas.cl/
+- https://notaclara.cl/guias/crear-tabla-de-notas-para-docentes/
+- https://calculanotas.cl/generador-de-notas
+
+The query does not show enough separation from escala/generator tasks to justify another canonical tool page at launch.
+
+### Puntaje a nota
+
+Representative results observed:
+- https://calculika.com/cl/escala-de-notas/
+- https://calculador.cl/escala-de-notas
+- https://notaexacta.com/
+
+These pages satisfy puntaje→nota inside their escala de notas product, so NotaCL keeps that conversion consolidated.
+
+## Recheck rule
+
+Re-run the comparison when:
+1. Search Console shows a candidate query with meaningful impressions but poor ranking/CTR on the current canonical page.
+2. A dedicated competitor page consistently occupies the result set for a candidate intent.
+3. The owner provides newer Semrush/SERP exports that materially change the evidence.
+
+Do not create a new indexable route merely because a synonym has measurable volume.
