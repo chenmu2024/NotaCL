@@ -30,7 +30,9 @@
 
 Canonical tags are not sufficient protection for duplicate preview hosts.
 
-This repository now includes `functions/_middleware.js`. On Cloudflare Pages it adds:
+This repository now includes `functions/_middleware.js`. It also normalizes extensionless routes to the project's trailing-slash URL policy with a 308 redirect, so `/escala-de-notas` resolves to `/escala-de-notas/`.
+
+On Cloudflare preview hosts it adds:
 
 - `X-Robots-Tag: noindex, nofollow`
 - `Cache-Control: no-store`
