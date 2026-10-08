@@ -1,5 +1,9 @@
 # NotaCL SERP Architecture Decisions
 
+## Current owner decision — 2026-10-08
+
+The owner explicitly requested opening the completed 60% page to search indexing. `/escala-de-notas/60/` is now approved for production indexing with a self-canonical and sitemap inclusion. This supersedes the historical indexation hold below. The full Google Chile Top10 comparison remains unverified and may inform later optimization; it no longer blocks publishing this existing page. Preview hosts and invalid/missing production origins remain noindex.
+
 Checked: 2026-10-07  
 Market: Chile / Spanish  
 Purpose: document the search-result evidence used to decide whether similar keywords deserve separate canonical pages. These are project architecture decisions, not Google ranking rules.

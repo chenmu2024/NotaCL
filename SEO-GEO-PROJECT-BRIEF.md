@@ -47,6 +47,7 @@ Do not create standalone “cómo calcular promedio”, “cómo calcular notas 
 
 ## Indexation policy
 
+- The owner explicitly approved `/escala-de-notas/60/` for production indexation on 2026-10-08. It has a self-canonical and is included in the production sitemap. The incomplete SERP comparison is a follow-up review, not a publication hold.
 - If `PUBLIC_SITE_URL` is missing: `noindex,nofollow` globally.
 - Production canonical origin comes only from `PUBLIC_SITE_URL` and must be the final `.cl` domain.
 - Sitemap includes only intentionally indexable canonical routes.
