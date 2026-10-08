@@ -18,14 +18,14 @@ const schema={ '@context':'https://schema.org','@type':'Article',headline:'Prome
 <p>Si una prueba vale 50% y otra 20%, las notas no deben tratarse como si pesaran igual. Multiplica cada nota por su porcentaje y usa la <a href="/notas-con-porcentaje/">calculadora de notas con porcentaje</a>.</p>
 <h2>El mismo conjunto puede dar otro resultado</h2>
 <p>Si 6,0 vale 20%, 5,5 vale 30% y 4,8 vale 50%, el promedio ponderado exacto es <strong>{formatNumber(weightedExample.average,2)}</strong>. La diferencia aparece porque la nota 4,8 tiene más peso que las otras.</p>
-<table class="data-table">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Comparación de promedios con desplazamiento horizontal"><table class="data-table">
   <caption class="sr-only">Comparación entre promedio simple y promedio ponderado.</caption>
   <thead><tr><th>Método</th><th>Resultado del ejemplo</th><th>Cuándo usarlo</th></tr></thead>
   <tbody>
     <tr><td>Promedio simple</td><td><strong>{formatNumber(simpleExample,3)}</strong></td><td>Todas las notas pesan igual</td></tr>
     <tr><td>Promedio ponderado</td><td><strong>{formatNumber(weightedExample.average,2)}</strong></td><td>Cada nota tiene un porcentaje</td></tr>
   </tbody>
-</table>
+</table></div>
 <p class="muted">Última revisión: 7 de octubre de 2026.</p>
 </div></section>
 </BaseLayout>
