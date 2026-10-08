@@ -21,12 +21,12 @@ Latest local development evidence: see `DEVELOPMENT-PROGRESS.md`. Deployed-host 
 - [x] Home calculator/result is the visual priority.
 - [x] Mobile navigation exists instead of simply hiding desktop links.
 - [ ] 360px / large mobile / tablet / desktop / wide desktop visually checked on current deployment.
-- [ ] Generator printed output visually checked from a real browser.
+- [x] Local Edge four-page A4 export visually checked; 101 rows and repeated headers verified. Deployed-browser print check remains pending.
 
 ## SEO / GEO
 - [x] Approved keyword set and source are documented.
 - [x] Intent-to-canonical-page map exists.
-- [x] `/escala-de-notas/60/` has been promoted only after live SERP/page-type review; decision is recorded.
+- [ ] Full Chile Google Top10 overlap gate reproduced. Existing 60% route has only representative SERP/page-type evidence; final indexation decision remains pending.
 - [x] Tabla and puntaje intents remain consolidated instead of creating duplicate routes.
 - [x] Unique title / description / single H1 are enforced by the build audit.
 - [x] Crawlable static primary content and internal links are present.

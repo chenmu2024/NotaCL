@@ -1,4 +1,5 @@
 ---
+import MethodologyNote from '../components/MethodologyNote.astro';
 import Faq from '../components/Faq.astro';
 const faqItems = [
   {
@@ -27,4 +28,5 @@ const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Ca
 <div class="container"><AverageCalculator /></div>
 <section class="section"><div class="container reading prose"><h2>Cómo sacar el promedio de notas</h2><p>Para un promedio simple, suma todas las notas y divide el total por la cantidad de notas.</p><div class="equation-card" aria-label="Fórmula del promedio simple"><span>Fórmula</span><strong>Promedio = (nota 1 + nota 2 + … + nota n) ÷ n</strong></div><p> Por ejemplo, 5,5 + 6,2 + 4,8 + 6,0 = 22,5; dividido por 4 da un resultado exacto de <strong>{formatNumber(exampleAverage,3)}</strong>.</p><h2>Resultado exacto y resultado mostrado</h2><p>El cálculo conserva el valor exacto y muestra una versión redondeada por separado. Así puedes distinguir la matemática del criterio de presentación que use tu institución. Revisa también <a href="/guias/redondeo-de-notas/">cómo funciona el redondeo</a> y la diferencia entre <a href="/guias/promedio-simple-vs-ponderado/">promedio simple y ponderado</a>.</p><Faq items={faqItems} /></div></section>
 <section class="section"><div class="container"><h2>Otras herramientas</h2><ToolCards /></div></section>
+<MethodologyNote method="El promedio simple suma las notas válidas y divide por su cantidad. Todas las evaluaciones tienen el mismo peso y el redondeo se aplica solo al mostrar el resultado." />
 </BaseLayout>

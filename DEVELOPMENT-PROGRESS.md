@@ -4,7 +4,8 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 
 ## Completed against the supplied Chile plan
 
-- Retained the existing 17-page Astro static site and approved URL ownership.
+- Retained the existing 17-page Astro static site and current URL ownership. Full conditional-route SERP certification is still pending.
+- Added visible, tool-specific methodology and review dates to all seven calculator routes, plus homepage FAQs. Build audits require both methodology/date and matching visible FAQ data.
 - Synchronized the quick scale converter and full table in both directions, including custom grade limits, precision, rounding, reset, shared links and same-document fragment changes. Legacy quick links remain readable.
 - Generated FAQPage data from the same content as the six existing visible FAQ sections, with build checks for matching questions and answers. Added explicit Twitter titles/descriptions. FAQ markup is semantic metadata, not a promise of a Google search enhancement.
 - Raised compact preset, saved-subject, menu and header controls to at least 44px.
@@ -45,6 +46,6 @@ The owner confirmed that the final domain has not been purchased.
 4. Record Lighthouse/lab metrics; field INP/CWV requires real traffic and cannot be certified from this local build.
 5. Verify Search Console and submit the final sitemap.
 6. Choose analytics/advertising providers and consent requirements before activation; no provider IDs or account configuration were supplied, so tracking and AdSense remain inactive.
-7. Existing SERP decisions have representative results rather than a full reproducible Chile Google Top10 overlap export. Preserve current routes, avoid claiming a fresh exhaustive SERP gate, and obtain that evidence before expanding conditional URLs.
+7. Existing SERP decisions have representative results rather than a full reproducible Chile Google Top10 overlap export. Fresh direct Google attempts on 2026-10-08 failed or reached unusual-traffic/reCAPTCHA; no ranked list was obtained. Preserve current routes while they are globally noindex, obtain the full gate, and certify conditional-route indexation before launch or expansion.
 
 Do not mark the full website/launch goal complete while these release checks remain outstanding.

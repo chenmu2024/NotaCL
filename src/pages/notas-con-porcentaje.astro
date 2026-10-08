@@ -1,4 +1,5 @@
 ---
+import MethodologyNote from '../components/MethodologyNote.astro';
 import Faq from '../components/Faq.astro';
 const faqItems = [
   {
@@ -26,4 +27,5 @@ const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Ca
 <div class="container"><WeightedCalculator /></div>
 <section class="section"><div class="container reading prose"><h2>Cómo calcular una nota con porcentaje</h2><p>Multiplica cada nota por su porcentaje y suma los aportes. Si las ponderaciones suman 100%, el resultado ya es el promedio ponderado final.</p><div class="equation-card" aria-label="Fórmula del promedio ponderado"><span>Fórmula</span><strong>Promedio ponderado = Σ(nota × peso) ÷ Σ(pesos)</strong><small>Cuando los pesos suman 100%, el aporte total también puede expresarse como Σ(nota × peso) ÷ 100.</small></div><h2>Ejemplo revisado</h2><p>6,0 × 20% + 5,5 × 30% + 4,8 × 50% = <strong>{formatNumber(exampleWeighted.average,2)}</strong>. La herramienta usa ese mismo cálculo y no inventa un resultado manual separado del motor matemático.</p><h2>¿Qué pasa si los porcentajes no suman 100%?</h2><p>Si falta porcentaje, mostramos el promedio del peso ingresado y avisamos que el conjunto aún está incompleto. Valores como 33,3% × 3 se tratan con tolerancia numérica para evitar falsos errores por 99,9%.</p><Faq items={faqItems} /></div></section>
 <section class="section"><div class="container"><h2>Otras herramientas</h2><ToolCards /></div></section>
+<MethodologyNote method="El promedio ponderado divide la suma de nota por peso entre el peso utilizado. Cuando los pesos no completan 100%, el resultado describe únicamente las evaluaciones ingresadas." />
 </BaseLayout>

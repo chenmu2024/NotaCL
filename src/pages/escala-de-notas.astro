@@ -1,4 +1,5 @@
 ---
+import MethodologyNote from '../components/MethodologyNote.astro';
 import Faq from '../components/Faq.astro';
 const faqItems = [
   {
@@ -37,4 +38,5 @@ const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Es
 </div>
 <h2>Fórmula de la escala</h2><p>Sea <strong>p</strong> la proporción entre puntaje obtenido y máximo, y <strong>E</strong> la exigencia. NotaCL usa dos tramos lineales configurables.</p><div class="equation-card" aria-label="Fórmula de escala de notas en dos tramos"><span>Si p ≤ E</span><strong>nota = mínima + (aprobación − mínima) × (p ÷ E)</strong><span>Si p &gt; E</span><strong>nota = aprobación + (máxima − aprobación) × ((p − E) ÷ (1 − E))</strong></div><h2>Qué significa una exigencia de 60%</h2><p>Con una exigencia de 60%, el punto de aprobación se ubica en el 60% del puntaje máximo. En una prueba de 60 puntos, ese umbral está en 36 puntos. La institución puede usar otra exigencia. Si tu evaluación usa exactamente ese corte, puedes abrir la <a href="/escala-de-notas/60/">escala de notas al 60%</a> ya preconfigurada.</p><h2>Puntaje a nota: ejemplo</h2><p>Con la configuración inicial, {exampleScore} de {exampleMax} puntos producen un resultado exacto de <strong>{formatNumber(exampleExactGrade,3)}</strong> y una nota mostrada de <strong>{formatNumber(exampleGrade,1)}</strong>. El resultado cambia si modificas la exigencia, los límites de la escala o la cantidad de decimales.</p><p>Si estás cerca del límite de aprobación, revisa también <a href="/guias/redondeo-de-notas/">cómo funciona el redondeo de notas</a>.</p><Faq items={faqItems} /></div></section>
 <section class="section"><div class="container"><h2>Otras herramientas</h2><ToolCards /></div></section>
+<MethodologyNote method="La conversión rápida y la tabla completa comparten el puntaje máximo, exigencia, límites de nota y redondeo. La fórmula de dos tramos es una configuración de NotaCL, no una regla nacional obligatoria." />
 </BaseLayout>

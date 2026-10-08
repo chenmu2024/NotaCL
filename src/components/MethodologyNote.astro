@@ -1,0 +1,14 @@
+---
+import { LAST_UPDATED } from '../config/site';
+interface Props { method: string }
+const { method } = Astro.props;
+const reviewed = new Intl.DateTimeFormat('es-CL', { day:'numeric', month:'long', year:'numeric', timeZone:'UTC' }).format(new Date(`${LAST_UPDATED}T00:00:00Z`));
+---
+<section class="section">
+  <div class="container reading prose">
+    <h2>Fuente y metodología</h2>
+    <p>{method}</p>
+    <p>NotaCL usa un modelo matemático propio, publicado en las explicaciones de cada herramienta. Confirma la escala, exigencia, ponderaciones y regla de redondeo de tu curso antes de interpretar el resultado como una calificación oficial.</p>
+    <p>Última revisión del método: <time datetime={LAST_UPDATED}>{reviewed}</time>.</p>
+  </div>
+</section>

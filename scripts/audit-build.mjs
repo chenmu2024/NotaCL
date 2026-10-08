@@ -219,6 +219,13 @@ for (const route of canonicalRoutes) {
     fail(`${route} is missing WebApplication structured data`);
   }
 
+  if (['/','/generador-de-notas/','/escala-de-notas/','/escala-de-notas/60/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/'].includes(route)) {
+    if (!html.includes('Fuente y metodología') || !/<time datetime="\d{4}-\d{2}-\d{2}">[^<]+<\/time>/.test(html)) {
+      fail(`${route} is missing visible methodology or review date`);
+    }
+    if (!schemaTypes.has('FAQPage')) fail(`${route} is missing visible FAQ structured data`);
+  }
+
   if (route.startsWith('/guias/') && route !== '/guias/' && !schemaTypes.has('Article')) {
     fail(`${route} is missing Article structured data`);
   }

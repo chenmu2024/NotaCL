@@ -4,6 +4,24 @@ Checked: 2026-10-07
 Market: Chile / Spanish  
 Purpose: document the search-result evidence used to decide whether similar keywords deserve separate canonical pages. These are project architecture decisions, not Google ranking rules.
 
+## Verification limitation — 2026-10-08
+
+The snapshots below are representative result/page-type observations. They do not establish the supplied plan's exact Google Chile Top10 overlap thresholds for all seven query pairs. The full gate remains pending; in particular, the specialized 60% route's final indexation decision is not certified by this document.
+
+A fresh direct Google request used `gl=cl`, `hl=es`, `pws=0`, `num=10` for `escala de notas` on 2026-10-08. The web reader could not access the search URL; the browser reader timed out; a second content reader reached Google's unusual-traffic/reCAPTCHA page. No ranked result list was obtained and no overlap count was inferred. Do not retry by treating generic web-search results as a Google Top10 export.
+
+To close the gate, retain the top ten organic destination URLs in rank order, timestamp, query, Chile/Spanish settings, and page type for each query below, then compare all plan pairs:
+
+- calculadora de notas
+- promedio de notas
+- generador de notas
+- escala de notas
+- tabla de notas
+- puntaje a nota
+- escala de notas al 60
+
+Exclude advertisements and secondary sitelinks from the ten organic entries. Compare exact destination-page overlap separately from domain overlap and inspect the dominant task/page types. Apply the plan's ≥6 / 4–5 / ≤3 thresholds only to a complete reproducible set.
+
 ## Decision summary
 
 | Intent pair | Observed result pattern | Decision |
