@@ -22,6 +22,10 @@ To close the gate, retain the top ten organic destination URLs in rank order, ti
 
 Exclude advertisements and secondary sitelinks from the ten organic entries. Compare exact destination-page overlap separately from domain overlap and inspect the dominant task/page types. Apply the plan's ≥6 / 4–5 / ≤3 thresholds only to a complete reproducible set.
 
+## Pending indexation safeguard — 2026-10-08
+
+The 60% route remains available to users but is explicitly noindex and excluded from the production sitemap through seo/indexing-policy.mjs. Build and live-production audits enforce the hold. A fresh attempt to read the existing Google tab again timed out; no complete Top10 evidence was obtained. This safeguard does not count as completing the SERP gate.
+
 ## Decision summary
 
 | Intent pair | Observed result pattern | Decision |

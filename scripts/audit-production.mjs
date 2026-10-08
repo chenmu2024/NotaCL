@@ -1,3 +1,5 @@
+import { pendingIndexationRoutes } from '../seo/indexing-policy.mjs';
+
 const rawOrigin = process.env.PRODUCTION_URL?.trim();
 const rawPreview = process.env.PREVIEW_URL?.trim();
 const rawAlternate = process.env.ALTERNATE_ORIGIN?.trim();
@@ -97,15 +99,20 @@ for (const route of routes) {
 
   const html = await response.text();
   const canonical = canonicalFrom(html);
-  if (canonical !== expected) fail(`${route} canonical mismatch: expected ${expected}, got ${canonical || '(missing)'}`);
+  const pendingIndexation = pendingIndexationRoutes.includes(route);
+  if (pendingIndexation) {
+    if (canonical) fail(`${route} must not declare a canonical while indexation is pending`);
+  } else if (canonical !== expected) fail(`${route} canonical mismatch: expected ${expected}, got ${canonical || '(missing)'}`);
 
   const robots = html.match(/<meta[^>]+name=["']robots["'][^>]+content=["']([^"']+)["']/i)?.[1] || '';
   const directives = robots.toLowerCase().split(/[\s,]+/);
-  if (!directives.includes('index') || !directives.includes('follow') || directives.includes('noindex') || directives.includes('none')) {
+  if (pendingIndexation) {
+    if (!directives.includes('noindex')) fail(`${route} must remain noindex until its SERP gate is completed`);
+  } else if (!directives.includes('index') || !directives.includes('follow') || directives.includes('noindex') || directives.includes('none')) {
     fail(`${route} is not indexable in production HTML`);
   }
   const robotsHeader = response.headers.get('x-robots-tag') || '';
-  if (/\b(noindex|none)\b/i.test(robotsHeader)) fail(`${route} is blocked by X-Robots-Tag`);
+  if (!pendingIndexation && /\b(noindex|none)\b/i.test(robotsHeader)) fail(`${route} is blocked by X-Robots-Tag`);
 }
 
 const slashProbe = new URL('/escala-de-notas', origin);
@@ -141,7 +148,9 @@ if (sitemapResponse) {
   const sitemap = await sitemapResponse.text();
   for (const route of routes) {
     const expected = new URL(route, origin).toString();
-    if (!sitemap.includes(expected)) fail(`sitemap.xml is missing ${expected}`);
+    if (pendingIndexationRoutes.includes(route)) {
+      if (sitemap.includes(expected)) fail(`sitemap.xml contains a page pending indexation: ${expected}`);
+    } else if (!sitemap.includes(expected)) fail(`sitemap.xml is missing ${expected}`);
   }
 }
 
@@ -168,7 +177,7 @@ if (previewOrigin) {
 }
 
 if (!process.exitCode) {
-  console.log(`Production audit passed for ${routes.length} canonical routes on ${origin}.`);
+  console.log(`Production audit passed for ${routes.length} pages on ${origin}, including ${pendingIndexationRoutes.length} page(s) held out of indexation.`);
   if (alternateOrigin) console.log(`Alternate-host redirect verified from ${alternateOrigin}.`);
   if (previewOrigin) console.log(`Preview noindex header verified on ${previewOrigin}.`);
 }

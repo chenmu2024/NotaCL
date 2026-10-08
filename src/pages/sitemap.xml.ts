@@ -1,4 +1,5 @@
 import { INDEXING_ENABLED, LAST_UPDATED, SITE_URL } from '../config/site';
+import { pendingIndexationRoutes } from '../../seo/indexing-policy.mjs';
 
 export const prerender = true;
 
@@ -19,7 +20,7 @@ const routes=[
   '/politica-de-privacidad/',
   '/terminos/',
   '/cookies/'
-];
+].filter(route=>!pendingIndexationRoutes.includes(route));
 
 function escapeXml(value:string){
   return value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');

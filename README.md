@@ -32,6 +32,8 @@ npm run audit
 
 Set `PUBLIC_SITE_URL` in Cloudflare Pages to the final canonical `.cl` origin before launch. If it is absent, public pages output `noindex,nofollow` and the sitemap stays empty, so a temporary Pages deployment fails closed instead of accidentally becoming the canonical production site.
 
+The conditional `/escala-de-notas/60/` route stays noindex and outside the sitemap until its complete SERP evidence is reviewed. `seo/indexing-policy.mjs` records this hold; adding a domain does not lift it.
+
 `pages.dev`/preview host blocking must also be enforced at Cloudflare host/rule level before launch; canonical tags alone are not treated as sufficient protection.
 
 ## Canonical SEO architecture

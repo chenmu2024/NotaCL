@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { pendingIndexationRoutes } from '../../seo/indexing-policy.mjs';
 import { INDEXING_ENABLED, LAST_UPDATED, SITE_NAME, SITE_URL, navItems } from '../config/site';
 
 interface Props {
@@ -11,7 +12,8 @@ interface Props {
   noindex?: boolean;
 }
 const { title, description, path='/', type='website', schema=[], noindex=false } = Astro.props;
-const canonical = SITE_URL && !noindex ? new URL(path, SITE_URL).toString() : undefined;
+const pageNoindex = noindex || pendingIndexationRoutes.includes(path);
+const canonical = SITE_URL && !pageNoindex ? new URL(path, SITE_URL).toString() : undefined;
 const schemas = Array.isArray(schema) ? schema : [schema];
 const organizationId = SITE_URL ? `${SITE_URL}#organization` : undefined;
 const websiteId = SITE_URL ? `${SITE_URL}#website` : undefined;
@@ -59,7 +61,7 @@ const pageSchemas = schemas.map((item) => {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  <meta name="robots" content={INDEXING_ENABLED && !noindex ? 'index,follow,max-image-preview:large' : 'noindex,nofollow'} />
+  <meta name="robots" content={INDEXING_ENABLED && !pageNoindex ? 'index,follow,max-image-preview:large' : 'noindex,nofollow'} />
   {canonical && <link rel="canonical" href={canonical} />}
   {canonical && <link rel="alternate" hreflang="es-CL" href={canonical} />}
   <meta property="og:type" content={type} />

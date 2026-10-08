@@ -47,10 +47,11 @@ async function runAudit(scenario = '') {
       body = `<urlset>${pages.map(page => `<url><loc>${page}</loc></url>`).join('')}</urlset>`;
       if (scenario === 'missing-sitemap') body = '<urlset/>';
     } else {
-      pages.push(url.href);
-      const robots = scenario === 'noindex-meta' ? 'noindex,follow' : 'index,follow';
+      const pending = url.pathname === '/escala-de-notas/60/';
+      if (!pending || scenario === 'conditional-in-sitemap') pages.push(url.href);
+      const robots = scenario === 'noindex-meta' || (pending && scenario !== 'indexable-conditional') ? 'noindex,follow' : 'index,follow';
       const canonical = scenario === 'bad-canonical' ? 'https://wrong.example/' : url.href;
-      body = `<link rel="canonical" href="${canonical}"><meta name="robots" content="${robots}">`;
+      body = `${pending ? '' : `<link rel="canonical" href="${canonical}">`}<meta name="robots" content="${robots}">`;
       if (scenario === 'noindex-header') headers['X-Robots-Tag'] = 'googlebot: NOINDEX, follow';
       if (scenario === 'none-header') headers['X-Robots-Tag'] = 'none';
       if (scenario === 'missing-security') delete headers['X-Frame-Options'];
@@ -83,6 +84,8 @@ describe('production release audit', () => {
     ['missing-sitemap', 'sitemap.xml is missing'],
     ['missing-security', 'missing security response header'],
     ['network-failure', 'request failed'],
+    ['indexable-conditional', 'must remain noindex until its SERP gate is completed'],
+    ['conditional-in-sitemap', 'sitemap.xml contains a page pending indexation'],
   ])('rejects %s', async (scenario, message) => {
     expect(await runAudit(scenario)).toContain(message);
     expect(process.exitCode).toBe(1);

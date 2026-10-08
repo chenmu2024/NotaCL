@@ -33,7 +33,7 @@ Latest local development evidence: see `DEVELOPMENT-PROGRESS.md`. Deployed-host 
 - [x] Unique title / description / single H1 are enforced by the build audit.
 - [x] Crawlable static primary content and internal links are present.
 - [x] Canonical/robots behavior is tested in both fail-closed and production-like builds.
-- [x] Sitemap includes only approved routes and emits `lastmod`.
+- [x] Sitemap includes only approved routes and emits `lastmod`; the pending 60% page remains noindex and excluded even in production-like builds.
 - [x] Structured data syntax and expected page types are enforced.
 - [x] BreadcrumbList is emitted for nested production-like pages.
 - [x] 404 is always noindex.
@@ -59,7 +59,7 @@ Latest local development evidence: see `DEVELOPMENT-PROGRESS.md`. Deployed-host 
 - [ ] Lighthouse/lab LCP, INP and CLS measured on final deployed host.
 
 ## Deterministic CI
-- [x] `npm run test` — 43 tests, including 13 production-audit success/failure scenarios
+- [x] `npm run test` — 46 tests, including 15 production-audit success/failure scenarios and downloadable-scale parity
 - [x] `npm run check`
 - [x] `npm run build`
 - [x] `npm run audit`

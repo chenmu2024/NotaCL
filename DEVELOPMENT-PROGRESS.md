@@ -4,6 +4,10 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 
 ## Completed against the supplied Chile plan
 
+- Conditional 60% route remains usable but is explicitly noindex and excluded from production sitemaps until the SERP gate is complete; build and production audits enforce this independently of domain configuration.
+- Added downloadable four-page PDF and matching CSV reference scales (100 points, 60%, 1–7). All 101 PDF/CSV rows match the calculator. Download links work at 360px; resource files are kept out of indexing.
+- Expanded the certificate guide with current official process steps, the direct Mineduc portal and certificate/average/NEM distinctions. Official sources were rechecked on 2026-10-08.
+
 - Latest calculator state fixes: adding a blank average/weighted row immediately invalidates stale results; average, weighted and required-grade tools restore same-document shared fragments; blank shared rows remain invalid rather than being silently dropped. Edge checks cover filling/removing rows, browser Back and missing shared values.
 
 - Latest keyword implementation: see `KEYWORD-COVERAGE.md` and `seo/keyword-map.json`. All 130 extracted/named queries are classified; existing page content, static examples and task links were expanded. No synonym routes were added. Conditional/deferred/excluded terms are explicitly distinguished from implemented coverage.
@@ -25,7 +29,7 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 
 ## Verification on the changed code
 
-- 43 tests pass across 5 files, including 13 production-audit scenarios.
+- 46 tests pass across 6 files, including 15 production-audit scenarios and a downloadable-scale parity test.
 - Astro check: 0 errors, warnings or hints.
 - 17 static pages build successfully.
 - Build SEO/GEO audit passes without a production origin, with a pages.dev preview origin, and with the production-like test origin `https://notacl.example`.
