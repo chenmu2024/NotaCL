@@ -5,6 +5,9 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 ## Completed against the supplied Chile plan
 
 - Retained the existing 17-page Astro static site and approved URL ownership.
+- Synchronized the quick scale converter and full table in both directions, including custom grade limits, precision, rounding, reset, shared links and same-document fragment changes. Legacy quick links remain readable.
+- Generated FAQPage data from the same content as the six existing visible FAQ sections, with build checks for matching questions and answers. Added explicit Twitter titles/descriptions. FAQ markup is semantic metadata, not a promise of a Google search enhancement.
+- Raised compact preset, saved-subject, menu and header controls to at least 44px.
 - Added selectable 0–3 display decimals and half-up/truncation rules to the generator, simple average and weighted average. Shared fragments retain these settings.
 - Kept passing status tied to the calculated grade, independently of display rounding.
 - Corrected the required-exam minimum: 5.0 at 70% with a 5.4 target needs 6.4 at one decimal; 6.3 produces only 5.39. The UI and worked example now agree.
@@ -27,7 +30,10 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 - Local mobile Lighthouse: performance 100, accessibility 100, best practices 100; CLS 0 and TBT 0 ms. Preview SEO score is reduced intentionally by noindex/blocked crawling. This is lab evidence, not field INP/CWV certification.
 - Fixed measured homepage small-text contrast failures using existing design tokens and removed the logo accessible-name override that disagreed with visible text.
 - 40 responsive checks: 8 main routes at 360, 390, 768, 1280 and 1536px, without page-level horizontal overflow.
-- Screenshots reviewed for the homepage, weighted calculator and generator print layout. This is local browser evidence, not final deployed-host evidence or paginated PDF certification.
+- Screenshots reviewed for the homepage, weighted calculator and generator print layout.
+- Additional browser regression checks pass for both scale share directions, custom settings, legacy fragments, invalid scale state and reset.
+- At 360px, visible buttons, header CTA and menu controls pass a measured 44px minimum-height check on five calculator routes.
+- Exported a 100-point scale to a four-page A4 PDF: all 101 rows appear in order and table headers repeat on each page. Visually reviewed all four rendered pages. Fixed a print-only skip-link overlay found during that check. This certifies the local Edge export, not every printer or deployed browser.
 
 ## Remaining before public launch
 

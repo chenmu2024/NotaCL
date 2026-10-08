@@ -1,4 +1,15 @@
 ---
+import Faq from '../components/Faq.astro';
+const faqItems = [
+  {
+    "question": "¿Dónde puedo ver la tabla completa de notas?",
+    "answerHtml": "Debajo de la calculadora rápida puedes generar la tabla completa con todos los puntajes, porcentajes, notas y estado de aprobación."
+  },
+  {
+    "question": "¿Acepta decimales con coma?",
+    "answerHtml": "Sí. Los campos de cálculo aceptan coma o punto decimal."
+  }
+];
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import QuickGradeCalculator from '../components/QuickGradeCalculator.astro';
@@ -24,6 +35,6 @@ const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Es
   <p>Para estudiantes de enseñanza básica y media en establecimientos oficialmente reconocidos a los que aplica el Decreto 67, la calificación final anual de cada asignatura o módulo se expresa en escala de 1,0 a 7,0, hasta con un decimal, y la nota mínima de aprobación es 4,0. El decreto no fija aquí una exigencia nacional de 60%; por eso NotaCL deja ese porcentaje configurable.</p>
   <p><a href="https://www.bcn.cl/leychile/Navegar?idNorma=1127255&idParte=9984568&idVersion=2018-12-31" rel="noopener noreferrer">Consultar Decreto 67 en LeyChile (BCN) →</a></p><p class="muted">Fuente oficial revisada el 8 de octubre de 2026.</p>
 </div>
-<h2>Fórmula de la escala</h2><p>Sea <strong>p</strong> la proporción entre puntaje obtenido y máximo, y <strong>E</strong> la exigencia. NotaCL usa dos tramos lineales configurables.</p><div class="equation-card" aria-label="Fórmula de escala de notas en dos tramos"><span>Si p ≤ E</span><strong>nota = mínima + (aprobación − mínima) × (p ÷ E)</strong><span>Si p &gt; E</span><strong>nota = aprobación + (máxima − aprobación) × ((p − E) ÷ (1 − E))</strong></div><h2>Qué significa una exigencia de 60%</h2><p>Con una exigencia de 60%, el punto de aprobación se ubica en el 60% del puntaje máximo. En una prueba de 60 puntos, ese umbral está en 36 puntos. La institución puede usar otra exigencia. Si tu evaluación usa exactamente ese corte, puedes abrir la <a href="/escala-de-notas/60/">escala de notas al 60%</a> ya preconfigurada.</p><h2>Puntaje a nota: ejemplo</h2><p>Con la configuración inicial, {exampleScore} de {exampleMax} puntos producen un resultado exacto de <strong>{formatNumber(exampleExactGrade,3)}</strong> y una nota mostrada de <strong>{formatNumber(exampleGrade,1)}</strong>. El resultado cambia si modificas la exigencia, los límites de la escala o la cantidad de decimales.</p><p>Si estás cerca del límite de aprobación, revisa también <a href="/guias/redondeo-de-notas/">cómo funciona el redondeo de notas</a>.</p><div class="faq"><details><summary>¿Dónde puedo ver la tabla completa de notas?</summary><p>Debajo de la calculadora rápida puedes generar la tabla completa con todos los puntajes, porcentajes, notas y estado de aprobación.</p></details><details><summary>¿Acepta decimales con coma?</summary><p>Sí. Los campos de cálculo aceptan coma o punto decimal.</p></details></div></div></section>
+<h2>Fórmula de la escala</h2><p>Sea <strong>p</strong> la proporción entre puntaje obtenido y máximo, y <strong>E</strong> la exigencia. NotaCL usa dos tramos lineales configurables.</p><div class="equation-card" aria-label="Fórmula de escala de notas en dos tramos"><span>Si p ≤ E</span><strong>nota = mínima + (aprobación − mínima) × (p ÷ E)</strong><span>Si p &gt; E</span><strong>nota = aprobación + (máxima − aprobación) × ((p − E) ÷ (1 − E))</strong></div><h2>Qué significa una exigencia de 60%</h2><p>Con una exigencia de 60%, el punto de aprobación se ubica en el 60% del puntaje máximo. En una prueba de 60 puntos, ese umbral está en 36 puntos. La institución puede usar otra exigencia. Si tu evaluación usa exactamente ese corte, puedes abrir la <a href="/escala-de-notas/60/">escala de notas al 60%</a> ya preconfigurada.</p><h2>Puntaje a nota: ejemplo</h2><p>Con la configuración inicial, {exampleScore} de {exampleMax} puntos producen un resultado exacto de <strong>{formatNumber(exampleExactGrade,3)}</strong> y una nota mostrada de <strong>{formatNumber(exampleGrade,1)}</strong>. El resultado cambia si modificas la exigencia, los límites de la escala o la cantidad de decimales.</p><p>Si estás cerca del límite de aprobación, revisa también <a href="/guias/redondeo-de-notas/">cómo funciona el redondeo de notas</a>.</p><Faq items={faqItems} /></div></section>
 <section class="section"><div class="container"><h2>Otras herramientas</h2><ToolCards /></div></section>
 </BaseLayout>

@@ -201,6 +201,20 @@ for (const route of canonicalRoutes) {
   if (!schemaTypes.has('WebSite')) fail(`${route} is missing WebSite structured data`);
   if (!schemaTypes.has('Organization')) fail(`${route} is missing Organization structured data`);
 
+  const visibleQuestions = [...html.matchAll(/<details[^>]*>\s*<summary[^>]*>([^<]*)<\/summary>\s*<p[^>]*>([\s\S]*?)<\/p>\s*<\/details>/gi)];
+  const faqSchemas = jsonLd.filter((item) => item?.['@type'] === 'FAQPage');
+  if (visibleQuestions.length || faqSchemas.length) {
+    const entities = faqSchemas.flatMap((item) => item.mainEntity ?? []);
+    if (faqSchemas.length !== 1 || entities.length !== visibleQuestions.length) fail(`${route} FAQ schema does not match visible question count`);
+    const plain = (text) => String(text).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    visibleQuestions.forEach(([, question, answer], index) => {
+      const entity = entities[index];
+      if (entity?.['@type'] !== 'Question' || entity.acceptedAnswer?.['@type'] !== 'Answer' || plain(entity.name) !== plain(question) || plain(entity.acceptedAnswer.text) !== plain(answer)) {
+        fail(`${route} FAQ question ${index + 1} differs from visible content`);
+      }
+    });
+  }
+
   if (['/','/generador-de-notas/','/escala-de-notas/','/escala-de-notas/60/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/'].includes(route) && !schemaTypes.has('WebApplication')) {
     fail(`${route} is missing WebApplication structured data`);
   }

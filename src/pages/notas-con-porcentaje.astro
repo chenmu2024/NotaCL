@@ -1,4 +1,15 @@
 ---
+import Faq from '../components/Faq.astro';
+const faqItems = [
+  {
+    "question": "¿Es lo mismo que promedio simple?",
+    "answerHtml": "No. En el promedio simple todas las notas pesan igual. En el ponderado cada nota puede tener un peso distinto. Puedes ver una comparación completa en la <a href=\"/guias/promedio-simple-vs-ponderado/\">guía de promedio simple vs. ponderado</a>."
+  },
+  {
+    "question": "¿Puedo ingresar 5,5 con coma?",
+    "answerHtml": "Sí. Puedes usar coma o punto decimal. Si necesitas entender cómo se presenta un resultado como 5,25 a uno o dos decimales, revisa la <a href=\"/guias/redondeo-de-notas/\">guía de redondeo</a>."
+  }
+];
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import WeightedCalculator from '../components/WeightedCalculator.astro';
@@ -13,6 +24,6 @@ const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Ca
 <Breadcrumbs items={[{label:'Notas con porcentaje'}]} />
 <section class="hero"><div class="container"><p class="eyebrow">Promedio ponderado</p><h1>Notas con Porcentaje</h1><p class="lead">Calcula notas con porcentaje cuando cada evaluación vale un peso distinto. La herramienta muestra el promedio ponderado, el peso utilizado y cuánto porcentaje falta.</p></div></section>
 <div class="container"><WeightedCalculator /></div>
-<section class="section"><div class="container reading prose"><h2>Cómo calcular una nota con porcentaje</h2><p>Multiplica cada nota por su porcentaje y suma los aportes. Si las ponderaciones suman 100%, el resultado ya es el promedio ponderado final.</p><div class="equation-card" aria-label="Fórmula del promedio ponderado"><span>Fórmula</span><strong>Promedio ponderado = Σ(nota × peso) ÷ Σ(pesos)</strong><small>Cuando los pesos suman 100%, el aporte total también puede expresarse como Σ(nota × peso) ÷ 100.</small></div><h2>Ejemplo revisado</h2><p>6,0 × 20% + 5,5 × 30% + 4,8 × 50% = <strong>{formatNumber(exampleWeighted.average,2)}</strong>. La herramienta usa ese mismo cálculo y no inventa un resultado manual separado del motor matemático.</p><h2>¿Qué pasa si los porcentajes no suman 100%?</h2><p>Si falta porcentaje, mostramos el promedio del peso ingresado y avisamos que el conjunto aún está incompleto. Valores como 33,3% × 3 se tratan con tolerancia numérica para evitar falsos errores por 99,9%.</p><div class="faq"><details><summary>¿Es lo mismo que promedio simple?</summary><p>No. En el promedio simple todas las notas pesan igual. En el ponderado cada nota puede tener un peso distinto. Puedes ver una comparación completa en la <a href="/guias/promedio-simple-vs-ponderado/">guía de promedio simple vs. ponderado</a>.</p></details><details><summary>¿Puedo ingresar 5,5 con coma?</summary><p>Sí. Puedes usar coma o punto decimal. Si necesitas entender cómo se presenta un resultado como 5,25 a uno o dos decimales, revisa la <a href="/guias/redondeo-de-notas/">guía de redondeo</a>.</p></details></div></div></section>
+<section class="section"><div class="container reading prose"><h2>Cómo calcular una nota con porcentaje</h2><p>Multiplica cada nota por su porcentaje y suma los aportes. Si las ponderaciones suman 100%, el resultado ya es el promedio ponderado final.</p><div class="equation-card" aria-label="Fórmula del promedio ponderado"><span>Fórmula</span><strong>Promedio ponderado = Σ(nota × peso) ÷ Σ(pesos)</strong><small>Cuando los pesos suman 100%, el aporte total también puede expresarse como Σ(nota × peso) ÷ 100.</small></div><h2>Ejemplo revisado</h2><p>6,0 × 20% + 5,5 × 30% + 4,8 × 50% = <strong>{formatNumber(exampleWeighted.average,2)}</strong>. La herramienta usa ese mismo cálculo y no inventa un resultado manual separado del motor matemático.</p><h2>¿Qué pasa si los porcentajes no suman 100%?</h2><p>Si falta porcentaje, mostramos el promedio del peso ingresado y avisamos que el conjunto aún está incompleto. Valores como 33,3% × 3 se tratan con tolerancia numérica para evitar falsos errores por 99,9%.</p><Faq items={faqItems} /></div></section>
 <section class="section"><div class="container"><h2>Otras herramientas</h2><ToolCards /></div></section>
 </BaseLayout>

@@ -49,7 +49,7 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
             <strong id="q-percent">{formatNumber(initialPercent,1)}%</strong>
           </div>
           <div class="result-stat">
-            <span class="result-stat-label">Exacto</span>
+            <span class="result-stat-label">Calculado (3 decimales)</span>
             <strong id="q-exact">{formatNumber(initialExact,3)}</strong>
           </div>
           <div class="result-stat">
@@ -63,6 +63,7 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
   </div>
 </div>
 <script>
+  import type { RoundingRule } from '../lib/calculators/core';
   import { shareOrCopy } from '../lib/browser/share';
   import { DEFAULT_GRADE_CONFIG, formatNumber, parseDecimal, scoreToExactGrade, scoreToGrade } from '../lib/calculators/core';
   const form = document.querySelector<HTMLFormElement>('#quick-form')!;
@@ -78,8 +79,8 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
     if(!raw) return;
     const params=new URLSearchParams(raw);
     const score=params.get('score');
-    const max=params.get('max');
-    const exigencia=params.get('exigencia');
+    const max=params.get('gmax')??params.get('max');
+    const exigencia=params.get('gexigencia')??params.get('exigencia');
     if(score) (document.querySelector<HTMLInputElement>('#q-score')!).value=score;
     if(max) (document.querySelector<HTMLInputElement>('#q-max')!).value=max;
     if(exigencia) (document.querySelector<HTMLInputElement>('#q-exigency')!).value=exigencia;
@@ -91,23 +92,44 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
       max:(document.querySelector<HTMLInputElement>('#q-max')!).value.trim(),
       exigencia:(document.querySelector<HTMLInputElement>('#q-exigency')!).value.trim(),
     });
+    for(const [key,id] of [['gmax','g-maxscore'],['gexigencia','g-exigency'],['gmin','g-min'],['gaprobacion','g-pass'],['gmaxnota','g-maxgrade'],['gdecimales','g-decimals'],['gredondeo','g-rounding']]){
+      const input=document.getElementById(id) as HTMLInputElement|HTMLSelectElement|null;
+      if(input) params.set(key,input.value);
+    }
     return `${window.location.origin}${window.location.pathname}#${params.toString()}`;
   }
-  function run(){
+  function run(syncTable=true){
+    if(syncTable){
+      const generatorMax=document.querySelector<HTMLInputElement>('#g-maxscore');
+      const generatorExigency=document.querySelector<HTMLInputElement>('#g-exigency');
+      if(generatorMax && generatorExigency){
+        generatorMax.value=(document.querySelector<HTMLInputElement>('#q-max')!).value;
+        generatorExigency.value=(document.querySelector<HTMLInputElement>('#q-exigency')!).value;
+        generatorMax.dispatchEvent(new Event('input',{bubbles:true}));
+      }
+    }
     try {
       const score=parseDecimal((document.querySelector<HTMLInputElement>('#q-score')!).value);
       const max=parseDecimal((document.querySelector<HTMLInputElement>('#q-max')!).value);
       const exig=parseDecimal((document.querySelector<HTMLInputElement>('#q-exigency')!).value)/100;
       const cfg={...DEFAULT_GRADE_CONFIG,exigency:exig};
+      if(document.querySelector('#gen-form')){
+        cfg.minGrade=parseDecimal((document.querySelector<HTMLInputElement>('#g-min')!).value);
+        cfg.passGrade=parseDecimal((document.querySelector<HTMLInputElement>('#g-pass')!).value);
+        cfg.maxGrade=parseDecimal((document.querySelector<HTMLInputElement>('#g-maxgrade')!).value);
+        cfg.decimals=Number((document.querySelector<HTMLSelectElement>('#g-decimals')!).value);
+        cfg.rounding=(document.querySelector<HTMLSelectElement>('#g-rounding')!).value as RoundingRule;
+      }
       const exactGrade=scoreToExactGrade(score,max,cfg);
       const grade=scoreToGrade(score,max,cfg);
-      result.textContent=formatNumber(grade,1);
+      result.textContent=formatNumber(grade,cfg.decimals);
       percent.textContent=`${formatNumber((score/max)*100,1)}%`;
       exact.textContent=formatNumber(exactGrade,3);
       const passed=exactGrade>=cfg.passGrade;
       status.textContent=passed?'Cumple exigencia':'Bajo exigencia';
       status.className=`status ${passed?'good':'bad'}`;
       error.textContent='';
+      return true;
     } catch(e){
       result.textContent='—';
       percent.textContent='—';
@@ -115,10 +137,16 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
       status.textContent='—';
       status.className='status';
       error.textContent=e instanceof Error?e.message:'Revisa los valores.';
+      return false;
     }
   }
   form.addEventListener('submit',(e)=>{e.preventDefault();run()});
-  form.addEventListener('input',run);
+  form.addEventListener('input',()=>run());
+  document.addEventListener('notacl:scale-updated',()=>{
+    (document.querySelector<HTMLInputElement>('#q-max')!).value=(document.querySelector<HTMLInputElement>('#g-maxscore')!).value;
+    (document.querySelector<HTMLInputElement>('#q-exigency')!).value=(document.querySelector<HTMLInputElement>('#g-exigency')!).value;
+    run(false);
+  });
 
   document.querySelector('#q-reset')?.addEventListener('click',()=>{
     (document.querySelector<HTMLInputElement>('#q-score')!).value='42';
@@ -126,10 +154,12 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
     (document.querySelector<HTMLInputElement>('#q-exigency')!).value='60';
     history.replaceState(null,'',window.location.pathname);
     shareStatus.textContent='';
+    document.querySelector<HTMLButtonElement>('#g-reset')?.click();
     run();
   });
 
   document.querySelector('#q-share')?.addEventListener('click',async()=>{
+    if(!run()) return;
     const url=shareUrl();
     const shareResult=await shareOrCopy('Escala de notas',url);
     if(shareResult==='shared') shareStatus.textContent='Cálculo compartido.';
@@ -137,6 +167,8 @@ const initialPassed=initialExact>=DEFAULT_GRADE_CONFIG.passGrade;
     else if(shareResult==='cancelled') shareStatus.textContent='';
     else shareStatus.textContent='No se pudo compartir el enlace.';
   });
+
+  window.addEventListener('hashchange',()=>{readHash();run()});
 
   readHash();
   run();

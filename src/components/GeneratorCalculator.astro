@@ -136,11 +136,11 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       ['gredondeo','#g-rounding'],
     ];
     for(const [key,selector] of fields){
-      const value=params.get(key);
+      const value=params.get(key)??(key==='gmax' && document.querySelector('#quick-form')?params.get('max'):null);
       const input=document.querySelector<HTMLInputElement|HTMLSelectElement>(selector);
       if(value!==null && input) input.value=value;
     }
-    const exigency=params.get('gexigencia');
+    const exigency=params.get('gexigencia')??(document.querySelector('#quick-form')?params.get('exigencia'):null);
     const exigencyInput=document.querySelector<HTMLInputElement>('#g-exigency');
     if(exigency!==null && exigencyInput && !exigencyInput.readOnly) exigencyInput.value=exigency;
   }
@@ -155,6 +155,8 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       gdecimales:(document.querySelector<HTMLSelectElement>('#g-decimals')!).value,
       gredondeo:(document.querySelector<HTMLSelectElement>('#g-rounding')!).value,
     });
+    const quickScore=document.querySelector<HTMLInputElement>('#q-score');
+    if(quickScore) params.set('score',quickScore.value.trim());
     return `${window.location.origin}${window.location.pathname}#${params.toString()}`;
   }
 
@@ -204,6 +206,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       error.textContent=e instanceof Error?e.message:'Revisa los valores.';
       error.hidden=false;
     }
+    document.dispatchEvent(new Event('notacl:scale-updated'));
   }
 
   form.addEventListener('submit',event=>{event.preventDefault();render()});
@@ -276,6 +279,8 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
     URL.revokeObjectURL(url);
     actionStatus.textContent='CSV descargado.';
   });
+
+  window.addEventListener('hashchange',()=>{readHash();render()});
 
   readHash();
   render();
