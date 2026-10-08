@@ -148,6 +148,20 @@ describe('averages', () => {
 });
 
 describe('required grade', () => {
+  it('keeps exactly achievable 7.0 targets reachable despite floating-point noise', () => {
+    expect(requiredGrade({currentAverage:1.8,completedWeight:50,finalWeight:50,targetGrade:4.4})).toBe(7);
+    expect(requiredGrade({currentAverage:4,completedWeight:70,finalWeight:30,targetGrade:4.9})).toBe(7);
+    expect(requiredGrade({currentAverage:1.8,completedWeight:50,finalWeight:50,targetGrade:4.400001})).toBeGreaterThan(7);
+  });
+  it('rejects individual weights above 100 even within total rounding tolerance', () => {
+    for (const [completedWeight,finalWeight] of [[0,100.1],[100.05,0.05]]) {
+      const params={currentAverage:7,completedWeight,finalWeight,targetGrade:7};
+      expect(()=>requiredGrade(params)).toThrow('individual');
+      expect(()=>projectedFinalGrade({...params,finalGrade:7})).toThrow('individual');
+    }
+    expect(requiredGrade({currentAverage:5,completedWeight:0,finalWeight:100,targetGrade:7})).toBe(7);
+    expect(projectedFinalGrade({currentAverage:5,completedWeight:100,finalWeight:0,finalGrade:7})).toBe(5);
+  });
   it('displays a sufficient minimum instead of rounding below the target', () => {
     const params={currentAverage:5,completedWeight:70,finalWeight:30,targetGrade:5.4};
     const minimum=minimumRequiredGrade(requiredGrade(params));

@@ -32,7 +32,7 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 
 ## Verification on the changed code
 
-- 59 tests pass across 7 files, including 15 production-audit scenarios and a downloadable-scale parity test.
+- 61 tests pass across 7 files, including 15 production-audit scenarios and a downloadable-scale parity test.
 - Astro check: 0 errors, warnings or hints.
 - 17 static pages build successfully.
 - Build SEO/GEO audit passes without a production origin, with a pages.dev preview origin, and with the production-like test origin `https://notacl.example`.
@@ -71,3 +71,7 @@ Do not mark the full website/launch goal complete while these release checks rem
 ## Admissions verification (latest batch)
 
 59 tests, Astro check (64 files, zero diagnostics), and three build/indexing modes passed. Browser QA passed 21 responsive route/viewport combinations across the seven new tools, actual formulas, invalid inputs, inactive tests, university presets, fragment sharing/restoration, and original state/download regressions.
+
+## Core-function review and fixes — 2026-10-08
+
+Full browser review of grade conversion, scale generation/synchronization, averages/weights, required grades, NEM, Ranking, PAES and university/DUOC tools found three input/boundary issues. Fixed malformed elective text being treated as a missing test; blocked invalid admission shares; bounded each required/projection weight at 100%; stabilized exactly achievable 7.0 required grades against floating-point noise. Added two meaningful formula regressions. 61 tests and Astro check (64 files, zero diagnostics) pass, as do all three build/indexing modes. Browser reproductions and fixed-state checks cover invalid elective versus truly blank/inactive factors, excessive exam weights, exact 7.0 and truly impossible targets. Original save/load/delete, denied/corrupt storage, share fallbacks, CSV/PDF, print, keyboard and 40 responsive checks passed on the preceding preview; changed required/admissions flows were then rechecked locally.

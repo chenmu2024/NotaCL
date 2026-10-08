@@ -37,10 +37,17 @@ if(form) {
   function calculate(){
     breakdown.replaceChildren();
     try {
-      const output=admissionScore(scores.map(input=>parseDecimal(input.value)),weights.map(input=>parseDecimal(input.value)));
+      const parsedScores=scores.map(input=>parseDecimal(input.value));
+      const parsedWeights=weights.map(input=>parseDecimal(input.value));
+      scores.forEach((input,i)=>{
+        const required=parsedWeights[i]>0 || (i>=5 && parsedWeights[7]>0);
+        if(required && input.value.trim() && !Number.isFinite(parsedScores[i])) throw new Error(`Ingresa un puntaje numérico válido para ${factors[i]}.`);
+      });
+      const output=admissionScore(parsedScores,parsedWeights);
       result.textContent=formatNumber(output.score,2); error.textContent='Simulación; no garantiza admisión.';
       output.contributions.forEach((value,i)=>{if(parseDecimal(weights[i].value)>0){const item=document.createElement('li');item.textContent=`${factors[i]}: ${formatNumber(value,2)} puntos`;breakdown.append(item);}});
-    } catch(reason){result.textContent='—';error.textContent=reason instanceof Error?reason.message:'Revisa los datos.';}
+      return true;
+    } catch(reason){result.textContent='—';error.textContent=reason instanceof Error?reason.message:'Revisa los datos.';return false;}
   }
   function restore(){
     const params=new URLSearchParams(location.hash.slice(1));
@@ -55,6 +62,10 @@ if(form) {
   form.addEventListener('input',calculate);select.addEventListener('change',()=>{applyPreset();calculate();});
   window.addEventListener('hashchange',restore);restore();
   document.querySelector('#ad-share')!.addEventListener('click',async()=>{
+    if(!calculate()){
+      document.querySelector('#ad-share-status')!.textContent='Corrige los datos antes de compartir.';
+      return;
+    }
     const params=new URLSearchParams({admision:'2027',carrera:select.value});
     scores.forEach((input,i)=>params.set(`s${i}`,input.value));
     if(institution==='paes')weights.forEach((input,i)=>params.set(`w${i}`,input.value));

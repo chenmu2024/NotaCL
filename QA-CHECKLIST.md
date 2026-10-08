@@ -59,7 +59,7 @@ Latest local development evidence: see `DEVELOPMENT-PROGRESS.md`. Deployed-host 
 - [ ] Lighthouse/lab LCP, INP and CLS measured on final deployed host.
 
 ## Deterministic CI
-- [x] `npm run test` — 59 tests, including 15 production-audit success/failure scenarios and downloadable-scale parity
+- [x] `npm run test` — 61 tests, including 15 production-audit success/failure scenarios and downloadable-scale parity
 - [x] `npm run check`
 - [x] `npm run build`
 - [x] `npm run audit`
@@ -70,3 +70,6 @@ Latest local development evidence: see `DEVELOPMENT-PROGRESS.md`. Deployed-host 
 - [x] Admissions formula tests cover all NEM rows, Ranking branches, invalid contexts, university presets, blank inactive factors, electiva choice, 100% totals and DUOC boundaries.
 
 - [x] Seven admissions/DUOC routes pass 360/768/1280px layouts, live calculations, invalid-value clearing, program changes and admissions fragment restoration.
+
+- [x] Core review regression: malformed elective text must clear results and block sharing; genuinely absent elective and inactive test remain allowed.
+- [x] Required-grade/projection individual weights above 100 are rejected. Exactly achievable 7.0 remains reachable; a genuinely higher requirement remains impossible.

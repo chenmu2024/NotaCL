@@ -142,9 +142,16 @@ export function requiredGrade(params: {
   validateChileGrade(currentAverage, 'El promedio actual');
   validateChileGrade(targetGrade, 'La nota objetivo');
   if (completedWeight < 0 || finalWeight <= 0) throw new Error('Los porcentajes deben ser positivos.');
+  if (completedWeight > 100 || finalWeight > 100) throw new Error('Un porcentaje individual no puede superar 100%.');
   const total = completedWeight + finalWeight;
   if (Math.abs(total - 100) > 0.11) throw new Error('El porcentaje completado más el examen debe sumar 100%.');
-  return (targetGrade * 100 - currentAverage * completedWeight) / finalWeight;
+  const targetContribution = targetGrade * 100;
+  const completedContribution = currentAverage * completedWeight;
+  const remainingContribution = targetContribution - completedContribution;
+  // Avoid classifying an exactly achievable 7.0 as impossible due to floating-point noise.
+  const tolerance = Number.EPSILON * 4 * Math.max(1, Math.abs(targetContribution), Math.abs(completedContribution));
+  if (Math.abs(remainingContribution - 7 * finalWeight) <= tolerance) return 7;
+  return remainingContribution / finalWeight;
 }
 
 
@@ -159,6 +166,7 @@ export function projectedFinalGrade(params: {
   validateChileGrade(currentAverage, 'El promedio actual');
   validateChileGrade(finalGrade, 'La nota del examen');
   if (completedWeight < 0 || finalWeight < 0) throw new Error('Los porcentajes no pueden ser negativos.');
+  if (completedWeight > 100 || finalWeight > 100) throw new Error('Un porcentaje individual no puede superar 100%.');
   const total = completedWeight + finalWeight;
   if (Math.abs(total - 100) > 0.11) throw new Error('El porcentaje completado más el examen debe sumar 100%.');
   return (currentAverage * completedWeight + finalGrade * finalWeight) / 100;
