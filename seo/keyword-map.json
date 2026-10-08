@@ -1,0 +1,1402 @@
+{
+  "source": "Owner-provided 智利.txt; all keyword tables plus named conditional and excluded queries. Do not sum volumes.",
+  "reviewed": "2026-10-08",
+  "keywords": [
+    {
+      "keyword": "escala de notas",
+      "volume": "165,000",
+      "kd": "33",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/escala-de-notas/`"
+      ],
+      "cpc": "$0.20",
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "generador de notas",
+      "volume": "90,500",
+      "kd": "23",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/generador-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/generador-de-notas/#tabla-generadora",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calculador de notas",
+      "volume": "90,500",
+      "kd": "39",
+      "sections": [
+        "第一梯队：网站核心资产"
+      ],
+      "status": "covered",
+      "target": "/#calculadora-notas",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calculadora de notas",
+      "volume": "60,500",
+      "kd": "34",
+      "sections": [
+        "第一梯队：网站核心资产"
+      ],
+      "status": "covered",
+      "target": "/#calculadora-notas",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "promedio de notas",
+      "volume": "49,500",
+      "kd": "41",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "tabla de notas",
+      "volume": "49,500",
+      "kd": "31",
+      "sections": [
+        "第一梯队：网站核心资产"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "escala de notas al 60",
+      "volume": "27,100",
+      "kd": "32",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/escala-de-notas/60/`"
+      ],
+      "cpc": "$0.00",
+      "status": "conditional",
+      "target": "/escala-de-notas/60/",
+      "reason": "功能已实现；是否独立索引仍待完整Google Chile Top10验证。"
+    },
+    {
+      "keyword": "calcular nota",
+      "volume": "22,200",
+      "kd": "30",
+      "sections": [
+        "第一梯队：网站核心资产"
+      ],
+      "status": "covered",
+      "target": "/#calculadora-notas",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calcular promedio",
+      "volume": "22,200",
+      "kd": "40",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "porcentaje de notas",
+      "volume": "22,200",
+      "kd": "37",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "notas con porcentaje",
+      "volume": "18,100",
+      "kd": "29",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/notas-con-porcentaje/`"
+      ],
+      "cpc": "$0.00",
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "porcentaje notas",
+      "volume": "18,100",
+      "kd": "29",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "nota con porcentajes",
+      "volume": "18,100",
+      "kd": "31",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "porcentaje nota",
+      "volume": "18,100",
+      "kd": "32",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calcular porcentaje nota",
+      "volume": "12,100",
+      "kd": "30",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "escala notas",
+      "volume": "12,100",
+      "kd": "23",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/escala-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "como sacar promedio",
+      "volume": "8,100",
+      "kd": "24",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "escalada de notas",
+      "volume": "8,100",
+      "kd": "24",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/escala-de-notas/`"
+      ],
+      "cpc": "$0",
+      "status": "variant",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "错拼变体映射正确词，不把错拼塞入正文或新建URL。"
+    },
+    {
+      "keyword": "promedio notas",
+      "volume": "6,600",
+      "kd": "36",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calcula notas con porcentaje",
+      "volume": "5,400",
+      "kd": "28",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/notas-con-porcentaje/`"
+      ],
+      "cpc": "$0",
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "nota por porcentaje",
+      "volume": "5,400",
+      "kd": "27",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calculo notas con porcentaje",
+      "volume": "5,400",
+      "kd": "44",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "notas por porcentaje",
+      "volume": "5,400",
+      "kd": "46",
+      "sections": [
+        "第一梯队：网站核心资产",
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "tabla generadora de notas",
+      "volume": "1,600",
+      "kd": "26",
+      "sections": [
+        "`/generador-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/generador-de-notas/#tabla-generadora",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "generador de escala",
+      "volume": "1,300",
+      "kd": "32",
+      "sections": [
+        "`/generador-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/generador-de-notas/#tabla-generadora",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "generador notas",
+      "volume": "1,000",
+      "kd": "32",
+      "sections": [
+        "`/generador-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/generador-de-notas/#tabla-generadora",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "pauta de evaluacion",
+      "volume": "1,000",
+      "kd": "21",
+      "sections": [
+        "`/generador-de-notas/`"
+      ],
+      "status": "limited",
+      "target": "/generador-de-notas/#pauta-evaluacion",
+      "reason": "说明如何配合既有评分标准使用；不承诺自动生成评分rubric。"
+    },
+    {
+      "keyword": "generador de notas con porcentaje",
+      "volume": "590",
+      "kd": "44",
+      "sections": [
+        "`/generador-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/generador-de-notas/#tabla-generadora",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "escala de notas con porcentaje",
+      "volume": "1,000",
+      "kd": "33",
+      "sections": [
+        "`/escala-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "escala de notas chile",
+      "volume": "1,000",
+      "kd": "31",
+      "sections": [
+        "`/escala-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "tu escala de notas",
+      "volume": "390",
+      "kd": "14",
+      "sections": [
+        "`/escala-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "tabla de notas al 60",
+      "volume": "3,600",
+      "kd": "27",
+      "sections": [
+        "`/escala-de-notas/60/`"
+      ],
+      "status": "conditional",
+      "target": "/escala-de-notas/60/",
+      "reason": "功能已实现；是否独立索引仍待完整Google Chile Top10验证。"
+    },
+    {
+      "keyword": "escala al 60",
+      "volume": "1,000",
+      "kd": "21",
+      "sections": [
+        "`/escala-de-notas/60/`"
+      ],
+      "status": "conditional",
+      "target": "/escala-de-notas/60/",
+      "reason": "功能已实现；是否独立索引仍待完整Google Chile Top10验证。"
+    },
+    {
+      "keyword": "escala notas 60",
+      "volume": "720",
+      "kd": "28",
+      "sections": [
+        "`/escala-de-notas/60/`"
+      ],
+      "status": "conditional",
+      "target": "/escala-de-notas/60/",
+      "reason": "功能已实现；是否独立索引仍待完整Google Chile Top10验证。"
+    },
+    {
+      "keyword": "calculadora de promedio",
+      "volume": "4,400",
+      "kd": "37",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calculo promedio de notas",
+      "volume": "2,900",
+      "kd": "39",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calcular promedio de notas",
+      "volume": "2,900",
+      "kd": "40",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calcula tu promedio",
+      "volume": "2,400",
+      "kd": "27",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calcular promedios de notas",
+      "volume": "1,900",
+      "kd": "39",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "como sacar promedio de notas",
+      "volume": "1,600",
+      "kd": "32",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calcular tu promedio",
+      "volume": "1,600",
+      "kd": "41",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "tu promedio",
+      "volume": "1,000",
+      "kd": "44",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "como calcular promedios de notas",
+      "volume": "390",
+      "kd": "29",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "como promediar notas",
+      "volume": "320",
+      "kd": "30",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "como se calcula promedio de notas",
+      "volume": "260",
+      "kd": "27",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calcular promedio de notas chile",
+      "volume": "140",
+      "kd": "23",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calcular promedio chile",
+      "volume": "70",
+      "kd": "20",
+      "sections": [
+        "`/promedio-de-notas/`"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "ponderaciones notas",
+      "volume": "4,400",
+      "kd": "40",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "nota ponderada",
+      "volume": "4,400",
+      "kd": "41",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "ponderacion nota",
+      "volume": "4,400",
+      "kd": "45",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "ponderador de notas",
+      "volume": "3,600",
+      "kd": "40",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "promedio ponderado",
+      "volume": "3,600",
+      "kd": "43",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "notas porcentajes",
+      "volume": "2,900",
+      "kd": "44",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calculadora de notas con porcentaje",
+      "volume": "2,900",
+      "kd": "54",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "promedios de notas con porcentajes",
+      "volume": "2,900",
+      "kd": "44",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "promedio con porcentaje",
+      "volume": "2,400",
+      "kd": "33",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "notas porcentaje",
+      "volume": "2,400",
+      "kd": "34",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "sacar notas con porcentaje",
+      "volume": "1,300",
+      "kd": "28",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "promedio de notas con porcentaje",
+      "volume": "1,300",
+      "kd": "28",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calcular promedio con porcentaje",
+      "volume": "1,000",
+      "kd": "17",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calculo de notas con porcentaje",
+      "volume": "1,000",
+      "kd": "25",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calculo porcentaje de notas",
+      "volume": "1,000",
+      "kd": "28",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calculo de nota con porcentaje",
+      "volume": "1,000",
+      "kd": "30",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calcular porcentaje de notas",
+      "volume": "1,000",
+      "kd": "32",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calcular notas porcentaje",
+      "volume": "880",
+      "kd": "29",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calcular promedio de notas con porcentaje",
+      "volume": "880",
+      "kd": "28",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calculador de notas por porcentaje",
+      "volume": "880",
+      "kd": "33",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calcular promedio de notas con porcentajes",
+      "volume": "880",
+      "kd": "22",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calcular nota porcentajes",
+      "volume": "720",
+      "kd": "33",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "sacar promedio con porcentaje",
+      "volume": "720",
+      "kd": "32",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calculador promedio ponderado",
+      "volume": "590",
+      "kd": "23",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calcular promedios ponderados",
+      "volume": "590",
+      "kd": "30",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "calcula promedio ponderado",
+      "volume": "590",
+      "kd": "38",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "promedios por porcentaje",
+      "volume": "590",
+      "kd": "38",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "promedio por porcentaje",
+      "volume": "390",
+      "kd": "19",
+      "sections": [
+        "`/notas-con-porcentaje/`"
+      ],
+      "status": "covered",
+      "target": "/notas-con-porcentaje/#promedio-ponderado",
+      "reason": "评估权重任务；页面明确区别于单次测试的得分百分比。"
+    },
+    {
+      "keyword": "puntaje nota",
+      "volume": "4,400",
+      "kd": "24",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "tabla de puntajes",
+      "volume": "2,900",
+      "kd": "38",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "puntaje de notas",
+      "volume": "2,400",
+      "kd": "39",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "puntaje a nota",
+      "volume": "1,600",
+      "kd": "41",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "convertir de notas",
+      "volume": "590",
+      "kd": "22",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "convertor de notas",
+      "volume": "590",
+      "kd": "24",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "convertidor notas",
+      "volume": "590",
+      "kd": "25",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "conversion puntaje nota",
+      "volume": "480",
+      "kd": "23",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "convertidor de puntaje a nota",
+      "volume": "480",
+      "kd": "21",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "notas por puntaje",
+      "volume": "390",
+      "kd": "31",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "nota por puntaje",
+      "volume": "390",
+      "kd": "31",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "notas con puntaje",
+      "volume": "320",
+      "kd": "34",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "nota con puntaje",
+      "volume": "320",
+      "kd": "30",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "nota puntaje",
+      "volume": "320",
+      "kd": "34",
+      "sections": [
+        "`/puntaje-a-nota/`"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#conversion-puntaje",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "que nota necesito",
+      "volume": "1,900",
+      "kd": "27",
+      "sections": [
+        "`/que-nota-necesito/`"
+      ],
+      "status": "covered",
+      "target": "/que-nota-necesito/#nota-examen",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "nota examen",
+      "volume": "720",
+      "kd": "54",
+      "sections": [
+        "`/que-nota-necesito/`"
+      ],
+      "status": "covered",
+      "target": "/que-nota-necesito/#nota-examen",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calculadora examen",
+      "volume": "390",
+      "kd": "32",
+      "sections": [
+        "`/que-nota-necesito/`"
+      ],
+      "status": "covered",
+      "target": "/que-nota-necesito/#nota-examen",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calcular examen",
+      "volume": "390",
+      "kd": "37",
+      "sections": [
+        "`/que-nota-necesito/`"
+      ],
+      "status": "covered",
+      "target": "/que-nota-necesito/#nota-examen",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calcular nota examen",
+      "volume": "320",
+      "kd": "52",
+      "sections": [
+        "`/que-nota-necesito/`"
+      ],
+      "status": "covered",
+      "target": "/que-nota-necesito/#nota-examen",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "calcula nota final",
+      "volume": "260",
+      "kd": "30",
+      "sections": [
+        "`/que-nota-necesito/`"
+      ],
+      "status": "covered",
+      "target": "/que-nota-necesito/#nota-examen",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "concentracion de notas enseñanza media",
+      "volume": "4,400",
+      "kd": "29",
+      "sections": [
+        "值得后续验证"
+      ],
+      "status": "covered",
+      "target": "/guias/concentracion-de-notas-ensenanza-media/",
+      "reason": "行政证书指南，包含官方来源；不是计算工具。"
+    },
+    {
+      "keyword": "notas universidad",
+      "volume": "590",
+      "kd": "30",
+      "sections": [
+        "值得后续验证"
+      ],
+      "status": "covered",
+      "target": "/promedio-de-notas/#promedio-materias",
+      "reason": "同一搜索任务的变体集中覆盖，不要求逐字重复每个查询。"
+    },
+    {
+      "keyword": "notas chile",
+      "volume": "480",
+      "kd": "43",
+      "sections": [
+        "值得后续验证"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "calculadora usach",
+      "volume": "320",
+      "kd": "11",
+      "sections": [
+        "值得后续验证"
+      ],
+      "status": "deferred",
+      "target": "",
+      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+    },
+    {
+      "keyword": "escala de notas al 50",
+      "sections": [
+        "八、Escala 50%"
+      ],
+      "volume": "260",
+      "kd": "14",
+      "status": "preset",
+      "target": "/escala-de-notas/#generador",
+      "reason": "50%预设集成在现有工具内，不新建独立URL。"
+    },
+    {
+      "keyword": "mi promedio",
+      "sections": [
+        "十、mi promedio"
+      ],
+      "volume": "74,000",
+      "kd": "47",
+      "status": "covered",
+      "target": "/promedio-de-notas/#calcular-promedio",
+      "reason": "只覆盖通用平均分任务；不替代mipromedio.cl导航需求，不建立品牌同义页面。"
+    },
+    {
+      "keyword": "calculadora UC",
+      "sections": [
+        "三十一、NEM / PAES"
+      ],
+      "status": "deferred",
+      "target": "",
+      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+    },
+    {
+      "keyword": "calculadora UChile",
+      "sections": [
+        "三十一、NEM / PAES"
+      ],
+      "status": "deferred",
+      "target": "",
+      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+    },
+    {
+      "keyword": "calculadora DUOC",
+      "sections": [
+        "三十一、NEM / PAES"
+      ],
+      "status": "deferred",
+      "target": "",
+      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+    },
+    {
+      "keyword": "calculadora nem",
+      "sections": [
+        "三十一、NEM / PAES"
+      ],
+      "status": "deferred",
+      "target": "",
+      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+    },
+    {
+      "keyword": "puntaje nem",
+      "sections": [
+        "三十一、NEM / PAES"
+      ],
+      "status": "deferred",
+      "target": "",
+      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+    },
+    {
+      "keyword": "tabla nem",
+      "sections": [
+        "三十一、NEM / PAES"
+      ],
+      "status": "deferred",
+      "target": "",
+      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+    },
+    {
+      "keyword": "calculadora ranking",
+      "sections": [
+        "三十一、NEM / PAES"
+      ],
+      "status": "deferred",
+      "target": "",
+      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+    },
+    {
+      "keyword": "puntaje ranking",
+      "sections": [
+        "三十一、NEM / PAES"
+      ],
+      "status": "deferred",
+      "target": "",
+      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+    },
+    {
+      "keyword": "calculadora paes",
+      "sections": [
+        "三十一、NEM / PAES"
+      ],
+      "status": "deferred",
+      "target": "",
+      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+    },
+    {
+      "keyword": "notas ulagos",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "webclass notas",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "cmds notas",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "napsis notas",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "notas ucen",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "notas musicales",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "notas piano",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "notas ukelele",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "notas flauta",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "notas del bajo",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "Redmi Note",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "Xiaomi Note",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "Samsung Note",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "Death Note",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "Nissan Note",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "not working",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "not milk",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "not mayo",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "notaría",
+      "sections": [
+        "十五、排除词"
+      ],
+      "status": "excluded",
+      "target": "",
+      "reason": "附件明确排除：导航词、噪音词或不独立制作的宽泛词。"
+    },
+    {
+      "keyword": "porcentaje de exigencia",
+      "sections": [
+        "三十、Guides"
+      ],
+      "status": "covered",
+      "target": "/escala-de-notas/#porcentaje-logro",
+      "reason": "解释集成在评分换算页，不建立重复指南。"
+    }
+  ]
+}

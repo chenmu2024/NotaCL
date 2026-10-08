@@ -25,6 +25,7 @@ Latest local development evidence: see `DEVELOPMENT-PROGRESS.md`. Deployed-host 
 
 ## SEO / GEO
 - [x] Approved keyword set and source are documented.
+- [x] 130 supplied/named queries individually classified with built-page/anchor/topic evidence; deferred and excluded queries remain explicit.
 - [x] Intent-to-canonical-page map exists.
 - [ ] Full Chile Google Top10 overlap gate reproduced. Existing 60% route has only representative SERP/page-type evidence; final indexation decision remains pending.
 - [x] Tabla and puntaje intents remain consolidated instead of creating duplicate routes.

@@ -7,6 +7,10 @@
 - Metric source: owner-provided Semrush Chile exports/snapshots from the opportunity research conversation. Values must not be silently replaced.
 - Core product claims: first-party calculator behavior. Institution-specific/NEM/PAES claims require current primary sources before indexation.
 
+## Query-level implementation inventory
+
+`seo/keyword-map.json` preserves the supplied query set, metrics, classifications and target sections. `KEYWORD-COVERAGE.md` explains semantic coverage and intentional exclusions. The build audit checks target pages, section anchors, topic evidence and duplicate-route prohibitions. This inventory does not replace the Google Chile Top10 gate or prove rankings.
+
 ## Approved intent ownership
 
 | Canonical route | Primary intent | Approved keyword data |

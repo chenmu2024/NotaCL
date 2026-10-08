@@ -1,6 +1,7 @@
 import { isPreviewHost, needsTrailingSlash, onRequest } from '../functions/_middleware.js';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import './audit-keywords.mjs';
 
 const dist = resolve('dist');
 

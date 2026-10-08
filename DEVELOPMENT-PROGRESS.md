@@ -4,6 +4,8 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 
 ## Completed against the supplied Chile plan
 
+- Latest keyword implementation: see `KEYWORD-COVERAGE.md` and `seo/keyword-map.json`. All 130 extracted/named queries are classified; existing page content, static examples and task links were expanded. No synonym routes were added. Conditional/deferred/excluded terms are explicitly distinguished from implemented coverage.
+
 - Retained the existing 17-page Astro static site and current URL ownership. Full conditional-route SERP certification is still pending.
 - Added visible, tool-specific methodology and review dates to all seven calculator routes, plus homepage FAQs. Build audits require both methodology/date and matching visible FAQ data.
 - Synchronized the quick scale converter and full table in both directions, including custom grade limits, precision, rounding, reset, shared links and same-document fragment changes. Legacy quick links remain readable.
@@ -45,7 +47,7 @@ The owner confirmed that the final domain has not been purchased.
 3. Verify real HTTP statuses, redirects, preview noindex headers and mobile/print behavior on that deployment.
 4. Record Lighthouse/lab metrics; field INP/CWV requires real traffic and cannot be certified from this local build.
 5. Verify Search Console and submit the final sitemap.
-6. Choose analytics/advertising providers and consent requirements before activation; no provider IDs or account configuration were supplied, so tracking and AdSense remain inactive.
+6. Owner decision on 2026-10-08: do not connect analytics for now. Analytics is deliberately deferred, not a missing implementation prerequisite for the current development batch. Tracking remains inactive. AdSense/provider setup and related policy/consent updates remain future activation work.
 7. Existing SERP decisions have representative results rather than a full reproducible Chile Google Top10 overlap export. Fresh direct Google attempts on 2026-10-08 failed or reached unusual-traffic/reCAPTCHA; no ranked list was obtained. Preserve current routes while they are globally noindex, obtain the full gate, and certify conditional-route indexation before launch or expansion.
 
 Do not mark the full website/launch goal complete while these release checks remain outstanding.
