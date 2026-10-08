@@ -66,6 +66,16 @@ Important tool pages include: direct answer/definition near the top, explicit in
 - Article only for genuine guides.
 - FAQPage only when visible FAQs are present; no promise of FAQ rich-result eligibility.
 
+## Starter-standard review — 2026-10-08
+
+Reviewed against [Website-Starter-Standard](https://github.com/chenmu2024/Website-Starter-Standard), especially its SEO/GEO quality gate. Existing intent ownership and approved indexation remain unchanged.
+
+- Social sharing uses a real 1200×630 PNG, absolute production URLs, image dimensions and alternative text. This improves link previews; it is not a ranking promise. The editable source is `src/assets/notacl-social.svg`.
+- Guide authorship is visibly NotaCL and links to the existing Organization in JSON-LD. Each guide owns its review date; the shell must not manufacture an article date from a site-wide release date. Visible `<time>` and `Article.dateModified` must agree.
+- Worked examples distinguish exact from rounded values and continue using the calculator engine. The comparison guide explains both formulas and the 100% weighting assumption.
+- `npm run seo:baseline -- <snapshot.json>` captures the live sitemap, titles, descriptions, headings, canonical/robots/hreflang, schemas, text fingerprints and internal links. Set `PRODUCTION_URL=https://notacl.cl`. `npm run seo:drift -- <snapshot.json>` is read-only and reports changes; review intended changes before explicitly replacing a baseline. Keep snapshots with release evidence outside application source.
+- No AI-only pages or special schema are required. Google says its existing SEO guidance applies to AI Overviews and AI Mode: https://developers.google.com/search/docs/appearance/ai-features . Actual inclusion remains a post-launch measurement, not an unfinished feature.
+
 ## Measurement/stop rules
 
 90 days: core indexation ≥80%, target impressions trending, 3–5 priority queries in Top50, ≥5 long-tail Top20, ≥5 relevant referring domains. 180 days: 1–3 important clusters Top20, multiple long-tails Top10, organic clicks in the thousands/month target range. If after six months indexing/tool quality/link basics are healthy but all major terms remain >50 and clicks <500/month, stop large content expansion and shift resources.

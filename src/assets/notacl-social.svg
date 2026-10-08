@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0b1736"/>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <rect x="72" y="64" width="64" height="64" rx="14" fill="#ff7a45"/>
+    <text x="104" y="110" text-anchor="middle" font-size="45" font-weight="800" fill="#0b1736">N</text>
+    <text x="155" y="112" font-size="48" font-weight="800" fill="#ffffff">Nota<tspan fill="#ff7a45">CL</tspan></text>
+    <text x="72" y="252" font-size="64" font-weight="800" fill="#ffffff">Tus notas,</text>
+    <text x="72" y="326" font-size="64" font-weight="800" fill="#ffffff">más claras.</text>
+    <text x="72" y="397" font-size="28" fill="#d8e0eb">Escalas · Promedios · Admisión</text>
+    <text x="72" y="550" font-size="28" font-weight="650" fill="#ff7a45">notacl.cl</text>
+    <rect x="760" y="180" width="368" height="290" rx="24" fill="#f7f4ee"/>
+    <text x="796" y="236" font-size="18" font-weight="700" fill="#39445a">PROMEDIO PONDERADO</text>
+    <text x="796" y="341" font-size="88" font-weight="800" fill="#0b1736">5,25</text>
+    <path d="M796 370H1092" stroke="#bcc8d8" stroke-width="2"/>
+    <text x="796" y="416" font-size="24" fill="#39445a">6,0 × 20% + 5,5 × 30%</text>
+    <text x="796" y="449" font-size="24" fill="#39445a">+ 4,8 × 50%</text>
+  </g>
+</svg>

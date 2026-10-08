@@ -6,26 +6,29 @@ const title='Promedio Simple vs. Promedio Ponderado | NotaCL';
 const description='Aprende la diferencia entre promedio simple y ponderado, con ejemplos de notas y porcentajes para elegir la calculadora correcta.';
 const simpleExample=average([6,5.5,4.8]);
 const weightedExample=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30},{grade:4.8,weight:50}]);
-const schema={ '@context':'https://schema.org','@type':'Article',headline:'Promedio simple vs. promedio ponderado',inLanguage:'es-CL',description };
+const reviewedAt='2026-10-08';
+const reviewedLabel=new Date(`${reviewedAt}T00:00:00Z`).toLocaleDateString('es-CL',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'});
+const schema={ '@context':'https://schema.org','@type':'Article',headline:'Promedio simple vs. promedio ponderado',inLanguage:'es-CL',dateModified:reviewedAt,description };
 ---
 <BaseLayout {title} {description} path="/guias/promedio-simple-vs-ponderado/" type="article" {schema}>
 <Breadcrumbs items={[{label:'Guías',href:'/guias/'},{label:'Promedio simple vs. ponderado'}]} />
-<section class="hero"><div class="container reading"><p class="eyebrow">Guía</p><h1>Promedio simple vs. promedio ponderado</h1><p class="lead">La diferencia depende de si todas tus evaluaciones tienen el mismo peso.</p></div></section>
+<section class="hero"><div class="container reading"><p class="eyebrow">Guía</p><h1>Promedio simple vs. promedio ponderado</h1><p class="lead">El promedio simple da el mismo peso a cada nota. El promedio ponderado usa el porcentaje de cada evaluación. Elige según la distribución de pesos de tu curso.</p></div></section>
 <section class="section"><div class="container reading prose">
 <h2>Promedio simple</h2>
-<p>Si todas las notas valen lo mismo, suma las notas y divide por la cantidad de evaluaciones. Por ejemplo, 6,0, 5,5 y 4,8 dan un promedio simple exacto de <strong>{formatNumber(simpleExample,3)}</strong>. Usa la <a href="/promedio-de-notas/">calculadora de promedio</a>.</p>
+<p>Si todas las notas valen lo mismo, suma las notas y divide por la cantidad de evaluaciones. Por ejemplo, (6,0 + 5,5 + 4,8) ÷ 3 da aproximadamente <strong>{formatNumber(simpleExample,3)}</strong>. El resultado tiene más decimales; aquí se muestran tres. Usa la <a href="/promedio-de-notas/">calculadora de promedio</a>.</p>
 <h2>Promedio ponderado</h2>
 <p>Si una prueba vale 50% y otra 20%, las notas no deben tratarse como si pesaran igual. Multiplica cada nota por su porcentaje y usa la <a href="/notas-con-porcentaje/">calculadora de notas con porcentaje</a>.</p>
 <h2>El mismo conjunto puede dar otro resultado</h2>
 <p>Si 6,0 vale 20%, 5,5 vale 30% y 4,8 vale 50%, el promedio ponderado exacto es <strong>{formatNumber(weightedExample.average,2)}</strong>. La diferencia aparece porque la nota 4,8 tiene más peso que las otras.</p>
+<p>Con pesos que suman 100%, la fórmula es: (6,0 × 20 + 5,5 × 30 + 4,8 × 50) ÷ 100. Si los porcentajes no suman 100%, revisa si faltan evaluaciones antes de interpretar el resultado como una nota final.</p>
 <div class="table-wrap" tabindex="0" role="region" aria-label="Comparación de promedios con desplazamiento horizontal"><table class="data-table">
   <caption class="sr-only">Comparación entre promedio simple y promedio ponderado.</caption>
   <thead><tr><th>Método</th><th>Resultado del ejemplo</th><th>Cuándo usarlo</th></tr></thead>
   <tbody>
-    <tr><td>Promedio simple</td><td><strong>{formatNumber(simpleExample,3)}</strong></td><td>Todas las notas pesan igual</td></tr>
+    <tr><td>Promedio simple</td><td><strong>≈ {formatNumber(simpleExample,3)}</strong></td><td>Todas las notas pesan igual</td></tr>
     <tr><td>Promedio ponderado</td><td><strong>{formatNumber(weightedExample.average,2)}</strong></td><td>Cada nota tiene un porcentaje</td></tr>
   </tbody>
 </table></div>
-<p class="muted">Última revisión: 7 de octubre de 2026.</p>
+<p class="muted">Por NotaCL · Última revisión: <time datetime={reviewedAt}>{reviewedLabel}</time>.</p>
 </div></section>
 </BaseLayout>

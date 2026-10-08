@@ -183,6 +183,17 @@ for (const route of canonicalRoutes) {
   const canonical = extract(html, /<link[^>]+rel="canonical"[^>]+href="([^"]+)"/i)
     || extract(html, /<link[^>]+href="([^"]+)"[^>]+rel="canonical"/i);
 
+  const socialImage = extract(html, /<meta[^>]+property="og:image"[^>]+content="([^"]+)"/i);
+  const twitterImage = extract(html, /<meta[^>]+name="twitter:image"[^>]+content="([^"]+)"/i);
+  if (siteUrl) {
+    const expectedImage = new URL('/images/notacl-social.png', siteUrl).toString();
+    if (socialImage !== expectedImage || twitterImage !== expectedImage) fail(`${route} social image origin/path mismatch`);
+    if (!html.includes('name="twitter:card" content="summary_large_image"')) fail(`${route} must expose its large social card`);
+    if (!html.includes('property="og:image:alt"') || !html.includes('name="twitter:image:alt"')) fail(`${route} social image needs alternative text`);
+  } else if (socialImage || twitterImage) {
+    fail(`${route} must not invent a social image origin in fail-closed output`);
+  }
+
   if (siteUrl && !pendingIndexationRoutes.includes(route)) {
     if (!robots.includes('index,follow')) fail(`${route} should be indexable when PUBLIC_SITE_URL is set`);
     const expected = new URL(route, siteUrl).toString();
@@ -239,6 +250,12 @@ for (const route of canonicalRoutes) {
   if (route.startsWith('/guias/') && route !== '/guias/' && !schemaTypes.has('Article')) {
     fail(`${route} is missing Article structured data`);
   }
+  for (const article of jsonLd.filter((item) => item?.['@type'] === 'Article')) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(article.dateModified || '') || !html.includes(`datetime="${article.dateModified}"`)) {
+      fail(`${route} Article dateModified must match its visible review time`);
+    }
+    if (!html.includes('Por NotaCL')) fail(`${route} must identify its article author visibly`);
+  }
 
   if (siteUrl && route !== '/' && !schemaTypes.has('BreadcrumbList')) {
     fail(`${route} is missing BreadcrumbList structured data in production-like output`);
@@ -283,6 +300,14 @@ for (const route of forbiddenRoutes) {
 }
 
 const notFoundFile = join(dist, '404.html');
+const socialImageFile = join(dist, 'images/notacl-social.png');
+if (!existsSync(socialImageFile)) {
+  fail('social preview PNG is missing');
+} else {
+  const png = readFileSync(socialImageFile);
+  if (png.length < 24 || png.subarray(0, 8).toString('hex') !== '89504e470d0a1a0a' || png.readUInt32BE(16) !== 1200 || png.readUInt32BE(20) !== 630) fail('social preview must be a valid 1200×630 PNG');
+  if (png.length > 100 * 1024) fail('social preview exceeds the 100 KB internal budget');
+}
 if (!existsSync(notFoundFile)) {
   fail('404.html is missing');
 } else {
