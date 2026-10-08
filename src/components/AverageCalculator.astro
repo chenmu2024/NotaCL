@@ -98,8 +98,8 @@ const initialAverage=average(initialNumbers);
       if(value!==null && Array.from(input.options).some(option=>option.value===value)) input.value=value;
     }
     const raw=params.get('notas');
-    if(!raw) return;
-    const parsed=raw.split('|').map(value=>value.trim()).filter(Boolean).slice(0,50);
+    if(raw===null) return;
+    const parsed=raw.split('|').map(value=>value.trim()).slice(0,50);
     if(parsed.length) values=parsed;
   }
 
@@ -222,6 +222,7 @@ const initialAverage=average(initialNumbers);
     }
     values.push('');
     renderRows();
+    calc();
   });
 
   document.querySelector('#avg-decimals')?.addEventListener('change',calc);
@@ -284,6 +285,8 @@ const initialAverage=average(initialNumbers);
       storageStatus.textContent='No se pudo modificar el almacenamiento local de este navegador.';
     }
   });
+
+  window.addEventListener('hashchange',()=>{readHash();renderRows();calc()});
 
   readHash();
   renderRows();

@@ -4,6 +4,7 @@ Latest local development evidence: see `DEVELOPMENT-PROGRESS.md`. Deployed-host 
 
 ## Product / math
 - [x] Core calculation flows are implemented end-to-end.
+- [x] Blank-row result invalidation, same-document share restoration, browser Back and missing shared grades checked in Edge.
 - [x] Score→grade formula is isolated from UI code.
 - [x] Simple average, weighted average, required grade and projected scenarios are tested.
 - [x] 3.95 / 5.25 rounding boundaries are tested.

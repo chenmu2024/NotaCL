@@ -101,11 +101,11 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
       if(value!==null && Array.from(input.options).some(option=>option.value===value)) input.value=value;
     }
     const raw=params.get('ponderaciones');
-    if(!raw) return;
+    if(raw===null) return;
     const parsed=raw.split('|').slice(0,30).map(pair=>{
       const [grade,weight]=pair.split(':');
       return [grade?.trim()||'',weight?.trim()||''];
-    }).filter(([grade,weight])=>grade || weight);
+    });
     if(parsed.length) items=parsed;
   }
 
@@ -285,6 +285,7 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
     }
     items.push(['','']);
     draw();
+    calc();
   });
   document.querySelector('#w-decimals')?.addEventListener('change',calc);
   document.querySelector('#w-rounding')?.addEventListener('change',calc);
@@ -323,6 +324,8 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
     draw();
     calc();
   });
+
+  window.addEventListener('hashchange',()=>{readHash();draw();calc()});
 
   readHash();
   draw();

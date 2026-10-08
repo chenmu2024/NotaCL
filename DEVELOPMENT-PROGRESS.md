@@ -4,6 +4,8 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 
 ## Completed against the supplied Chile plan
 
+- Latest calculator state fixes: adding a blank average/weighted row immediately invalidates stale results; average, weighted and required-grade tools restore same-document shared fragments; blank shared rows remain invalid rather than being silently dropped. Edge checks cover filling/removing rows, browser Back and missing shared values.
+
 - Latest keyword implementation: see `KEYWORD-COVERAGE.md` and `seo/keyword-map.json`. All 130 extracted/named queries are classified; existing page content, static examples and task links were expanded. No synonym routes were added. Conditional/deferred/excluded terms are explicitly distinguished from implemented coverage.
 
 - Retained the existing 17-page Astro static site and current URL ownership. Full conditional-route SERP certification is still pending.

@@ -203,6 +203,8 @@ const initialScenarios=[4,5,6,7].map(exam=>({
     history.replaceState(null,'',window.location.pathname+window.location.search);
     calc();
   });
+  window.addEventListener('hashchange',()=>{readHash();calc()});
+
   readHash();
   calc();
 </script>
