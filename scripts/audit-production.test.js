@@ -52,6 +52,7 @@ async function runAudit(scenario = '') {
       const robots = scenario === 'noindex-meta' || (pending && scenario !== 'indexable-conditional') ? 'noindex,follow' : 'index,follow';
       const canonical = scenario === 'bad-canonical' ? 'https://wrong.example/' : url.href;
       body = `${pending ? '' : `<link rel="canonical" href="${canonical}">`}<meta name="robots" content="${robots}">`;
+      if (scenario === 'injected-analytics') body += '<script defer src="https://static.cloudflareinsights.com/beacon.min.js"></script>';
       if (scenario === 'noindex-header') headers['X-Robots-Tag'] = 'googlebot: NOINDEX, follow';
       if (scenario === 'none-header') headers['X-Robots-Tag'] = 'none';
       if (scenario === 'missing-security') delete headers['X-Frame-Options'];
@@ -83,6 +84,7 @@ describe('production release audit', () => {
     ['bad-canonical', 'canonical mismatch'],
     ['missing-sitemap', 'sitemap.xml is missing'],
     ['missing-security', 'missing security response header'],
+    ['injected-analytics', 'loads analytics despite'],
     ['network-failure', 'request failed'],
     ['indexable-conditional', 'must remain noindex until its SERP gate is completed'],
     ['conditional-in-sitemap', 'sitemap.xml contains a page pending indexation'],

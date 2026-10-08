@@ -1,15 +1,19 @@
 # NotaCL Cloudflare Deployment
 
-- Production domain: TBD `.cl`
+- Production domain: `https://notacl.cl`
 - GitHub repository: `chenmu2024/NotaCL`
 - Production branch: `main`
 - Framework: Astro static
 - Build command: `npm run build`
 - Output directory: `dist`
 - Node: 22
-- Required production environment variable: `PUBLIC_SITE_URL=https://FINAL-DOMAIN.cl`
+- Production environment variable: `PUBLIC_SITE_URL=https://notacl.cl` (leave unset for previews)
 - Optional environment variable: `PUBLIC_SITE_NAME=NotaCL`
 - Static headers: `public/_headers`
+
+## No-analytics policy
+
+The owner has deferred analytics. Cloudflare can inject its Web Analytics beacon at the domain layer even when Pages Web Analytics is disabled. The default response uses `Cache-Control: public, max-age=0, must-revalidate, no-transform` to prevent that injection without making HTML stale. Fingerprinted assets keep their immutable cache policy. Cloudflare documents this behavior at https://developers.cloudflare.com/web-analytics/get-started/. The live production audit rejects injected Cloudflare/Google analytics scripts; also verify browser network requests after each deployment.
 
 ## Before connecting the domain
 

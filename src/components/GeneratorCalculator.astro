@@ -82,7 +82,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       <p><strong>Puntaje máximo:</strong> <span id="g-print-max">{formatNumber(initialMaxScore,0)}</span> · <strong>Exigencia:</strong> <span id="g-print-exigency">{formatNumber(initialConfig.exigency*100,1)}%</span> · <strong>Escala:</strong> <span id="g-print-scale">{formatNumber(initialConfig.minGrade,1)}–{formatNumber(initialConfig.maxGrade,1)}</span></p>
       <p id="g-print-rounding">1 decimal · Mitad hacia arriba. El estado usa el valor sin redondear.</p>
     </div>
-    <div class="table-wrap">
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Tabla con desplazamiento horizontal">
       <table class="data-table">
         <caption class="sr-only">Tabla de puntaje, porcentaje, nota calculada y estado según la configuración elegida.</caption>
         <thead><tr><th>Puntaje</th><th>Porcentaje</th><th>Nota</th><th>Estado según corte</th></tr></thead>

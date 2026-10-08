@@ -12,7 +12,7 @@ const result=admissionScore(scores,weights);
   <div class="tool-head"><div><h2>Simular puntaje ponderado</h2><p>Puntajes de 100 a 1.000. Cálculo local sin RUT ni registro.</p></div><span class="badge">Admisión 2027</span></div>
   <form id="ad-form" class="tool-panel">
     <div class="field"><label for="ad-preset">Carrera o escenario</label><select id="ad-preset" class="input">{options.map((option,i)=><option value={i}>{option.name}</option>)}</select></div>
-    <div class="table-wrap"><table class="data-table"><caption>Puntajes y ponderaciones del escenario seleccionado</caption><thead><tr><th>Factor</th><th>Puntaje</th><th>Peso (%)</th></tr></thead><tbody>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Tabla con desplazamiento horizontal"><table class="data-table"><caption>Puntajes y ponderaciones del escenario seleccionado</caption><thead><tr><th>Factor</th><th>Puntaje</th><th>Peso (%)</th></tr></thead><tbody>
     {factors.map((factor,i)=><tr><th scope="row">{factor}</th><td>{i<7 ? <input class="input" id={`ad-score-${i}`} aria-label={`Puntaje ${factor}`} value={scores[i]} inputmode="decimal" /> : 'Mayor puntaje electivo ingresado'}</td><td><input class="input" id={`ad-weight-${i}`} aria-label={`Peso ${factor}`} value={weights[i]} inputmode="decimal" readonly={institution!=='paes'} /></td></tr>)}
     </tbody></table></div>
     <p class="muted">Un factor con peso 0% no afecta el resultado. Si se usa la mejor electiva, puedes dejar en blanco la prueba que no rendiste.</p>

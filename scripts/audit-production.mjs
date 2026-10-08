@@ -106,6 +106,9 @@ for (const route of routes) {
   }
 
   const html = await response.text();
+  if (/<script\b[^>]*\bsrc\s*=\s*["'][^"']*(?:static\.cloudflareinsights\.com|googletagmanager\.com|google-analytics\.com)\//i.test(html)) {
+    fail(`${route} loads analytics despite the owner's no-analytics policy`);
+  }
   const canonical = canonicalFrom(html);
   const pendingIndexation = pendingIndexationRoutes.includes(route);
   if (pendingIndexation) {
