@@ -23,7 +23,7 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 
 ## Verification on the changed code
 
-- 30 unit tests pass across 4 files.
+- 43 tests pass across 5 files, including 13 production-audit scenarios.
 - Astro check: 0 errors, warnings or hints.
 - 17 static pages build successfully.
 - Build SEO/GEO audit passes without a production origin, with a pages.dev preview origin, and with the production-like test origin `https://notacl.example`.
@@ -37,6 +37,13 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 - Additional browser regression checks pass for both scale share directions, custom settings, legacy fragments, invalid scale state and reset.
 - At 360px, visible buttons, header CTA and menu controls pass a measured 44px minimum-height check on five calculator routes.
 - Exported a 100-point scale to a four-page A4 PDF: all 101 rows appear in order and table headers repeat on each page. Visually reviewed all four rendered pages. Fixed a print-only skip-link overlay found during that check. This certifies the local Edge export, not every printer or deployed browser.
+
+## Existing hosted preview checked on 2026-10-08
+
+- https://notacl.pages.dev responds HTTP 200 on all 16 intent routes; a missing route responds HTTP 404. All checked responses contain X-Robots-Tag: noindex, nofollow.
+- The main-branch host does not yet contain the latest average precision controls or weighted keyword section. The verified PR preview for commit b0fa904 is https://b4b0393a.notacl.pages.dev; keyword examples, anchors and five mobile routes pass browser checks there.
+- On that PR preview, calculator workflows, local saving, fragment sharing, CSV, keyboard/print behavior and 40 responsive route checks also pass in Edge. These preview results do not certify a final .cl deployment.
+- The production audit now rejects blocking robots headers, noindex meta directives, root Disallow rules and broken preview responses, with a 15-second request timeout.
 
 ## Remaining before public launch
 

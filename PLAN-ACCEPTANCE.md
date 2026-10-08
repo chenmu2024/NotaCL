@@ -67,7 +67,7 @@
 |---|---|
 | SERP Gate | 未完成，Google读取遇阻；缺七组完整Top10对比 |
 | URL Cannibalization | 当前路由审计无同义扩张；搜索意图重合度尚不能完全认证 |
-| Calculations / Rounding / Weighted 5.25 / Exigencia | 30项单元测试通过；相关浏览器场景通过 |
+| Calculations / Rounding / Weighted 5.25 / Exigencia | 43项测试通过；相关浏览器场景通过 |
 | es-CL / Comma decimal | 构建与解析测试通过 |
 | Mobile | 本地40组布局与手机交互通过；部署版待验 |
 | localStorage | 本地正常/损坏/禁用/清空路径通过 |
@@ -83,4 +83,4 @@
 | Analytics | 用户于2026-10-08明确暂不接入，按最新指示暂缓；不加载统计脚本 |
 | Dead links 0 | 本地内部链接审计通过；正式host和全部外部链接最终复测待完成 |
 
-下一步：先完成 Google Chile Top10 证据及条件路由索引判断；域名购买后配置 Cloudflare 正式来源，运行生产审计，再做 Search Console、统计和现场性能验收。推广/90天/180天数据属于后续运营，不应由代码测试冒充已达成。
+下一步：先完成 Google Chile Top10 证据及条件路由索引判断；域名购买后配置 Cloudflare 正式来源，运行生产审计，再做 Search Console 和现场性能验收；统计按用户决定暂缓。推广/90天/180天数据属于后续运营，不应由代码测试冒充已达成。

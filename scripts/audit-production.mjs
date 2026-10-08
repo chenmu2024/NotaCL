@@ -62,6 +62,7 @@ async function request(url, options = {}) {
   try {
     return await fetch(url, {
       redirect: 'follow',
+      signal: AbortSignal.timeout(15000),
       headers: { 'User-Agent': userAgent },
       ...options,
     });
@@ -99,7 +100,12 @@ for (const route of routes) {
   if (canonical !== expected) fail(`${route} canonical mismatch: expected ${expected}, got ${canonical || '(missing)'}`);
 
   const robots = html.match(/<meta[^>]+name=["']robots["'][^>]+content=["']([^"']+)["']/i)?.[1] || '';
-  if (!robots.includes('index,follow')) fail(`${route} is not indexable in production HTML`);
+  const directives = robots.toLowerCase().split(/[\s,]+/);
+  if (!directives.includes('index') || !directives.includes('follow') || directives.includes('noindex') || directives.includes('none')) {
+    fail(`${route} is not indexable in production HTML`);
+  }
+  const robotsHeader = response.headers.get('x-robots-tag') || '';
+  if (/\b(noindex|none)\b/i.test(robotsHeader)) fail(`${route} is blocked by X-Robots-Tag`);
 }
 
 const slashProbe = new URL('/escala-de-notas', origin);
@@ -125,6 +131,7 @@ if (robotsResponse) {
   if (robotsResponse.status !== 200) fail(`robots.txt returned HTTP ${robotsResponse.status}`);
   const robots = await robotsResponse.text();
   if (!robots.includes('Allow: /')) fail('robots.txt does not allow production crawling');
+  if (/^\s*Disallow:\s*\/\s*(?:#.*)?$/im.test(robots)) fail('robots.txt blocks production crawling');
   if (!robots.includes(`Sitemap: ${origin}/sitemap.xml`)) fail('robots.txt sitemap URL does not match production origin');
 }
 
@@ -152,6 +159,7 @@ if (alternateOrigin) {
 if (previewOrigin) {
   const previewResponse = await request(new URL('/', previewOrigin), { redirect: 'manual' });
   if (previewResponse) {
+    if (previewResponse.status !== 200) fail(`preview origin returned HTTP ${previewResponse.status}; noindex alone does not verify a working preview`);
     const robotsHeader = previewResponse.headers.get('x-robots-tag') || '';
     if (!robotsHeader.toLowerCase().includes('noindex')) {
       fail(`preview origin ${previewOrigin} is missing X-Robots-Tag: noindex`);

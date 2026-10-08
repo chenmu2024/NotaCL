@@ -41,7 +41,7 @@ Current approved search-intent routes:
 - `/` — calculadora / calculador de notas
 - `/generador-de-notas/` — full grading-scale generator
 - `/escala-de-notas/` — configurable score-to-grade scale
-- `/escala-de-notas/60/` — fixed 60% exigency scale, supported by separate SERP intent evidence
+- `/escala-de-notas/60/` — fixed 60% exigency scale; final independent indexation remains pending the complete Google Chile Top10 gate
 - `/promedio-de-notas/` — simple average
 - `/notas-con-porcentaje/` — weighted average
 - `/que-nota-necesito/` — reverse required-grade calculation

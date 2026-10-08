@@ -58,7 +58,7 @@ Latest local development evidence: see `DEVELOPMENT-PROGRESS.md`. Deployed-host 
 - [ ] Lighthouse/lab LCP, INP and CLS measured on final deployed host.
 
 ## Deterministic CI
-- [x] `npm run test`
+- [x] `npm run test` — 43 tests, including 13 production-audit success/failure scenarios
 - [x] `npm run check`
 - [x] `npm run build`
 - [x] `npm run audit`
