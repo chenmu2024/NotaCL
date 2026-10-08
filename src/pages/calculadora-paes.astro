@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import AdmissionLinks from '../components/AdmissionLinks.astro';
+import AdmissionCalculator from '../components/AdmissionCalculator.astro';
+import AdmissionsFactors from '../components/AdmissionsFactors.astro';
+import { admissionScore, presets } from '../lib/calculators/admissions';
+import { formatNumber } from '../lib/calculators/core';
+const title="Calculadora PAES: simulador de puntaje ponderado | NotaCL";
+const description="Combina NEM, Ranking y puntajes PAES con los porcentajes de tu carrera. Escribe las ponderaciones publicadas para el período al que postulas.";
+const faqItems=[{"question": "¿El puntaje predice si quedaré seleccionado?", "answerHtml": "No. La selección también depende de requisitos, preferencias, vacantes y los demás postulantes."}, {"question": "¿Puedo dejar una prueba en blanco?", "answerHtml": "Sí, si no tiene peso. Para la mejor electiva necesitas al menos una de las dos pruebas; todo factor requerido debe tener un puntaje válido."}];
+const schema={'@context':'https://schema.org','@type':'WebApplication',name:"Calculadora PAES: simulador de puntaje ponderado",description,applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL'};
+---
+<BaseLayout {title} {description} path="/calculadora-paes/" {schema}>
+<Breadcrumbs items={[{label:"Calculadora PAES"}]} />
+<section class="hero"><div class="container"><p class="eyebrow">Admisión 2027 · simulación independiente</p><h1>Calculadora PAES</h1><p class="lead">{description}</p></div></section>
+<section class="section"><div class="container"><AdmissionCalculator institution="paes" /></div></section>
+<section class="section"><div class="container reading prose"><h2>Cómo calcular el puntaje ponderado PAES</h2><p>Multiplica cada puntaje por su porcentaje y divide por 100; luego suma los aportes. Las ponderaciones deben sumar exactamente 100%. El escenario inicial es ilustrativo, no pertenece a una carrera oficial.</p><p>Usa puntajes informados por DEMRE entre 100 y 1.000. Esta herramienta no convierte respuestas correctas ni porcentajes de aciertos: esa transformación depende de la prueba y de su aplicación. Para NEM utiliza la tabla de tu modalidad; para Ranking utiliza tu resultado oficial o una simulación con antecedentes completos.</p><h2>Electivas y M2</h2><p>Si la carrera acepta la mejor de Historia o Ciencias, asigna el porcentaje a «Mejor electiva» y deja ambos pesos individuales en cero. Puedes ingresar una sola electiva rendida; si ingresas ambas se usa la mayor. Si exige Ciencias o Historia específicamente, asigna el peso a esa prueba. M2 solo aporta cuando su peso es mayor que cero.</p><h2>Ejemplo calculado</h2><p>El escenario inicial de la herramienta produce {formatNumber(admissionScore([700,750,650,800,700,600,700],presets.paes[0].weights).score,2)} puntos. Cambiar la carrera cambia los pesos, no tus puntajes.</p>
+<AdmissionsFactors institution="paes" />
+<h2>Fuente y metodología</h2><p>NotaCL es una herramienta independiente. El cálculo reproduce el método indicado y no emite resultados oficiales. Revisión: <time datetime="2026-10-08">8 de octubre de 2026</time>.</p><ul><li><a href="https://demre.cl/paes/factores-seleccion">DEMRE: factores de selección</a></li></ul>
+<Faq items={faqItems} /><h2>Herramientas relacionadas</h2><AdmissionLinks />
+</div></section></BaseLayout>

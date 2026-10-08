@@ -1,11 +1,13 @@
 import { normalizeSiteOrigin } from '../lib/site/url';
 export const SITE_NAME = import.meta.env.PUBLIC_SITE_NAME || 'NotaCL';
+export const CONTACT_EMAIL = 'contact@notacl.cl';
 export const SITE_URL = normalizeSiteOrigin(import.meta.env.PUBLIC_SITE_URL);
 export const INDEXING_ENABLED = Boolean(SITE_URL);
 export const DEFAULT_LOCALE = 'es-CL';
 export const LAST_UPDATED = '2026-10-08';
 
 export const navItems = [
+  { href: '/calculadora-paes/', label: 'Admisión' },
   { href: '/generador-de-notas/', label: 'Generador' },
   { href: '/escala-de-notas/', label: 'Escala' },
   { href: '/promedio-de-notas/', label: 'Promedio' },

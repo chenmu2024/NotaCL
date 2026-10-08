@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import AdmissionLinks from '../../components/AdmissionLinks.astro';
+import AdmissionCalculator from '../../components/AdmissionCalculator.astro';
+import AdmissionsFactors from '../../components/AdmissionsFactors.astro';
+
+
+const title="Calculadora USACH: Bachillerato 2027 | NotaCL";
+const description="Simula el puntaje ponderado del Bachillerato en Ciencias y Humanidades de la Universidad de Santiago de Chile, código DEMRE 16030.";
+const faqItems=[{"question": "¿Esta es la calculadora oficial de USACH?", "answerHtml": "No. NotaCL es independiente; reproduce las ponderaciones verificadas de la ficha enlazada."}, {"question": "¿Incluye todas las carreras USACH?", "answerHtml": "No. Incluye Bachillerato, código 16030. Para otras carreras utiliza los pesos oficiales en la calculadora PAES."}];
+const schema={'@context':'https://schema.org','@type':'WebApplication',name:"Calculadora USACH: Bachillerato 2027",description,applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL'};
+---
+<BaseLayout {title} {description} path="/universidades/usach/" {schema}>
+<Breadcrumbs items={[{label:"Calculadora USACH"}]} />
+<section class="hero"><div class="container"><p class="eyebrow">Admisión 2027 · simulación independiente</p><h1>Calculadora USACH</h1><p class="lead">{description}</p></div></section>
+<section class="section"><div class="container"><AdmissionCalculator institution="usach" /></div></section>
+<section class="section"><div class="container reading prose"><h2>Ponderaciones USACH incluidas</h2><p>Este simulador incluye un programa verificado: Bachillerato en Ciencias y Humanidades. Ranking aporta 40%, por lo que tiene una incidencia distinta de los otros factores. Historia y Ciencias son alternativas para el 10% electivo; M2 no aporta en este programa.</p><p>No incluye todo el catálogo USACH. Para otra carrera, consulta su ficha oficial y traslada los porcentajes a la <a href="/calculadora-paes/">calculadora PAES configurable</a>. Las notas de matrícula de 2026 no son un corte garantizado para 2027.</p>
+<AdmissionsFactors institution="usach" />
+<h2>Fuente y metodología</h2><p>NotaCL es una herramienta independiente. El cálculo reproduce el método indicado y no emite resultados oficiales. Revisión: <time datetime="2026-10-08">8 de octubre de 2026</time>.</p><ul><li><a href="https://admision.usach.cl/carreras/bachillerato-en-ciencias-y-humanidades">USACH: ficha de Bachillerato, ponderaciones 2027</a></li></ul>
+<Faq items={faqItems} /><h2>Herramientas relacionadas</h2><AdmissionLinks />
+</div></section></BaseLayout>

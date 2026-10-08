@@ -2,7 +2,11 @@
 
 Status: deterministic development/release checks pass on the current codebase. Real production-host and browser L2 checks remain pending until the final .cl domain is connected.
 
-## L1 deterministic evidence
+## Current development evidence
+
+See `DEVELOPMENT-PROGRESS.md` and https://github.com/chenmu2024/NotaCL/pull/1 for the current changes, 30-test suite and local browser/lab evidence. The CI run below is retained as historical evidence, not the current revision.
+
+## Historical L1 deterministic evidence
 
 Verified on GitHub Actions CI run #227, commit `d925d4f996b7e3517c5b2538e775a905ce1e8f53`.
 
@@ -29,7 +33,7 @@ Verified on GitHub Actions CI run #227, commit `d925d4f996b7e3517c5b2538e775a905
 - [x] SERP decisions are documented for generic scale / 60% / tabla / puntaje / homepage-vs-promedio consolidation
 - [x] Static asset budgets pass
 
-Current lab/build-size evidence from run #227:
+Historical lab/build-size evidence from run #227:
 - Maximum audited raw HTML: **21.5 KB** in the production-like build
 - Total client JavaScript: **19.8 KB**
 - Total CSS: **32.2 KB**

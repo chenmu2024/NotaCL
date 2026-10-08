@@ -11,10 +11,14 @@ Herramientas gratuitas para calcular notas, escalas, promedios y ponderaciones e
 - Cloudflare Pages
 - No database, no accounts, no paid APIs
 
+## Current development status
+
+See `DEVELOPMENT-PROGRESS.md` for the plan comparison, latest verification and launch dependencies.
+
 ## Local development
 
 ```bash
-npm install
+npm ci
 npm run dev
 npm run test
 npm run check
@@ -28,6 +32,8 @@ npm run audit
 
 Set `PUBLIC_SITE_URL` in Cloudflare Pages to the final canonical `.cl` origin before launch. If it is absent, public pages output `noindex,nofollow` and the sitemap stays empty, so a temporary Pages deployment fails closed instead of accidentally becoming the canonical production site.
 
+The conditional `/escala-de-notas/60/` route stays noindex and outside the sitemap until its complete SERP evidence is reviewed. `seo/indexing-policy.mjs` records this hold; adding a domain does not lift it.
+
 `pages.dev`/preview host blocking must also be enforced at Cloudflare host/rule level before launch; canonical tags alone are not treated as sufficient protection.
 
 ## Canonical SEO architecture
@@ -37,7 +43,7 @@ Current approved search-intent routes:
 - `/` — calculadora / calculador de notas
 - `/generador-de-notas/` — full grading-scale generator
 - `/escala-de-notas/` — configurable score-to-grade scale
-- `/escala-de-notas/60/` — fixed 60% exigency scale, supported by separate SERP intent evidence
+- `/escala-de-notas/60/` — fixed 60% exigency scale; final independent indexation remains pending the complete Google Chile Top10 gate
 - `/promedio-de-notas/` — simple average
 - `/notas-con-porcentaje/` — weighted average
 - `/que-nota-necesito/` — reverse required-grade calculation
@@ -45,6 +51,18 @@ Current approved search-intent routes:
 `/tabla-de-notas/`, `/puntaje-a-nota/` and `/escala-de-notas/50/` remain intentionally unshipped until search-result evidence justifies separate canonical pages.
 
 See `SEO-GEO-PROJECT-BRIEF.md` and `SERP-DECISIONS.md`.
+
+## Admissions and Duoc tools
+
+- `/calculadora-nem/`: official 2027 modality tables (A/B/C, 301 rows each).
+- `/calculadora-ranking/`: 2027 context simulation; requires user-supplied historical score references.
+- `/calculadora-paes/`: configurable weighted standardized scores.
+- `/universidades/usach/`: Bachillerato 16030.
+- `/universidades/uc/`: Derecho and Ingeniería.
+- `/universidades/uchile/`: Derecho and Ingeniería y Ciencias Plan Común; preliminary 2027 weights.
+- `/universidades/duoc/`: course final 60/40, 2026 regulation art. 35 d.
+
+University pages disclose their limited program coverage and primary sources. Ranking 2028 is a different method and is not supported.
 
 ## Trust and factual sources
 

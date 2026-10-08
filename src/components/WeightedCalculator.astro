@@ -1,4 +1,5 @@
 ---
+import RoundingControls from './RoundingControls.astro';
 import { formatNumber, roundHalfUp, weightedAverage } from '../lib/calculators/core';
 const initialItems=[['6,0','20'],['5,5','30'],['4,8','50']];
 const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30},{grade:4.8,weight:50}]);
@@ -29,6 +30,7 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
           </div>
         )}
       </div>
+      <RoundingControls prefix="w" decimals={2} />
       <div class="actions">
         <button class="btn btn-secondary" type="button" id="w-add">Agregar evaluación</button>
         <button class="btn btn-primary" type="submit">Calcular ponderación</button>
@@ -36,12 +38,14 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
         <button class="btn btn-ghost" type="button" id="w-reset">Restablecer</button>
       </div>
     <p id="w-share-status" class="muted" aria-live="polite"></p>
+
     </form>
 
     <div class="tool-panel result-panel">
       <div class="result-card" aria-live="polite">
         <div class="result-label" id="w-result-label">Promedio ponderado</div>
         <div class="result-value" id="w-result">{formatNumber(roundHalfUp(initialWeighted.average,2),2)}</div>
+        <p>Calculado (3 decimales): <strong id="w-exact">{formatNumber(initialWeighted.average,3)}</strong></p>
         <div class="result-meta result-meta-three">
           <div class="result-stat">
             <span class="result-stat-label">Peso utilizado</span>
@@ -61,11 +65,29 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
       <p id="w-error" class="muted" aria-live="polite"></p>
     </div>
   </div>
+  <div class="tool-panel">
+      <div class="saved-box">
+        <div class="field">
+          <label for="w-subject">Guardar como materia</label>
+          <input class="input" id="w-subject" placeholder="Ej. Matemáticas" maxlength="80" />
+          <small>Tus datos se guardan únicamente en este dispositivo.</small>
+        </div>
+        <div class="actions">
+          <button class="btn btn-secondary" id="w-save" type="button">Guardar materia</button>
+          <button class="btn btn-ghost" id="w-clear-all" type="button">Borrar guardadas</button>
+        </div>
+        <p id="w-storage-status" class="muted" aria-live="polite"></p>
+        <div id="w-saved" class="saved-items" aria-live="polite"></div>
+      </div>
+  </div>
 </div>
 
 <script>
+  import type { RoundingRule } from '../lib/calculators/core';
   import { shareOrCopy } from '../lib/browser/share';
-  import { formatNumber, parseDecimal, roundHalfUp, weightedAverage, weightStatus } from '../lib/calculators/core';
+  import { formatNumber, parseDecimal, roundGrade, roundHalfUp, weightedAverage, weightStatus } from '../lib/calculators/core';
+
+  import { parseSavedSubjects, upsertSavedSubject } from '../lib/storage/savedSubjects';
 
   const list=document.querySelector<HTMLElement>('#w-list')!;
   const shareStatus=document.querySelector<HTMLElement>('#w-share-status')!;
@@ -73,18 +95,25 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
 
   function readHash(){
     const params=new URLSearchParams(window.location.hash.replace(/^#/,''));
+    for(const key of ['decimals','rounding']){
+      const value=params.get(key);
+      const input=document.querySelector<HTMLSelectElement>(`#w-${key}`)!;
+      if(value!==null && Array.from(input.options).some(option=>option.value===value)) input.value=value;
+    }
     const raw=params.get('ponderaciones');
-    if(!raw) return;
+    if(raw===null) return;
     const parsed=raw.split('|').slice(0,30).map(pair=>{
       const [grade,weight]=pair.split(':');
       return [grade?.trim()||'',weight?.trim()||''];
-    }).filter(([grade,weight])=>grade || weight);
+    });
     if(parsed.length) items=parsed;
   }
 
   function shareUrl(){
     const value=items.map(([grade,weight])=>`${grade.trim()}:${weight.trim()}`).join('|');
     const params=new URLSearchParams({ponderaciones:value});
+    params.set('decimals',(document.querySelector<HTMLSelectElement>('#w-decimals')!).value);
+    params.set('rounding',(document.querySelector<HTMLSelectElement>('#w-rounding')!).value);
     return `${window.location.origin}${window.location.pathname}#${params.toString()}`;
   }
 
@@ -139,7 +168,10 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
     try{
       const parsed=items.map(([grade,weight])=>({grade:parseDecimal(grade),weight:parseDecimal(weight)}));
       const result=weightedAverage(parsed);
-      out.textContent=formatNumber(roundHalfUp(result.average,2),2);
+      const decimals=Number((document.querySelector<HTMLSelectElement>('#w-decimals')!).value);
+      const rounding=(document.querySelector<HTMLSelectElement>('#w-rounding')!).value as RoundingRule;
+      out.textContent=formatNumber(roundGrade(result.average,decimals,rounding),decimals);
+      (document.querySelector<HTMLElement>('#w-exact')!).textContent=formatNumber(result.average,3);
       used.textContent=`${formatNumber(result.totalWeight,1)}%`;
       left.textContent=`${formatNumber(Math.max(0,100-result.totalWeight),1)}%`;
       contribution.textContent=formatNumber(roundHalfUp(result.contribution,2),2);
@@ -160,6 +192,7 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
       }
     }catch(e){
       out.textContent='—';
+      (document.querySelector<HTMLElement>('#w-exact')!).textContent='—';
       resultLabel.textContent='Promedio ponderado';
       used.textContent='—';
       left.textContent='—';
@@ -169,6 +202,81 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
     }
   }
 
+  const storageKey='notacl.saved.weighted.subjects';
+  const storageStatus=document.querySelector<HTMLElement>('#w-storage-status')!;
+
+  function saved(){
+    try{
+      return parseSavedSubjects(localStorage.getItem(storageKey)).filter(row=>row.weights);
+    }catch{
+      storageStatus.textContent='El almacenamiento local no está disponible en este navegador.';
+      return [];
+    }
+  }
+
+  function persist(rows: ReturnType<typeof parseSavedSubjects>){
+    try{
+      localStorage.setItem(storageKey,JSON.stringify(rows));
+      storageStatus.textContent='Guardado en este dispositivo.';
+      return true;
+    }catch{
+      storageStatus.textContent='No se pudo guardar en este dispositivo. El cálculo sigue funcionando normalmente.';
+      return false;
+    }
+  }
+
+  function renderSaved(){
+    const box=document.querySelector<HTMLElement>('#w-saved')!;
+    const rows=saved();
+    box.innerHTML=rows.length?rows.map((row,i)=>`
+      <div class="saved-item">
+        <span><strong>${escapeHTML(row.subject)}</strong><small>${formatNumber(row.average,2)} · ${row.values.length} evaluaciones · ${escapeHTML(new Date(row.updatedAt).toLocaleDateString('es-CL'))}</small></span>
+        <span class="saved-actions">
+          <button class="btn btn-ghost" data-load="${i}" type="button">Cargar</button>
+          <button class="btn btn-ghost" data-delete="${i}" type="button">Borrar</button>
+        </span>
+      </div>`).join(''):'<p class="muted">Aún no tienes materias ponderadas guardadas.</p>';
+    box.querySelectorAll<HTMLButtonElement>('[data-load]').forEach(button=>button.addEventListener('click',()=>{
+      const row=saved()[Number(button.dataset.load)];
+      if(!row?.weights) return;
+      items=row.values.map((value,i)=>[value,row.weights![i]]);
+      (document.querySelector<HTMLInputElement>('#w-subject')!).value=row.subject;
+      draw();
+      calc();
+    }));
+    box.querySelectorAll<HTMLButtonElement>('[data-delete]').forEach(button=>button.addEventListener('click',()=>{
+      const rows=saved();
+      rows.splice(Number(button.dataset.delete),1);
+      if(persist(rows)) renderSaved();
+    }));
+  }
+
+  document.querySelector('#w-save')?.addEventListener('click',()=>{
+    const subject=(document.querySelector<HTMLInputElement>('#w-subject')!).value.trim();
+    if(!subject){
+      storageStatus.textContent='Escribe un nombre para la materia antes de guardarla.';
+      return;
+    }
+    try{
+      const result=weightedAverage(items.map(([grade,weight])=>({grade:parseDecimal(grade),weight:parseDecimal(weight)})));
+      const record={subject,average:result.average,values:items.map(row=>row[0]),weights:items.map(row=>row[1]),updatedAt:new Date().toISOString()};
+      if(persist(upsertSavedSubject(saved(),record))) renderSaved();
+    }catch{
+      storageStatus.textContent='Corrige las notas y porcentajes antes de guardar la materia.';
+    }
+  });
+
+  document.querySelector('#w-clear-all')?.addEventListener('click',()=>{
+    if(!saved().length || !window.confirm('¿Borrar todas las materias ponderadas guardadas en este dispositivo?')) return;
+    try{
+      localStorage.removeItem(storageKey);
+      storageStatus.textContent='Materias ponderadas eliminadas.';
+      renderSaved();
+    }catch{
+      storageStatus.textContent='No se pudo modificar el almacenamiento local de este navegador.';
+    }
+  });
+
   document.querySelector('#w-add')?.addEventListener('click',()=>{
     const error=document.querySelector<HTMLElement>('#w-error')!;
     if(items.length>=100){
@@ -177,7 +285,10 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
     }
     items.push(['','']);
     draw();
+    calc();
   });
+  document.querySelector('#w-decimals')?.addEventListener('change',calc);
+  document.querySelector('#w-rounding')?.addEventListener('change',calc);
   document.querySelector('#w-form')?.addEventListener('submit',e=>{
     e.preventDefault();
     calc();
@@ -204,14 +315,20 @@ const initialWeighted=weightedAverage([{grade:6,weight:20},{grade:5.5,weight:30}
   });
 
   document.querySelector('#w-reset')?.addEventListener('click',()=>{
+    (document.querySelector<HTMLSelectElement>('#w-decimals')!).value='2';
+    (document.querySelector<HTMLSelectElement>('#w-rounding')!).value='half-up';
     items=[['6,0','20'],['5,5','30'],['4,8','50']];
+    (document.querySelector<HTMLInputElement>('#w-subject')!).value='';
     shareStatus.textContent='';
     history.replaceState(null,'',window.location.pathname+window.location.search);
     draw();
     calc();
   });
 
+  window.addEventListener('hashchange',()=>{readHash();draw();calc()});
+
   readHash();
   draw();
   calc();
+  renderSaved();
 </script>

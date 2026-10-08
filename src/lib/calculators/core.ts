@@ -1,9 +1,12 @@
+export type RoundingRule = 'half-up' | 'truncate';
+
 export type GradeConfig = {
   minGrade: number;
   passGrade: number;
   maxGrade: number;
   exigency: number;
   decimals: number;
+  rounding?: RoundingRule;
 };
 
 export const DEFAULT_GRADE_CONFIG: GradeConfig = {
@@ -16,15 +19,31 @@ export const DEFAULT_GRADE_CONFIG: GradeConfig = {
 
 export function parseDecimal(value: string | number): number {
   if (typeof value === 'number') return value;
-  const normalized = value.trim().replace(/\s+/g, '').replace(',', '.');
-  if (!normalized) return Number.NaN;
+  const normalized = value.trim().replace(',', '.');
+  if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(normalized)) return Number.NaN;
   return Number(normalized);
 }
 
 export function roundHalfUp(value: number, decimals = 1): number {
   if (!Number.isFinite(value)) return value;
   const factor = 10 ** decimals;
-  return Math.round((value + Number.EPSILON) * factor) / factor;
+  const scaled = value * factor;
+  return Math.round(scaled + Number.EPSILON * Math.max(1, Math.abs(scaled))) / factor;
+}
+
+export function roundGrade(value: number, decimals = 1, rule: RoundingRule = 'half-up'): number {
+  if (rule === 'half-up') return roundHalfUp(value, decimals);
+  if (rule !== 'truncate') throw new Error('Selecciona una regla de redondeo válida.');
+  const factor = 10 ** decimals;
+  const scaled = value * factor;
+  return Math.trunc(scaled + Number.EPSILON * Math.max(1, Math.abs(scaled))) / factor;
+}
+
+// A minimum required grade must never be displayed below the mathematical threshold.
+export function minimumRequiredGrade(value: number, decimals = 1): number {
+  const factor = 10 ** decimals;
+  const scaled = value * factor;
+  return Math.ceil(scaled - Number.EPSILON * Math.max(1, Math.abs(scaled))) / factor;
 }
 
 export function formatNumber(value: number, decimals = 1): string {
@@ -40,7 +59,8 @@ export function validateGradeConfig(config: GradeConfig): string[] {
   if (!(config.minGrade < config.passGrade && config.passGrade < config.maxGrade)) {
     errors.push('Las notas deben cumplir: mínima < aprobación < máxima.');
   }
-  if (config.minGrade < 0 || config.maxGrade > 10) errors.push('La configuración de notas está fuera de un rango razonable.');
+  if (![config.minGrade, config.passGrade, config.maxGrade].every(Number.isFinite) || config.minGrade < 1 || config.maxGrade > 7) errors.push('Las notas deben estar entre 1,0 y 7,0.');
+  if (config.rounding !== undefined && !['half-up', 'truncate'].includes(config.rounding)) errors.push('Selecciona una regla de redondeo válida.');
   if (!Number.isInteger(config.decimals) || config.decimals < 0 || config.decimals > 3) errors.push('Los decimales deben estar entre 0 y 3.');
   return errors;
 }
@@ -59,14 +79,14 @@ export function scoreToExactGrade(score: number, maxScore: number, config: Grade
 }
 
 export function scoreToGrade(score: number, maxScore: number, config: GradeConfig = DEFAULT_GRADE_CONFIG): number {
-  return roundHalfUp(scoreToExactGrade(score, maxScore, config), config.decimals);
+  return roundGrade(scoreToExactGrade(score, maxScore, config), config.decimals, config.rounding);
 }
 
 export function buildGradeScale(maxScore: number, config: GradeConfig = DEFAULT_GRADE_CONFIG) {
   if (!Number.isInteger(maxScore) || maxScore <= 0 || maxScore > 1000) throw new Error('El puntaje máximo debe ser un entero entre 1 y 1000.');
   return Array.from({ length: maxScore + 1 }, (_, score) => {
     const exact = scoreToExactGrade(score, maxScore, config);
-    const grade = roundHalfUp(exact, config.decimals);
+    const grade = roundGrade(exact, config.decimals, config.rounding);
     return {
       score,
       percentage: (score / maxScore) * 100,
@@ -122,9 +142,16 @@ export function requiredGrade(params: {
   validateChileGrade(currentAverage, 'El promedio actual');
   validateChileGrade(targetGrade, 'La nota objetivo');
   if (completedWeight < 0 || finalWeight <= 0) throw new Error('Los porcentajes deben ser positivos.');
+  if (completedWeight > 100 || finalWeight > 100) throw new Error('Un porcentaje individual no puede superar 100%.');
   const total = completedWeight + finalWeight;
   if (Math.abs(total - 100) > 0.11) throw new Error('El porcentaje completado más el examen debe sumar 100%.');
-  return (targetGrade * 100 - currentAverage * completedWeight) / finalWeight;
+  const targetContribution = targetGrade * 100;
+  const completedContribution = currentAverage * completedWeight;
+  const remainingContribution = targetContribution - completedContribution;
+  // Avoid classifying an exactly achievable 7.0 as impossible due to floating-point noise.
+  const tolerance = Number.EPSILON * 4 * Math.max(1, Math.abs(targetContribution), Math.abs(completedContribution));
+  if (Math.abs(remainingContribution - 7 * finalWeight) <= tolerance) return 7;
+  return remainingContribution / finalWeight;
 }
 
 
@@ -139,6 +166,7 @@ export function projectedFinalGrade(params: {
   validateChileGrade(currentAverage, 'El promedio actual');
   validateChileGrade(finalGrade, 'La nota del examen');
   if (completedWeight < 0 || finalWeight < 0) throw new Error('Los porcentajes no pueden ser negativos.');
+  if (completedWeight > 100 || finalWeight > 100) throw new Error('Un porcentaje individual no puede superar 100%.');
   const total = completedWeight + finalWeight;
   if (Math.abs(total - 100) > 0.11) throw new Error('El porcentaje completado más el examen debe sumar 100%.');
   return (currentAverage * completedWeight + finalGrade * finalWeight) / 100;

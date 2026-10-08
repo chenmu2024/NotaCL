@@ -1,0 +1,23 @@
+---
+interface Props {
+  prefix: string;
+  decimals?: number;
+}
+const { prefix, decimals = 1 } = Astro.props;
+---
+<div class="inline-fields">
+  <div class="field">
+    <label for={`${prefix}-decimals`}>Decimales del resultado</label>
+    <select class="select" id={`${prefix}-decimals`}>
+      {[0,1,2,3].map(value=><option value={value} selected={value===decimals}>{value} {value===1?'decimal':'decimales'}</option>)}
+    </select>
+  </div>
+  <div class="field">
+    <label for={`${prefix}-rounding`}>Regla de redondeo</label>
+    <select class="select" id={`${prefix}-rounding`}>
+      <option value="half-up">Mitad hacia arriba</option>
+      <option value="truncate">Truncar (sin redondear)</option>
+    </select>
+  </div>
+</div>
+<p class="muted">El redondeo solo cambia la presentación. Confirma la regla de tu curso.</p>

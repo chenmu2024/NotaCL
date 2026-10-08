@@ -1,0 +1,83 @@
+---
+import { factors, presets, admissionScore } from '../lib/calculators/admissions';
+import { formatNumber } from '../lib/calculators/core';
+interface Props { institution: string }
+const { institution }=Astro.props;
+const options=presets[institution];
+const weights=options[0].weights;
+const scores=[700,750,650,800,700,600,700];
+const result=admissionScore(scores,weights);
+---
+<div class="tool-shell" data-admission={institution}>
+  <div class="tool-head"><div><h2>Simular puntaje ponderado</h2><p>Puntajes de 100 a 1.000. Cálculo local sin RUT ni registro.</p></div><span class="badge">Admisión 2027</span></div>
+  <form id="ad-form" class="tool-panel">
+    <div class="field"><label for="ad-preset">Carrera o escenario</label><select id="ad-preset" class="input">{options.map((option,i)=><option value={i}>{option.name}</option>)}</select></div>
+    <div class="table-wrap"><table class="data-table"><caption>Puntajes y ponderaciones del escenario seleccionado</caption><thead><tr><th>Factor</th><th>Puntaje</th><th>Peso (%)</th></tr></thead><tbody>
+    {factors.map((factor,i)=><tr><th scope="row">{factor}</th><td>{i<7 ? <input class="input" id={`ad-score-${i}`} aria-label={`Puntaje ${factor}`} value={scores[i]} inputmode="decimal" /> : 'Mayor puntaje electivo ingresado'}</td><td><input class="input" id={`ad-weight-${i}`} aria-label={`Peso ${factor}`} value={weights[i]} inputmode="decimal" readonly={institution!=='paes'} /></td></tr>)}
+    </tbody></table></div>
+    <p class="muted">Un factor con peso 0% no afecta el resultado. Si se usa la mejor electiva, puedes dejar en blanco la prueba que no rendiste.</p>
+    <div class="actions"><button class="btn btn-primary" type="submit">Calcular puntaje</button><button class="btn btn-secondary" type="button" id="ad-share">Compartir cálculo</button></div><p id="ad-share-status" class="muted" aria-live="polite"></p>
+  </form>
+  <div class="tool-panel"><div class="result-card" aria-live="polite"><div class="result-label">Puntaje ponderado estimado</div><div class="result-value" id="ad-result">{formatNumber(result.score,2)}</div><p id="ad-error">Simulación; no determina selección ni cumplimiento de todos los requisitos.</p></div><ol id="ad-breakdown">{factors.map((factor,i)=>weights[i]>0 && <li>{factor}: {formatNumber(result.contributions[i],2)} puntos</li>)}</ol></div>
+</div>
+<script>
+import { admissionScore, factors, presets } from '../lib/calculators/admissions';
+import { parseDecimal, formatNumber } from '../lib/calculators/core';
+import { shareOrCopy } from '../lib/browser/share';
+const form=document.querySelector<HTMLFormElement>('#ad-form');
+if(form) {
+  const institution=document.querySelector<HTMLElement>('[data-admission]')!.dataset.admission!;
+  const select=document.querySelector<HTMLSelectElement>('#ad-preset')!;
+  const scores=Array.from({length:7},(_,i)=>document.querySelector<HTMLInputElement>(`#ad-score-${i}`)!);
+  const weights=Array.from({length:8},(_,i)=>document.querySelector<HTMLInputElement>(`#ad-weight-${i}`)!);
+  const result=document.querySelector<HTMLElement>('#ad-result')!;
+  const error=document.querySelector<HTMLElement>('#ad-error')!;
+  const breakdown=document.querySelector<HTMLElement>('#ad-breakdown')!;
+  function applyPreset(){presets[institution][Number(select.value)].weights.forEach((value,i)=>weights[i].value=String(value));}
+  function calculate(){
+    breakdown.replaceChildren();
+    try {
+      const parsedScores=scores.map(input=>parseDecimal(input.value));
+      const parsedWeights=weights.map(input=>parseDecimal(input.value));
+      scores.forEach((input,i)=>{
+        const required=parsedWeights[i]>0 || (i>=5 && parsedWeights[7]>0);
+        if(required && input.value.trim() && !Number.isFinite(parsedScores[i])) throw new Error(`Ingresa un puntaje numérico válido para ${factors[i]}.`);
+      });
+      const output=admissionScore(parsedScores,parsedWeights);
+      result.textContent=formatNumber(output.score,2); error.textContent='Simulación; no garantiza admisión.';
+      output.contributions.forEach((value,i)=>{if(parseDecimal(weights[i].value)>0){const item=document.createElement('li');item.textContent=`${factors[i]}: ${formatNumber(value,2)} puntos`;breakdown.append(item);}});
+      return true;
+    } catch(reason){result.textContent='—';error.textContent=reason instanceof Error?reason.message:'Revisa los datos.';return false;}
+  }
+  function restore(){
+    const params=new URLSearchParams(location.hash.slice(1));
+    if(!params.has('admision')) return;
+    const selected=Number(params.get('carrera'));
+    select.value=String(Number.isInteger(selected)&&presets[institution][selected]?selected:0);applyPreset();
+    scores.forEach((input,i)=>input.value=params.get(`s${i}`)??'');
+    if(institution==='paes') weights.forEach((input,i)=>input.value=params.get(`w${i}`)??'');
+    calculate();
+  }
+  form.addEventListener('submit',event=>{event.preventDefault();calculate();});
+  form.addEventListener('input',calculate);select.addEventListener('change',()=>{applyPreset();calculate();});
+  window.addEventListener('hashchange',restore);restore();
+  document.querySelector('#ad-share')!.addEventListener('click',async()=>{
+    if(!calculate()){
+      document.querySelector('#ad-share-status')!.textContent='Corrige los datos antes de compartir.';
+      return;
+    }
+    const params=new URLSearchParams({admision:'2027',carrera:select.value});
+    scores.forEach((input,i)=>params.set(`s${i}`,input.value));
+    if(institution==='paes')weights.forEach((input,i)=>params.set(`w${i}`,input.value));
+    const url=new URL(location.href);url.search='';url.hash=params.toString();
+    const status=await shareOrCopy('Simulación de admisión',url.href);
+    document.querySelector('#ad-share-status')!.textContent=status==='copied'?'Enlace copiado.':status==='shared'?'Enlace compartido.':status==='cancelled'?'Se canceló el envío.':`Copia este enlace: ${url.href}`;
+  });
+}
+</script>
+
+<style>
+.data-table{min-width:0;table-layout:fixed}
+.data-table th,.data-table td{padding:10px 6px;overflow-wrap:anywhere}
+.data-table .input{min-width:0;padding:10px 6px}
+</style>

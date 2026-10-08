@@ -1,4 +1,6 @@
 ---
+import Faq from '../components/Faq.astro';
+import MethodologyNote from '../components/MethodologyNote.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeQuickCalculator from '../components/HomeQuickCalculator.astro';
 import ToolCards from '../components/ToolCards.astro';
@@ -7,7 +9,7 @@ const description='Calcula notas, escalas, promedios y porcentajes en Chile. Her
 const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Calculadora de Notas Chile',applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL',description };
 ---
 <BaseLayout {title} {description} path="/" {schema}>
-  <section class="home-product-hero">
+  <section class="home-product-hero" id="calculadora-notas">
     <div class="container home-product-grid">
       <div class="home-product-copy">
         <p class="home-overline">Herramientas de notas para Chile</p>
@@ -87,4 +89,11 @@ const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Ca
       </div>
     </div>
   </section>
+<section class="section"><div class="container reading prose"><h2>Preguntas frecuentes</h2>
+    <Faq items={[
+      {question:'¿Qué puedo calcular en NotaCL?',answerHtml:'Puedes convertir un puntaje a nota, generar una escala completa, calcular promedios simples o ponderados y saber qué nota necesitas en una evaluación pendiente. Elige la herramienta según tu tarea.'},
+      {question:'¿La exigencia de 60% es obligatoria en todos los cursos?',answerHtml:'No. Es el valor inicial de NotaCL. La exigencia y el redondeo pueden variar según el establecimiento, profesor o curso; revisa la pauta de tu evaluación y ajusta los parámetros.'}
+    ]} />
+  </div></section>
+<MethodologyNote method="La calculadora rápida convierte puntajes mediante dos tramos lineales con escala inicial 1,0–7,0, aprobación 4,0 y exigencia editable. Las herramientas de promedio y ponderación tienen sus propias fórmulas y ejemplos." />
 </BaseLayout>

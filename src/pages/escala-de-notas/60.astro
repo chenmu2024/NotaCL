@@ -1,4 +1,20 @@
 ---
+import MethodologyNote from '../../components/MethodologyNote.astro';
+import Faq from '../../components/Faq.astro';
+const faqItems = [
+  {
+    "question": "¿60% de exigencia significa que con 60% obtengo un 4,0?",
+    "answerHtml": "Sí, con la configuración de referencia de esta página. El punto de exigencia coincide con la nota de aprobación configurada."
+  },
+  {
+    "question": "¿Puedo cambiar el puntaje máximo?",
+    "answerHtml": "Sí. El generador mantiene la exigencia en 60% y vuelve a calcular toda la tabla para el nuevo puntaje máximo."
+  },
+  {
+    "question": "¿Qué hago si mi prueba usa 50% o 70%?",
+    "answerHtml": "Usa la <a href=\"/escala-de-notas/\">escala de notas general</a>, donde la exigencia es editable."
+  }
+];
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import GeneratorCalculator from '../../components/GeneratorCalculator.astro';
@@ -110,11 +126,7 @@ const schema={
         </table>
       </div>
 
-      <div class="faq">
-        <details><summary>¿60% de exigencia significa que con 60% obtengo un 4,0?</summary><p>Sí, con la configuración de referencia de esta página. El punto de exigencia coincide con la nota de aprobación configurada.</p></details>
-        <details><summary>¿Puedo cambiar el puntaje máximo?</summary><p>Sí. El generador mantiene la exigencia en 60% y vuelve a calcular toda la tabla para el nuevo puntaje máximo.</p></details>
-        <details><summary>¿Qué hago si mi prueba usa 50% o 70%?</summary><p>Usa la <a href="/escala-de-notas/">escala de notas general</a>, donde la exigencia es editable.</p></details>
-      </div>
+      <Faq items={faqItems} />
     </div>
   </section>
 
@@ -124,4 +136,5 @@ const schema={
       <ToolCards />
     </div>
   </section>
+<MethodologyNote method="Esta herramienta fija la exigencia en 60% y aplica el modelo de dos tramos con los límites de nota que configures. Las tablas de referencia usan la escala inicial 1,0–7,0 y aprobación 4,0." />
 </BaseLayout>

@@ -1,4 +1,5 @@
 ---
+import RoundingControls from './RoundingControls.astro';
 import { DEFAULT_GRADE_CONFIG, buildGradeScale, formatNumber } from '../lib/calculators/core';
 
 interface Props {
@@ -52,16 +53,9 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
           <label for="g-maxgrade">Nota máxima</label>
           <input class="input" id="g-maxgrade" value="7,0" inputmode="decimal" />
         </div>
-        <div class="field">
-          <label for="g-decimals">Decimales</label>
-          <select class="select" id="g-decimals">
-            <option value="1" selected>1 decimal</option>
-            <option value="2">2 decimales</option>
-            <option value="0">Sin decimales</option>
-          </select>
-        </div>
       </div>
 
+      <RoundingControls prefix="g" />
       <div class="generator-summary" aria-live="polite">
         <div><span>Corte teórico</span><strong id="g-threshold">{formatNumber(initialThreshold,1)} pts</strong></div>
         <div><span>Primer puntaje entero que cumple exigencia</span><strong id="g-count">{initialFirstPassing ?? '—'}{initialFirstPassing !== undefined ? ' pts' : ''}</strong></div>
@@ -86,6 +80,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
     <div class="print-only print-summary">
       <h2>Escala de notas</h2>
       <p><strong>Puntaje máximo:</strong> <span id="g-print-max">{formatNumber(initialMaxScore,0)}</span> · <strong>Exigencia:</strong> <span id="g-print-exigency">{formatNumber(initialConfig.exigency*100,1)}%</span> · <strong>Escala:</strong> <span id="g-print-scale">{formatNumber(initialConfig.minGrade,1)}–{formatNumber(initialConfig.maxGrade,1)}</span></p>
+      <p id="g-print-rounding">1 decimal · Mitad hacia arriba. El estado usa el valor sin redondear.</p>
     </div>
     <div class="table-wrap">
       <table class="data-table">
@@ -107,6 +102,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
 </div>
 
 <script>
+  import type { RoundingRule } from '../lib/calculators/core';
   import { shareOrCopy } from '../lib/browser/share';
   import { buildGradeScale, formatNumber, parseDecimal } from '../lib/calculators/core';
 
@@ -124,7 +120,8 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       passGrade:parseDecimal((document.querySelector<HTMLInputElement>('#g-pass')!).value),
       maxGrade:parseDecimal((document.querySelector<HTMLInputElement>('#g-maxgrade')!).value),
       exigency:parseDecimal((document.querySelector<HTMLInputElement>('#g-exigency')!).value)/100,
-      decimals:Number((document.querySelector<HTMLSelectElement>('#g-decimals')!).value)
+      decimals:Number((document.querySelector<HTMLSelectElement>('#g-decimals')!).value),
+      rounding:(document.querySelector<HTMLSelectElement>('#g-rounding')!).value as RoundingRule
     };
   }
 
@@ -136,13 +133,14 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       ['gaprobacion','#g-pass'],
       ['gmaxnota','#g-maxgrade'],
       ['gdecimales','#g-decimals'],
+      ['gredondeo','#g-rounding'],
     ];
     for(const [key,selector] of fields){
-      const value=params.get(key);
+      const value=params.get(key)??(key==='gmax' && document.querySelector('#quick-form')?params.get('max'):null);
       const input=document.querySelector<HTMLInputElement|HTMLSelectElement>(selector);
       if(value!==null && input) input.value=value;
     }
-    const exigency=params.get('gexigencia');
+    const exigency=params.get('gexigencia')??(document.querySelector('#quick-form')?params.get('exigencia'):null);
     const exigencyInput=document.querySelector<HTMLInputElement>('#g-exigency');
     if(exigency!==null && exigencyInput && !exigencyInput.readOnly) exigencyInput.value=exigency;
   }
@@ -155,7 +153,10 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       gaprobacion:(document.querySelector<HTMLInputElement>('#g-pass')!).value.trim(),
       gmaxnota:(document.querySelector<HTMLInputElement>('#g-maxgrade')!).value.trim(),
       gdecimales:(document.querySelector<HTMLSelectElement>('#g-decimals')!).value,
+      gredondeo:(document.querySelector<HTMLSelectElement>('#g-rounding')!).value,
     });
+    const quickScore=document.querySelector<HTMLInputElement>('#q-score');
+    if(quickScore) params.set('score',quickScore.value.trim());
     return `${window.location.origin}${window.location.pathname}#${params.toString()}`;
   }
 
@@ -193,6 +194,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       (document.querySelector<HTMLElement>('#g-print-max')!).textContent=formatNumber(max,0);
       (document.querySelector<HTMLElement>('#g-print-exigency')!).textContent=`${formatNumber(cfg.exigency*100,1)}%`;
       (document.querySelector<HTMLElement>('#g-print-scale')!).textContent=`${formatNumber(cfg.minGrade,1)}–${formatNumber(cfg.maxGrade,1)}`;
+      (document.querySelector<HTMLElement>('#g-print-rounding')!).textContent=`${cfg.decimals} decimales · ${cfg.rounding==='truncate'?'Truncado':'Mitad hacia arriba'}. El estado usa el valor sin redondear.`;
       error.hidden=true;
       actionStatus.textContent='';
     }catch(e){
@@ -204,6 +206,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
       error.textContent=e instanceof Error?e.message:'Revisa los valores.';
       error.hidden=false;
     }
+    document.dispatchEvent(new Event('notacl:scale-updated'));
   }
 
   form.addEventListener('submit',event=>{event.preventDefault();render()});
@@ -222,6 +225,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
   }));
 
   document.querySelector('#g-print')?.addEventListener('click',()=>{
+    if(!currentRows.length) return;
     document.body.classList.add('print-generator-only');
     window.print();
     document.body.classList.remove('print-generator-only');
@@ -255,6 +259,7 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
     (document.querySelector<HTMLInputElement>('#g-pass')!).value='4,0';
     (document.querySelector<HTMLInputElement>('#g-maxgrade')!).value='7,0';
     (document.querySelector<HTMLSelectElement>('#g-decimals')!).value='1';
+    (document.querySelector<HTMLSelectElement>('#g-rounding')!).value='half-up';
     document.querySelectorAll<HTMLButtonElement>('[data-exigency]').forEach(button=>{
       button.classList.toggle('active',button.dataset.exigency===String(initialExigencyValue));
     });
@@ -274,6 +279,8 @@ const initialThreshold=initialMaxScore*initialConfig.exigency;
     URL.revokeObjectURL(url);
     actionStatus.textContent='CSV descargado.';
   });
+
+  window.addEventListener('hashchange',()=>{readHash();render()});
 
   readHash();
   render();

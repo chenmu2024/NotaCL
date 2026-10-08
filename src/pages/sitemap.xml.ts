@@ -1,8 +1,17 @@
 import { INDEXING_ENABLED, LAST_UPDATED, SITE_URL } from '../config/site';
+import { pendingIndexationRoutes } from '../../seo/indexing-policy.mjs';
 
 export const prerender = true;
 
 const routes=[
+  '/calculadora-nem/',
+  '/calculadora-ranking/',
+  '/calculadora-paes/',
+  '/universidades/usach/',
+  '/universidades/uc/',
+  '/universidades/uchile/',
+  '/universidades/duoc/',
+
   '/',
   '/generador-de-notas/',
   '/escala-de-notas/',
@@ -19,7 +28,7 @@ const routes=[
   '/politica-de-privacidad/',
   '/terminos/',
   '/cookies/'
-];
+].filter(route=>!pendingIndexationRoutes.includes(route));
 
 function escapeXml(value:string){
   return value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');

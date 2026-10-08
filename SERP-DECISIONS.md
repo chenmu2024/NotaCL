@@ -4,6 +4,28 @@ Checked: 2026-10-07
 Market: Chile / Spanish  
 Purpose: document the search-result evidence used to decide whether similar keywords deserve separate canonical pages. These are project architecture decisions, not Google ranking rules.
 
+## Verification limitation — 2026-10-08
+
+The snapshots below are representative result/page-type observations. They do not establish the supplied plan's exact Google Chile Top10 overlap thresholds for all seven query pairs. The full gate remains pending; in particular, the specialized 60% route's final indexation decision is not certified by this document.
+
+A fresh direct Google request used `gl=cl`, `hl=es`, `pws=0`, `num=10` for `escala de notas` on 2026-10-08. The web reader could not access the search URL; the browser reader timed out; a second content reader reached Google's unusual-traffic/reCAPTCHA page. No ranked result list was obtained and no overlap count was inferred. Do not retry by treating generic web-search results as a Google Top10 export.
+
+To close the gate, retain the top ten organic destination URLs in rank order, timestamp, query, Chile/Spanish settings, and page type for each query below, then compare all plan pairs:
+
+- calculadora de notas
+- promedio de notas
+- generador de notas
+- escala de notas
+- tabla de notas
+- puntaje a nota
+- escala de notas al 60
+
+Exclude advertisements and secondary sitelinks from the ten organic entries. Compare exact destination-page overlap separately from domain overlap and inspect the dominant task/page types. Apply the plan's ≥6 / 4–5 / ≤3 thresholds only to a complete reproducible set.
+
+## Pending indexation safeguard — 2026-10-08
+
+The 60% route remains available to users but is explicitly noindex and excluded from the production sitemap through seo/indexing-policy.mjs. Build and live-production audits enforce the hold. A fresh attempt to read the existing Google tab again timed out; no complete Top10 evidence was obtained. This safeguard does not count as completing the SERP gate.
+
 ## Decision summary
 
 | Intent pair | Observed result pattern | Decision |
@@ -73,3 +95,6 @@ Representative results observed for the broad calculator intent:
 - https://tgb.cl/notas/ — broad calculator covering average, exam target and score conversion
 
 This supports a broad homepage/hub while preserving `/promedio-de-notas/` for the specific arithmetic-average task rather than making the homepage duplicate the full average calculator.
+
+## 2026-10-08 owner-directed admissions expansion
+Owner explicitly requested deployment of all 10 deferred queries. Three NEM queries share one tool; two Ranking queries share one tool; PAES has one weighted-score tool; USACH/UC/UChile have distinct verified program presets; DUOC has a course-final 60/40 tool, not a PAES clone. Seven routes serve distinct calculations/institutional rules. No Google Chile Top10 result list was obtained; no overlap/ranking evidence is invented.

@@ -1,0 +1,77 @@
+# NotaCL development progress — 2026-10-08
+
+Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
+
+## Completed against the supplied Chile plan
+
+- Owner-directed admissions expansion: all 10 formerly deferred queries now map to seven working tools. NEM uses 903 official table entries; Ranking uses the verified 2027 four-context formula; PAES supports valid 100–1000 scores; USACH/UC/UChile use named verified programs; DUOC uses 2026 art. 35 d. 23 intent routes plus 404 now build. Details: `KEYWORD-COVERAGE.md`.
+
+
+- Conditional 60% route remains usable but is explicitly noindex and excluded from production sitemaps until the SERP gate is complete; build and production audits enforce this independently of domain configuration.
+- Added downloadable four-page PDF and matching CSV reference scales (100 points, 60%, 1–7). All 101 PDF/CSV rows match the calculator. Download links work at 360px; resource files are kept out of indexing.
+- Expanded the certificate guide with current official process steps, the direct Mineduc portal and certificate/average/NEM distinctions. Official sources were rechecked on 2026-10-08.
+
+- Latest calculator state fixes: adding a blank average/weighted row immediately invalidates stale results; average, weighted and required-grade tools restore same-document shared fragments; blank shared rows remain invalid rather than being silently dropped. Edge checks cover filling/removing rows, browser Back and missing shared values.
+
+- Latest keyword implementation: see `KEYWORD-COVERAGE.md` and `seo/keyword-map.json`. All 130 extracted/named queries are classified; existing page content, static examples and task links were expanded. No synonym routes were added. Conditional and excluded terms are explicitly distinguished from implemented coverage; no deferred keywords remain.
+
+- Expanded the static site to 24 pages including 404, preserving existing URL ownership. Full conditional-route SERP certification is still pending.
+- Added visible, tool-specific methodology and review dates to all seven calculator routes, plus homepage FAQs. Build audits require both methodology/date and matching visible FAQ data.
+- Synchronized the quick scale converter and full table in both directions, including custom grade limits, precision, rounding, reset, shared links and same-document fragment changes. Legacy quick links remain readable.
+- Generated FAQPage data from the same content as the six existing visible FAQ sections, with build checks for matching questions and answers. Added explicit Twitter titles/descriptions. FAQ markup is semantic metadata, not a promise of a Google search enhancement.
+- Raised compact preset, saved-subject, menu and header controls to at least 44px.
+- Added selectable 0–3 display decimals and half-up/truncation rules to the generator, simple average and weighted average. Shared fragments retain these settings.
+- Kept passing status tied to the calculated grade, independently of display rounding.
+- Corrected the required-exam minimum: 5.0 at 70% with a 5.4 target needs 6.4 at one decimal; 6.3 produces only 5.39. The UI and worked example now agree.
+- Added optional weighted-subject storage: names, grades, weights, average and update date; load, delete and clear actions. Existing simple-subject storage remains readable.
+- Put saved subjects after the result, so mobile users see the answer before optional storage controls.
+- Reject malformed decimal input, nonfinite scale settings, invalid saved grades/weights/dates and grades outside 1.0–7.0.
+- Print output identifies the rounding rule and precision. Invalid tables cannot be printed using the generator action.
+- Native-sharing failures now fall back to the clipboard; if both APIs are unavailable, the address bar contains the fragment for manual copying. Cancellation is respected.
+- Updated Astro to 7.3.7 and Vitest to 5.0.3 after checking the official migration guides. Added the dependency lockfile and switched CI to `npm ci`.
+
+## Verification on the changed code
+
+- 61 tests pass across 7 files, including 15 production-audit scenarios and a downloadable-scale parity test.
+- Astro check: 0 errors, warnings or hints.
+- 17 static pages build successfully.
+- Build SEO/GEO audit passes without a production origin, with a pages.dev preview origin, and with the production-like test origin `https://notacl.example`.
+- npm dependency audit: 0 known vulnerabilities at verification time.
+- Headless Microsoft Edge browser checks: average and weighted precision/truncation; local save/reload/load; invalid input; weighted fragment share/restore; required-grade minimum/impossible/zero-weight paths; generator CSV and invalid exigency; fixed-60% protection; mobile menu; keyboard skip link; print-media layout.
+- Additional Edge checks pass for clearing/corrupt/blocked local storage, native-share failure, clipboard failure and manual fragment copying.
+- Local mobile Lighthouse: performance 100, accessibility 100, best practices 100; CLS 0 and TBT 0 ms. Preview SEO score is reduced intentionally by noindex/blocked crawling. This is lab evidence, not field INP/CWV certification.
+- Fixed measured homepage small-text contrast failures using existing design tokens and removed the logo accessible-name override that disagreed with visible text.
+- 40 responsive checks: 8 main routes at 360, 390, 768, 1280 and 1536px, without page-level horizontal overflow.
+- Screenshots reviewed for the homepage, weighted calculator and generator print layout.
+- Additional browser regression checks pass for both scale share directions, custom settings, legacy fragments, invalid scale state and reset.
+- At 360px, visible buttons, header CTA and menu controls pass a measured 44px minimum-height check on five calculator routes.
+- Exported a 100-point scale to a four-page A4 PDF: all 101 rows appear in order and table headers repeat on each page. Visually reviewed all four rendered pages. Fixed a print-only skip-link overlay found during that check. This certifies the local Edge export, not every printer or deployed browser.
+
+## Existing hosted preview checked on 2026-10-08
+
+- https://notacl.pages.dev responds HTTP 200 on all 16 intent routes; a missing route responds HTTP 404. All checked responses contain X-Robots-Tag: noindex, nofollow.
+- The main-branch host does not yet contain the latest average precision controls or weighted keyword section. The verified PR preview for commit b0fa904 is https://b4b0393a.notacl.pages.dev; keyword examples, anchors and five mobile routes pass browser checks there.
+- On that PR preview, calculator workflows, local saving, fragment sharing, CSV, keyboard/print behavior and 40 responsive route checks also pass in Edge. These preview results do not certify a final .cl deployment.
+- The production audit now rejects blocking robots headers, noindex meta directives, root Disallow rules and broken preview responses, with a 15-second request timeout.
+
+## Remaining before public launch
+
+The owner confirmed that the final domain has not been purchased.
+
+1. Purchase/choose the final `.cl` domain and connect Cloudflare Pages.
+2. Configure `PUBLIC_SITE_URL`, rebuild, and run the live production audit with actual production, alternate and preview origins.
+3. Verify real HTTP statuses, redirects, preview noindex headers and mobile/print behavior on that deployment.
+4. Record Lighthouse/lab metrics; field INP/CWV requires real traffic and cannot be certified from this local build.
+5. Verify Search Console and submit the final sitemap.
+6. Owner decision on 2026-10-08: do not connect analytics for now. Analytics is deliberately deferred, not a missing implementation prerequisite for the current development batch. Tracking remains inactive. AdSense/provider setup and related policy/consent updates remain future activation work.
+7. Existing SERP decisions have representative results rather than a full reproducible Chile Google Top10 overlap export. Fresh direct Google attempts on 2026-10-08 failed or reached unusual-traffic/reCAPTCHA; no ranked list was obtained. Preserve current routes while they are globally noindex, obtain the full gate, and certify conditional-route indexation before launch or expansion.
+
+Do not mark the full website/launch goal complete while these release checks remain outstanding.
+
+## Admissions verification (latest batch)
+
+59 tests, Astro check (64 files, zero diagnostics), and three build/indexing modes passed. Browser QA passed 21 responsive route/viewport combinations across the seven new tools, actual formulas, invalid inputs, inactive tests, university presets, fragment sharing/restoration, and original state/download regressions.
+
+## Core-function review and fixes — 2026-10-08
+
+Full browser review of grade conversion, scale generation/synchronization, averages/weights, required grades, NEM, Ranking, PAES and university/DUOC tools found three input/boundary issues. Fixed malformed elective text being treated as a missing test; blocked invalid admission shares; bounded each required/projection weight at 100%; stabilized exactly achievable 7.0 required grades against floating-point noise. Added two meaningful formula regressions. 61 tests and Astro check (64 files, zero diagnostics) pass, as do all three build/indexing modes. Browser reproductions and fixed-state checks cover invalid elective versus truly blank/inactive factors, excessive exam weights, exact 7.0 and truly impossible targets. Original save/load/delete, denied/corrupt storage, share fallbacks, CSV/PDF, print, keyboard and 40 responsive checks passed on the preceding preview; changed required/admissions flows were then rechecked locally.

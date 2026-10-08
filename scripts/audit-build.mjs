@@ -1,6 +1,8 @@
 import { isPreviewHost, needsTrailingSlash, onRequest } from '../functions/_middleware.js';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import './audit-keywords.mjs';
+import { pendingIndexationRoutes } from '../seo/indexing-policy.mjs';
 
 const dist = resolve('dist');
 
@@ -22,6 +24,14 @@ function normalizeAuditSiteOrigin(value) {
 const siteUrl = normalizeAuditSiteOrigin(process.env.PUBLIC_SITE_URL);
 
 const canonicalRoutes = [
+  '/calculadora-nem/',
+  '/calculadora-ranking/',
+  '/calculadora-paes/',
+  '/universidades/usach/',
+  '/universidades/uc/',
+  '/universidades/uchile/',
+  '/universidades/duoc/',
+
   '/',
   '/generador-de-notas/',
   '/escala-de-notas/',
@@ -173,7 +183,7 @@ for (const route of canonicalRoutes) {
   const canonical = extract(html, /<link[^>]+rel="canonical"[^>]+href="([^"]+)"/i)
     || extract(html, /<link[^>]+href="([^"]+)"[^>]+rel="canonical"/i);
 
-  if (siteUrl) {
+  if (siteUrl && !pendingIndexationRoutes.includes(route)) {
     if (!robots.includes('index,follow')) fail(`${route} should be indexable when PUBLIC_SITE_URL is set`);
     const expected = new URL(route, siteUrl).toString();
     if (canonical !== expected) fail(`${route} canonical mismatch: expected ${expected}, got ${canonical || '(missing)'}`);
@@ -182,8 +192,8 @@ for (const route of canonicalRoutes) {
       || '';
     if (hreflang !== expected) fail(`${route} es-CL hreflang mismatch: expected ${expected}, got ${hreflang || '(missing)'}`);
   } else {
-    if (!robots.includes('noindex,nofollow')) fail(`${route} must fail closed with noindex,nofollow without PUBLIC_SITE_URL`);
-    if (canonical) fail(`${route} should not emit a canonical before PUBLIC_SITE_URL is configured`);
+    if (!robots.includes('noindex,nofollow')) fail(`${route} must fail closed while its origin or indexation gate is pending`);
+    if (canonical) fail(`${route} should not emit a canonical while its origin or indexation gate is pending`);
   }
 
   if (/pages\.dev|localhost|vercel\.app|粘贴的文本/i.test(html)) {
@@ -201,8 +211,29 @@ for (const route of canonicalRoutes) {
   if (!schemaTypes.has('WebSite')) fail(`${route} is missing WebSite structured data`);
   if (!schemaTypes.has('Organization')) fail(`${route} is missing Organization structured data`);
 
-  if (['/','/generador-de-notas/','/escala-de-notas/','/escala-de-notas/60/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/'].includes(route) && !schemaTypes.has('WebApplication')) {
+  const visibleQuestions = [...html.matchAll(/<details[^>]*>\s*<summary[^>]*>([^<]*)<\/summary>\s*<p[^>]*>([\s\S]*?)<\/p>\s*<\/details>/gi)];
+  const faqSchemas = jsonLd.filter((item) => item?.['@type'] === 'FAQPage');
+  if (visibleQuestions.length || faqSchemas.length) {
+    const entities = faqSchemas.flatMap((item) => item.mainEntity ?? []);
+    if (faqSchemas.length !== 1 || entities.length !== visibleQuestions.length) fail(`${route} FAQ schema does not match visible question count`);
+    const plain = (text) => String(text).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    visibleQuestions.forEach(([, question, answer], index) => {
+      const entity = entities[index];
+      if (entity?.['@type'] !== 'Question' || entity.acceptedAnswer?.['@type'] !== 'Answer' || plain(entity.name) !== plain(question) || plain(entity.acceptedAnswer.text) !== plain(answer)) {
+        fail(`${route} FAQ question ${index + 1} differs from visible content`);
+      }
+    });
+  }
+
+  if (['/','/generador-de-notas/','/escala-de-notas/','/escala-de-notas/60/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/','/calculadora-nem/','/calculadora-ranking/','/calculadora-paes/','/universidades/usach/','/universidades/uc/','/universidades/uchile/','/universidades/duoc/'].includes(route) && !schemaTypes.has('WebApplication')) {
     fail(`${route} is missing WebApplication structured data`);
+  }
+
+  if (['/','/generador-de-notas/','/escala-de-notas/','/escala-de-notas/60/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/','/calculadora-nem/','/calculadora-ranking/','/calculadora-paes/','/universidades/usach/','/universidades/uc/','/universidades/uchile/','/universidades/duoc/'].includes(route)) {
+    if (!html.includes('Fuente y metodología') || !/<time datetime="\d{4}-\d{2}-\d{2}">[^<]+<\/time>/.test(html)) {
+      fail(`${route} is missing visible methodology or review date`);
+    }
+    if (!schemaTypes.has('FAQPage')) fail(`${route} is missing visible FAQ structured data`);
   }
 
   if (route.startsWith('/guias/') && route !== '/guias/' && !schemaTypes.has('Article')) {
@@ -283,6 +314,7 @@ if (!existsSync(headersFile)) {
   for (const required of ['X-Content-Type-Options: nosniff','Referrer-Policy: strict-origin-when-cross-origin','Permissions-Policy:','X-Frame-Options: DENY','Content-Language: es-CL']) {
     if (!headers.includes(required)) fail(`_headers is missing required security header: ${required}`);
   }
+  if (!/\/recursos\/\*\s+X-Robots-Tag: noindex/.test(headers)) fail('downloadable examples must remain outside search indexation');
 }
 
 const astroAssets = join(dist, '_astro');
@@ -340,7 +372,9 @@ if (existsSync(sitemapFile)) {
   if (siteUrl) {
     for (const route of canonicalRoutes) {
       const expected = new URL(route, siteUrl).toString();
-      if (!sitemap.includes(expected)) fail(`sitemap is missing ${expected}`);
+      if (pendingIndexationRoutes.includes(route)) {
+        if (sitemap.includes(expected)) fail(`sitemap contains a page pending indexation: ${expected}`);
+      } else if (!sitemap.includes(expected)) fail(`sitemap is missing ${expected}`);
     }
   } else if (/<url>/.test(sitemap)) {
     fail('development sitemap should be empty before PUBLIC_SITE_URL is configured');
@@ -348,5 +382,5 @@ if (existsSync(sitemapFile)) {
 }
 
 if (!process.exitCode) {
-  console.log(`SEO/GEO audit passed for ${canonicalRoutes.length} canonical routes. Max HTML ${(maxHtmlBytes/1024).toFixed(1)} KB; client JS ${(totalJsBytes/1024).toFixed(1)} KB; CSS ${(totalCssBytes/1024).toFixed(1)} KB.`);
+  console.log(`SEO/GEO audit passed for ${canonicalRoutes.length} pages (${canonicalRoutes.length-pendingIndexationRoutes.length} approved indexable routes, ${pendingIndexationRoutes.length} pending). Max HTML ${(maxHtmlBytes/1024).toFixed(1)} KB; client JS ${(totalJsBytes/1024).toFixed(1)} KB; CSS ${(totalCssBytes/1024).toFixed(1)} KB.`);
 }

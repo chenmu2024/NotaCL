@@ -1,4 +1,16 @@
 ---
+import MethodologyNote from '../components/MethodologyNote.astro';
+import Faq from '../components/Faq.astro';
+const faqItems = [
+  {
+    "question": "¿Dónde puedo ver la tabla completa de notas?",
+    "answerHtml": "Debajo de la calculadora rápida puedes generar la tabla completa con todos los puntajes, porcentajes, notas y estado de aprobación."
+  },
+  {
+    "question": "¿Acepta decimales con coma?",
+    "answerHtml": "Sí. Los campos de cálculo aceptan coma o punto decimal."
+  }
+];
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import QuickGradeCalculator from '../components/QuickGradeCalculator.astro';
@@ -11,6 +23,7 @@ const exampleScore=42;
 const exampleMax=60;
 const exampleExactGrade=scoreToExactGrade(exampleScore,exampleMax,DEFAULT_GRADE_CONFIG);
 const exampleGrade=scoreToGrade(exampleScore,exampleMax,DEFAULT_GRADE_CONFIG);
+const exigencyExamples=[0.5,0.6,0.7].map(exigency=>({exigency,grade:scoreToGrade(exampleScore,exampleMax,{...DEFAULT_GRADE_CONFIG,exigency})}));
 const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Escala de Notas Chile',applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL',description };
 ---
 <BaseLayout {title} {description} path="/escala-de-notas/" {schema}>
@@ -24,6 +37,17 @@ const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'Es
   <p>Para estudiantes de enseñanza básica y media en establecimientos oficialmente reconocidos a los que aplica el Decreto 67, la calificación final anual de cada asignatura o módulo se expresa en escala de 1,0 a 7,0, hasta con un decimal, y la nota mínima de aprobación es 4,0. El decreto no fija aquí una exigencia nacional de 60%; por eso NotaCL deja ese porcentaje configurable.</p>
   <p><a href="https://www.bcn.cl/leychile/Navegar?idNorma=1127255&idParte=9984568&idVersion=2018-12-31" rel="noopener noreferrer">Consultar Decreto 67 en LeyChile (BCN) →</a></p><p class="muted">Fuente oficial revisada el 8 de octubre de 2026.</p>
 </div>
-<h2>Fórmula de la escala</h2><p>Sea <strong>p</strong> la proporción entre puntaje obtenido y máximo, y <strong>E</strong> la exigencia. NotaCL usa dos tramos lineales configurables.</p><div class="equation-card" aria-label="Fórmula de escala de notas en dos tramos"><span>Si p ≤ E</span><strong>nota = mínima + (aprobación − mínima) × (p ÷ E)</strong><span>Si p &gt; E</span><strong>nota = aprobación + (máxima − aprobación) × ((p − E) ÷ (1 − E))</strong></div><h2>Qué significa una exigencia de 60%</h2><p>Con una exigencia de 60%, el punto de aprobación se ubica en el 60% del puntaje máximo. En una prueba de 60 puntos, ese umbral está en 36 puntos. La institución puede usar otra exigencia. Si tu evaluación usa exactamente ese corte, puedes abrir la <a href="/escala-de-notas/60/">escala de notas al 60%</a> ya preconfigurada.</p><h2>Puntaje a nota: ejemplo</h2><p>Con la configuración inicial, {exampleScore} de {exampleMax} puntos producen un resultado exacto de <strong>{formatNumber(exampleExactGrade,3)}</strong> y una nota mostrada de <strong>{formatNumber(exampleGrade,1)}</strong>. El resultado cambia si modificas la exigencia, los límites de la escala o la cantidad de decimales.</p><p>Si estás cerca del límite de aprobación, revisa también <a href="/guias/redondeo-de-notas/">cómo funciona el redondeo de notas</a>.</p><div class="faq"><details><summary>¿Dónde puedo ver la tabla completa de notas?</summary><p>Debajo de la calculadora rápida puedes generar la tabla completa con todos los puntajes, porcentajes, notas y estado de aprobación.</p></details><details><summary>¿Acepta decimales con coma?</summary><p>Sí. Los campos de cálculo aceptan coma o punto decimal.</p></details></div></div></section>
+<h2>Fórmula de la escala</h2><p>Sea <strong>p</strong> la proporción entre puntaje obtenido y máximo, y <strong>E</strong> la exigencia. NotaCL usa dos tramos lineales configurables.</p><div class="equation-card" aria-label="Fórmula de escala de notas en dos tramos"><span>Si p ≤ E</span><strong>nota = mínima + (aprobación − mínima) × (p ÷ E)</strong><span>Si p &gt; E</span><strong>nota = aprobación + (máxima − aprobación) × ((p − E) ÷ (1 − E))</strong></div><h2>Qué significa una exigencia de 60%</h2><p>Con una exigencia de 60%, el punto de aprobación se ubica en el 60% del puntaje máximo. En una prueba de 60 puntos, ese umbral está en 36 puntos. La institución puede usar otra exigencia. Si tu evaluación usa exactamente ese corte, puedes abrir la <a href="/escala-de-notas/60/">escala de notas al 60%</a> ya preconfigurada.</p><h2>Puntaje a nota: ejemplo</h2><p>Con la configuración inicial, {exampleScore} de {exampleMax} puntos producen un resultado exacto de <strong>{formatNumber(exampleExactGrade,3)}</strong> y una nota mostrada de <strong>{formatNumber(exampleGrade,1)}</strong>. El resultado cambia si modificas la exigencia, los límites de la escala o la cantidad de decimales.</p><p>Si estás cerca del límite de aprobación, revisa también <a href="/guias/redondeo-de-notas/">cómo funciona el redondeo de notas</a>.</p><Faq items={faqItems} /></div></section>
+<section class="section"><div class="container reading prose">
+<h2 id="conversion-puntaje">Convertidor de puntaje a nota</h2>
+<p>Para calcular una nota por puntaje necesitas los puntos obtenidos, el total posible y la exigencia de la evaluación. El porcentaje de logro indica qué parte de los puntos conseguiste; la escala convierte ese logro en una nota. No basta con multiplicar el porcentaje por siete: el punto de aprobación también interviene en la fórmula.</p>
+<h3>La misma prueba con distintas exigencias</h3>
+<p>Esta tabla compara {exampleScore} de {exampleMax} puntos con escala mínima 1,0, aprobación 4,0 y máxima 7,0. La nota se muestra a un decimal, con mitad hacia arriba. Cambiar la exigencia cambia la conversión aunque el puntaje sea el mismo.</p>
+<div class="table-wrap"><table class="data-table compact-table"><caption>Comparación de exigencia para el mismo puntaje.</caption><thead><tr><th>Exigencia</th><th>Puntaje obtenido</th><th>Nota</th></tr></thead><tbody>{exigencyExamples.map(row=><tr><td>{formatNumber(row.exigency*100,0)}%</td><td>{exampleScore} / {exampleMax}</td><td>{formatNumber(row.grade,1)}</td></tr>)}</tbody></table></div>
+<h3 id="porcentaje-logro">Porcentaje de logro o porcentaje de una nota</h3>
+<p>El porcentaje de logro compara puntos obtenidos con puntos posibles. La ponderación indica cuánto vale una evaluación dentro del promedio del curso. Si buscas calcular notas con porcentajes de pruebas y trabajos, necesitas la <a href="/notas-con-porcentaje/">calculadora de notas con porcentaje</a>, no otra escala de puntajes.</p>
+<p>Puedes usar la exigencia de 50%, 60% o 70% desde los botones de la tabla, o escribir otro valor válido. Para una tabla imprimible de toda la prueba, abre el <a href="/generador-de-notas/#tabla-generadora">generador de escala</a>.</p>
+</div></section>
 <section class="section"><div class="container"><h2>Otras herramientas</h2><ToolCards /></div></section>
+<MethodologyNote method="La conversión rápida y la tabla completa comparten el puntaje máximo, exigencia, límites de nota y redondeo. La fórmula de dos tramos es una configuración de NotaCL, no una regla nacional obligatoria." />
 </BaseLayout>

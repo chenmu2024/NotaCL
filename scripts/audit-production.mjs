@@ -1,3 +1,5 @@
+import { pendingIndexationRoutes } from '../seo/indexing-policy.mjs';
+
 const rawOrigin = process.env.PRODUCTION_URL?.trim();
 const rawPreview = process.env.PREVIEW_URL?.trim();
 const rawAlternate = process.env.ALTERNATE_ORIGIN?.trim();
@@ -32,6 +34,14 @@ if (!origin) {
 }
 
 const routes = [
+  '/calculadora-nem/',
+  '/calculadora-ranking/',
+  '/calculadora-paes/',
+  '/universidades/usach/',
+  '/universidades/uc/',
+  '/universidades/uchile/',
+  '/universidades/duoc/',
+
   '/',
   '/generador-de-notas/',
   '/escala-de-notas/',
@@ -62,6 +72,7 @@ async function request(url, options = {}) {
   try {
     return await fetch(url, {
       redirect: 'follow',
+      signal: AbortSignal.timeout(15000),
       headers: { 'User-Agent': userAgent },
       ...options,
     });
@@ -96,10 +107,20 @@ for (const route of routes) {
 
   const html = await response.text();
   const canonical = canonicalFrom(html);
-  if (canonical !== expected) fail(`${route} canonical mismatch: expected ${expected}, got ${canonical || '(missing)'}`);
+  const pendingIndexation = pendingIndexationRoutes.includes(route);
+  if (pendingIndexation) {
+    if (canonical) fail(`${route} must not declare a canonical while indexation is pending`);
+  } else if (canonical !== expected) fail(`${route} canonical mismatch: expected ${expected}, got ${canonical || '(missing)'}`);
 
   const robots = html.match(/<meta[^>]+name=["']robots["'][^>]+content=["']([^"']+)["']/i)?.[1] || '';
-  if (!robots.includes('index,follow')) fail(`${route} is not indexable in production HTML`);
+  const directives = robots.toLowerCase().split(/[\s,]+/);
+  if (pendingIndexation) {
+    if (!directives.includes('noindex')) fail(`${route} must remain noindex until its SERP gate is completed`);
+  } else if (!directives.includes('index') || !directives.includes('follow') || directives.includes('noindex') || directives.includes('none')) {
+    fail(`${route} is not indexable in production HTML`);
+  }
+  const robotsHeader = response.headers.get('x-robots-tag') || '';
+  if (!pendingIndexation && /\b(noindex|none)\b/i.test(robotsHeader)) fail(`${route} is blocked by X-Robots-Tag`);
 }
 
 const slashProbe = new URL('/escala-de-notas', origin);
@@ -125,6 +146,7 @@ if (robotsResponse) {
   if (robotsResponse.status !== 200) fail(`robots.txt returned HTTP ${robotsResponse.status}`);
   const robots = await robotsResponse.text();
   if (!robots.includes('Allow: /')) fail('robots.txt does not allow production crawling');
+  if (/^\s*Disallow:\s*\/\s*(?:#.*)?$/im.test(robots)) fail('robots.txt blocks production crawling');
   if (!robots.includes(`Sitemap: ${origin}/sitemap.xml`)) fail('robots.txt sitemap URL does not match production origin');
 }
 
@@ -134,7 +156,9 @@ if (sitemapResponse) {
   const sitemap = await sitemapResponse.text();
   for (const route of routes) {
     const expected = new URL(route, origin).toString();
-    if (!sitemap.includes(expected)) fail(`sitemap.xml is missing ${expected}`);
+    if (pendingIndexationRoutes.includes(route)) {
+      if (sitemap.includes(expected)) fail(`sitemap.xml contains a page pending indexation: ${expected}`);
+    } else if (!sitemap.includes(expected)) fail(`sitemap.xml is missing ${expected}`);
   }
 }
 
@@ -152,6 +176,7 @@ if (alternateOrigin) {
 if (previewOrigin) {
   const previewResponse = await request(new URL('/', previewOrigin), { redirect: 'manual' });
   if (previewResponse) {
+    if (previewResponse.status !== 200) fail(`preview origin returned HTTP ${previewResponse.status}; noindex alone does not verify a working preview`);
     const robotsHeader = previewResponse.headers.get('x-robots-tag') || '';
     if (!robotsHeader.toLowerCase().includes('noindex')) {
       fail(`preview origin ${previewOrigin} is missing X-Robots-Tag: noindex`);
@@ -160,7 +185,7 @@ if (previewOrigin) {
 }
 
 if (!process.exitCode) {
-  console.log(`Production audit passed for ${routes.length} canonical routes on ${origin}.`);
+  console.log(`Production audit passed for ${routes.length} pages on ${origin}, including ${pendingIndexationRoutes.length} page(s) held out of indexation.`);
   if (alternateOrigin) console.log(`Alternate-host redirect verified from ${alternateOrigin}.`);
   if (previewOrigin) console.log(`Preview noindex header verified on ${previewOrigin}.`);
 }

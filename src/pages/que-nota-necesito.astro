@@ -1,9 +1,21 @@
 ---
+import MethodologyNote from '../components/MethodologyNote.astro';
+import Faq from '../components/Faq.astro';
+const faqItems = [
+  {
+    "question": "¿Sirve para una prueba o examen final?",
+    "answerHtml": "Sí, siempre que conozcas tu promedio actual y los pesos porcentuales correctos."
+  },
+  {
+    "question": "¿La nota máxima siempre es 7,0?",
+    "answerHtml": "La interfaz actual usa 7,0 como referencia habitual del cálculo de factibilidad; verifica la escala de tu curso."
+  }
+];
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import RequiredGradeCalculator from '../components/RequiredGradeCalculator.astro';
 import ToolCards from '../components/ToolCards.astro';
-import { formatNumber, requiredGrade, roundHalfUp } from '../lib/calculators/core';
+import { formatNumber, requiredGrade, minimumRequiredGrade } from '../lib/calculators/core';
 const title='¿Qué Nota Necesito? Calculadora de Nota Final | NotaCL';
 const description='Calcula qué nota necesitas en tu evaluación final para alcanzar una nota objetivo según tu promedio actual y los porcentajes del curso.';
 const exampleRequired=requiredGrade({currentAverage:5,completedWeight:70,finalWeight:30,targetGrade:5.4});
@@ -13,6 +25,14 @@ const schema={ '@context':'https://schema.org','@type':'WebApplication',name:'¿
 <Breadcrumbs items={[{label:'¿Qué nota necesito?'}]} />
 <section class="hero"><div class="container"><p class="eyebrow">Cálculo inverso</p><h1>¿Qué Nota Necesito?</h1><p class="lead">Ingresa tu promedio actual, el porcentaje ya completado, el peso de la evaluación final y la nota objetivo.</p></div></section>
 <div class="container"><RequiredGradeCalculator /></div>
-<section class="section"><div class="container reading prose"><h2>Cómo se calcula la nota necesaria</h2><p>La herramienta despeja la nota pendiente de la ecuación del promedio ponderado. El porcentaje completado y el porcentaje de la evaluación final deben sumar 100%.</p><div class="equation-card" aria-label="Fórmula para calcular la nota necesaria"><span>Fórmula</span><strong>Nota necesaria = (objetivo × 100 − promedio actual × % completado) ÷ % evaluación final</strong></div><h2>Ejemplo</h2><p>Si llevas un promedio 5,0 en el 70% del curso y quieres terminar con 5,4, en una evaluación final que vale 30% necesitas aproximadamente <strong>{formatNumber(roundHalfUp(exampleRequired,1),1)}</strong>.</p><h2>Cuando el objetivo no es alcanzable</h2><p>Si el resultado requerido supera la nota máxima que usa tu escala, el objetivo no puede alcanzarse matemáticamente con el porcentaje restante. La herramienta lo indica en lugar de recortar el resultado silenciosamente.</p><div class="faq"><details><summary>¿Sirve para una prueba o examen final?</summary><p>Sí, siempre que conozcas tu promedio actual y los pesos porcentuales correctos.</p></details><details><summary>¿La nota máxima siempre es 7,0?</summary><p>La interfaz actual usa 7,0 como referencia habitual del cálculo de factibilidad; verifica la escala de tu curso.</p></details></div></div></section>
+<section class="section"><div class="container reading prose"><h2>Cómo se calcula la nota necesaria</h2><p>La herramienta despeja la nota pendiente de la ecuación del promedio ponderado. El porcentaje completado y el porcentaje de la evaluación final deben sumar 100%.</p><div class="equation-card" aria-label="Fórmula para calcular la nota necesaria"><span>Fórmula</span><strong>Nota necesaria = (objetivo × 100 − promedio actual × % completado) ÷ % evaluación final</strong></div><h2>Ejemplo</h2><p>Si llevas un promedio 5,0 en el 70% del curso y quieres terminar con 5,4, en una evaluación final que vale 30% necesitas al menos <strong>{formatNumber(minimumRequiredGrade(exampleRequired,1),1)}</strong> si el examen se califica a un decimal. El mínimo se redondea hacia arriba; 6,3 daría 5,39 y no alcanza el objetivo exacto de 5,4.</p><h2>Cuando el objetivo no es alcanzable</h2><p>Si el resultado requerido supera la nota máxima que usa tu escala, el objetivo no puede alcanzarse matemáticamente con el porcentaje restante. La herramienta lo indica en lugar de recortar el resultado silenciosamente.</p><Faq items={faqItems} /></div></section>
+<section class="section"><div class="container reading prose">
+<h2 id="nota-examen">Calcular la nota de examen para llegar a tu objetivo</h2>
+<p>Esta calculadora de examen sirve cuando ya conoces el promedio de las evaluaciones completadas y el porcentaje que falta. El promedio actual debe describir solo esa parte completada: no incluyas una nota supuesta para el examen pendiente.</p>
+<ol><li>Obtén tu promedio actual con el <a href="/notas-con-porcentaje/">calculador de notas por porcentaje</a> si tus evaluaciones tienen distintos pesos.</li><li>Ingresa el porcentaje completado y el peso de la evaluación pendiente; juntos deben sumar 100%.</li><li>Indica la nota final que quieres alcanzar y compara el mínimo necesario con los escenarios de la tabla.</li></ol>
+<h3>Si falta más de una evaluación</h3>
+<p>Cuando hay varias evaluaciones pendientes, el resultado representa el promedio ponderado que necesitarías obtener en ese conjunto. No determina una única nota para cada prueba. Si el objetivo exige más de 7,0, no es alcanzable con los valores ingresados; revisa los datos antes de cambiar tu objetivo.</p>
+</div></section>
 <section class="section"><div class="container"><h2>Otras herramientas</h2><ToolCards /></div></section>
+<MethodologyNote method="El cálculo despeja la nota pendiente en la ecuación ponderada. El mínimo recomendado sube al siguiente décimo cuando hace falta para alcanzar el objetivo exacto; la proyección conserva el cálculo sin redondear." />
 </BaseLayout>

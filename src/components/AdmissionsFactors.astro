@@ -1,0 +1,6 @@
+---
+import { factors, presets } from '../lib/calculators/admissions';
+interface Props { institution: string }
+const { institution }=Astro.props;
+---
+<div class="table-wrap"><table class="data-table"><caption>Ponderaciones incluidas en esta calculadora · admisión 2027</caption><thead><tr><th>Carrera</th>{factors.map(factor=><th>{factor}</th>)}</tr></thead><tbody>{presets[institution].map(preset=><tr><th scope="row">{preset.name}</th>{preset.weights.map(weight=><td>{weight}%</td>)}</tr>)}</tbody></table></div>

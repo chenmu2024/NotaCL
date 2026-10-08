@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import AdmissionLinks from '../../components/AdmissionLinks.astro';
+import AdmissionCalculator from '../../components/AdmissionCalculator.astro';
+import AdmissionsFactors from '../../components/AdmissionsFactors.astro';
+
+
+const title="Calculadora UChile: ponderaciones preliminares 2027 | NotaCL";
+const description="Simula Derecho o Ingeniería y Ciencias – Plan Común de la Universidad de Chile con las ponderaciones preliminares publicadas para admisión 2027.";
+const faqItems=[{"question": "¿Los porcentajes 2027 son definitivos?", "answerHtml": "La fuente los rotula como preliminares. Confirma la versión vigente antes de la postulación."}, {"question": "¿El cálculo determina mi admisión a UChile?", "answerHtml": "No. Solo reproduce la ponderación de puntajes para las dos carreras indicadas; no verifica los demás requisitos ni predice selección."}];
+const schema={'@context':'https://schema.org','@type':'WebApplication',name:"Calculadora UChile: ponderaciones preliminares 2027",description,applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL'};
+---
+<BaseLayout {title} {description} path="/universidades/uchile/" {schema}>
+<Breadcrumbs items={[{label:"Calculadora UChile"}]} />
+<section class="hero"><div class="container"><p class="eyebrow">Admisión 2027 · simulación independiente</p><h1>Calculadora UChile</h1><p class="lead">{description}</p></div></section>
+<section class="section"><div class="container"><AdmissionCalculator institution="uchile" /></div></section>
+<section class="section"><div class="container reading prose"><h2>Ponderaciones preliminares UChile 2027</h2><p>La Universidad de Chile identifica estas ponderaciones como preliminares. Revisa su oferta oficial antes de postular. Este simulador incluye Derecho (11055) e Ingeniería y Ciencias – Plan Común (11045), no todas las carreras.</p><p>Derecho usa Historia; Plan Común combina Ciencias, M1 y M2. Plan Común UChile tiene pesos distintos de Ingeniería UC: no intercambies sus resultados. Para otros programas introduce sus pesos oficiales en la <a href="/calculadora-paes/">calculadora PAES</a>.</p>
+<AdmissionsFactors institution="uchile" />
+<h2>Fuente y metodología</h2><p>NotaCL es una herramienta independiente. El cálculo reproduce el método indicado y no emite resultados oficiales. Revisión: <time datetime="2026-10-08">8 de octubre de 2026</time>.</p><ul><li><a href="https://uchile.cl/admision-y-matriculas/admision-regular-pregrado/oferta-de-carreras">Universidad de Chile: oferta y ponderaciones preliminares 2027</a></li></ul>
+<Faq items={faqItems} /><h2>Herramientas relacionadas</h2><AdmissionLinks />
+</div></section></BaseLayout>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import AdmissionLinks from '../../components/AdmissionLinks.astro';
+import AdmissionCalculator from '../../components/AdmissionCalculator.astro';
+import AdmissionsFactors from '../../components/AdmissionsFactors.astro';
+
+
+const title="Calculadora UC: Derecho e Ingeniería 2027 | NotaCL";
+const description="Simula el puntaje ponderado de Derecho o Ingeniería de la Pontificia Universidad Católica de Chile con las ponderaciones de admisión centralizada 2027.";
+const faqItems=[{"question": "¿Ciencias reemplaza a Historia en Derecho UC?", "answerHtml": "No en la ponderación 2027 incluida: Derecho usa Historia y Ciencias Sociales."}, {"question": "¿Ingeniería UC requiere puntaje M2 para esta simulación?", "answerHtml": "Sí. La ponderación incluida asigna 10% a M2; dejarlo en blanco impide calcular ese escenario."}];
+const schema={'@context':'https://schema.org','@type':'WebApplication',name:"Calculadora UC: Derecho e Ingeniería 2027",description,applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL'};
+---
+<BaseLayout {title} {description} path="/universidades/uc/" {schema}>
+<Breadcrumbs items={[{label:"Calculadora UC"}]} />
+<section class="hero"><div class="container"><p class="eyebrow">Admisión 2027 · simulación independiente</p><h1>Calculadora UC</h1><p class="lead">{description}</p></div></section>
+<section class="section"><div class="container"><AdmissionCalculator institution="uc" /></div></section>
+<section class="section"><div class="container reading prose"><h2>Derecho e Ingeniería UC: factores distintos</h2><p>Derecho pondera Historia y Ciencias Sociales; Ciencias y M2 no sustituyen ese factor. Ingeniería pondera Ciencias y M2, además de M1. Cambia el selector para aplicar los pesos correspondientes sin modificar tus puntajes.</p><p>La tabla incluye dos carreras verificadas del documento UC 2027; no representa todo su catálogo. Para otra carrera usa el <a href="/calculadora-paes/">simulador PAES configurable</a> con el documento oficial. Tampoco evalúa vías especiales ni pruebas adicionales de otros programas.</p>
+<AdmissionsFactors institution="uc" />
+<h2>Fuente y metodología</h2><p>NotaCL es una herramienta independiente. El cálculo reproduce el método indicado y no emite resultados oficiales. Revisión: <time datetime="2026-10-08">8 de octubre de 2026</time>.</p><ul><li><a href="https://admision.uc.cl/htdocs/content/uploads/2021/12/Ponderaciones-Admision-Centralizada-2027.pdf">UC: ponderaciones admisión centralizada 2027</a></li></ul>
+<Faq items={faqItems} /><h2>Herramientas relacionadas</h2><AdmissionLinks />
+</div></section></BaseLayout>
