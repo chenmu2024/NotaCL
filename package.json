@@ -10,7 +10,9 @@
     "check": "astro check",
     "test": "vitest run",
     "audit": "node scripts/audit-build.mjs",
-    "audit:production": "node scripts/audit-production.mjs"
+    "audit:production": "node scripts/audit-production.mjs",
+    "seo:baseline": "node scripts/seo-baseline.mjs --write",
+    "seo:drift": "node scripts/seo-baseline.mjs --compare"
   },
   "dependencies": {
     "astro": "7.3.7"

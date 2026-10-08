@@ -1,84 +1,59 @@
 # NotaCL SEO/GEO Release Evidence
 
-Status: deterministic development/release checks pass on the current codebase. Real production-host and browser L2 checks remain pending until the final .cl domain is connected.
+Reviewed 2026-10-08 against [Website-Starter-Standard](https://github.com/chenmu2024/Website-Starter-Standard), its SEO/GEO quality gate, and Google's primary documentation. The production site is **https://notacl.cl/**; contact is **contact@notacl.cl**. Earlier pre-domain release notes are superseded by this record.
 
-## Current development evidence
+## L1 — current standard-review code
 
-See `DEVELOPMENT-PROGRESS.md` and https://github.com/chenmu2024/NotaCL/pull/1 for the current changes, 30-test suite and local browser/lab evidence. The CI run below is retained as historical evidence, not the current revision.
+- `npm run test`: **71 tests in 8 files passed**.
+- `npm run check`: **66 files, 0 errors, warnings or hints**.
+- Build and SEO/GEO audit passed in all three configurations: missing origin, `pages.dev` preview origin, and `https://notacl.cl` production origin.
+- **23 content routes + noindex 404**; production sitemap has **23 URLs**, including `/escala-de-notas/60/`. No route is pending indexation.
+- Keyword audit: **130 queries** classified as 107 covered, 1 variant, 1 limited, 1 preset and 20 intentional exclusions. No approved intent or metric was changed.
+- Raw HTML: unique titles/descriptions, one H1, heading hierarchy, working internal links, correct canonical/hreflang/robots, matching visible FAQs and JSON-LD, and default calculator answers all pass.
+- Shared social preview: real **1200×630 PNG, 36,559 bytes**, absolute Open Graph/Twitter URLs, dimensions and alternative text; absent origin never invents a public image origin.
+- All three guides use explicit, visible review dates matching `Article.dateModified`, with visible NotaCL authorship. The shell no longer substitutes a global release date for an article review.
+- Comparison guide now distinguishes an approximate simple average from an exact weighted result and shows the formulas and the 100% weighting assumption; outputs remain derived from `src/lib/calculators/core`.
+- Maximum production raw HTML **31.3 KB**; client JS **42.2 KB**; CSS **33.4 KB**. Social metadata adds no client JS or in-page image load.
+- Preview/missing-origin output remains noindex, without canonical and with an empty sitemap; edge preview/404/308 checks pass.
 
-## Historical L1 deterministic evidence
+## L2 — browser/release evidence
 
-Verified on GitHub Actions CI run #227, commit `d925d4f996b7e3517c5b2538e775a905ce1e8f53`.
+Current standard-review code was tested in an actual Edge browser via the local production build:
 
-- [x] `npm run test` — 3 test files, 19 tests passed
-- [x] `npm run check` — 39 files checked, 0 errors, 0 warnings
-- [x] `npm run build` — 17 static pages built
-- [x] `npm run audit` with no `PUBLIC_SITE_URL`: fail-closed output verified
-- [x] Preview-host rebuild with `PUBLIC_SITE_URL=https://notacl.pages.dev`: still fails closed
-- [x] Production-like rebuild with `PUBLIC_SITE_URL=https://notacl.example`: canonical/indexable output verified
-- [x] Core routes compile into static Astro output
-- [x] Exactly one H1 on each audited canonical route
-- [x] Unique titles and meta descriptions across audited canonical routes
-- [x] Internal crawlable links resolve within the static output
-- [x] Conditional duplicate routes remain absent except approved `/escala-de-notas/60/`
-- [x] JSON-LD parses; expected WebSite / Organization / WebApplication / Article / BreadcrumbList page classes are enforced
-- [x] Core calculator pages expose useful default outputs in raw HTML, not only after client JavaScript runs
-- [x] Development and preview-host output is `noindex,nofollow`, emits no canonical and produces an empty sitemap
-- [x] Production-like output emits expected canonicals and sitemap membership
-- [x] 404 HTML is noindex and edge middleware adds noindex to 4xx/5xx responses
-- [x] Cloudflare `_headers` and `_routes.json` baselines are emitted and audited
-- [x] Edge middleware trailing-slash and preview-host behavior is executed in CI
-- [x] Sitemap includes `lastmod`
-- [x] Source registry exists for changing institutional claims
-- [x] SERP decisions are documented for generic scale / 60% / tabla / puntaje / homepage-vs-promedio consolidation
-- [x] Static asset budgets pass
+- **23 pages × 360/768/1280px = 69 responsive cases** passed.
+- One H1 per page; no document-level horizontal overflow or browser execution errors.
+- Automated mobile WCAG A/AA checks: no detected violations. This is not a human accessibility certification.
+- Comparison table remains keyboard-focusable and scrollable on mobile.
+- Zero Cloudflare/Google analytics requests, preserving the owner's explicit choice.
+- Social PNG and changed mobile guide were visually inspected.
 
-Historical lab/build-size evidence from run #227:
-- Maximum audited raw HTML: **21.5 KB** in the production-like build
-- Total client JavaScript: **19.8 KB**
-- Total CSS: **32.2 KB**
+The same production contract is enforced by `npm run audit:production` after deployment. The final deployment ID, live page/asset verification and accepted snapshot are saved with the owner's workspace release outputs; do not infer a new live deployment merely from a successful local build.
 
-CI evidence: https://github.com/chenmu2024/NotaCL/actions/runs/37610391442
+## Established production baseline
 
-## L2 manual / release evidence
+Before this standard-review change, a fresh crawl of https://notacl.cl on 2026-10-08 captured **23 public pages**, then an immediate comparison reported no drift. Previous merged releases are [PR #2](https://github.com/chenmu2024/NotaCL/pull/2) and [PR #3](https://github.com/chenmu2024/NotaCL/pull/3). Their established production checks cover working calculator flows, share fragments, local storage failure cases, CSV/print/PDF, 404/308, preview exclusion, and no analytics.
 
-Pending on the deployed current build:
+The same-day pre-review mobile Lighthouse snapshot on home, generator, weighted-average and NEM pages scored **100 in each of performance/accessibility/best-practices/SEO**, LCP 1.15–1.32s, CLS 0 and TBT 0. These are dated lab measurements, not field INP/CrUX data or a prediction of ranking.
 
-- [ ] 360px small mobile
-- [ ] large mobile
-- [ ] 768px tablet
-- [ ] 1280px desktop
-- [ ] wide desktop
-- [ ] Keyboard/focus flow in a real browser
-- [ ] Mobile menu behavior
-- [ ] Calculator result hierarchy and error states
-- [ ] Generator print/PDF layout
-- [ ] Table horizontal overflow on mobile
-- [ ] No page-level accidental overflow
-- [ ] Lab LCP / INP / CLS measurement
-- [ ] Real missing URL returns HTTP 404
-- [ ] Real production robots.txt and sitemap return 200
-- [ ] Real production canonical host is the final .cl
-- [ ] Real `pages.dev` response includes `X-Robots-Tag: noindex, nofollow`
-- [ ] Apex/www redirect policy verified on the final domain
+Repeatable drift checks are now available:
 
-## Production evidence
+```sh
+# Set PRODUCTION_URL=https://notacl.cl in your shell first.
+npm run seo:baseline -- /path/to/accepted-snapshot.json
+npm run seo:drift -- /path/to/accepted-snapshot.json
+```
 
-- Production URL: TBD
-- Deployment date: TBD
-- GSC property: TBD
-- Sitemap submission: TBD
-- Preview-host response verification: TBD
-- Baseline CWV/lab snapshot: TBD
-- Accepted visual baseline: TBD
+Snapshots record sitemap membership, raw HTML metadata, headings, canonical/indexation, hreflang, structured-data fingerprints, visible-text fingerprints and internal links. Comparison is read-only; changes return nonzero for review. Explicitly replace a snapshot only after accepting the intended release changes. Baselines contain public site data and stay with release outputs outside application source.
 
-## L3 post-launch
+## L3 — ongoing operations, not incomplete development
 
-Run after enough real traffic/indexing data exists:
+Search Console ownership/submission, actual indexation/rank/CTR, AI citations, earned referring links and field Core Web Vitals require real search/traffic data. Review those after launch; none is used to withhold otherwise approved pages. Analytics remains disabled by owner choice.
 
-- Search Console query/page/index coverage
-- Cannibalization review
-- GSC country/device/CTR/position changes
-- CrUX field data when available
-- Backlink/brand-mention review when reliable data is available
-- Drift comparison against the accepted production baseline
+Refresh admissions sources using `SOURCE-REGISTRY.md`; adjust titles/content only against actual query intent and evidence. `www` is an optional alias that has not been configured; the selected apex origin is already canonical and live. Email delivery has not been tested by sending mail.
+
+## Evidence discipline
+
+- [Google AI features guidance](https://developers.google.com/search/docs/appearance/ai-features): existing SEO fundamentals apply; no special AI schema/file is required.
+- [Google publication-date guidance](https://developers.google.com/search/docs/appearance/publication-dates): visible and structured dates must describe the actual page review/update.
+- [Open Graph protocol](https://ogp.me/): actual image URL and image descriptors support social previews.
+- Byte budgets, title-length review ranges and snapshot comparisons are project heuristics, not Google ranking requirements.
