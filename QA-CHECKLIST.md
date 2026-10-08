@@ -26,7 +26,7 @@ Latest local development evidence: see `DEVELOPMENT-PROGRESS.md`. Deployed-host 
 
 ## SEO / GEO
 - [x] Approved keyword set and source are documented.
-- [x] 130 supplied/named queries individually classified with built-page/anchor/topic evidence; deferred and excluded queries remain explicit.
+- [x] 130 supplied/named queries individually classified with built-page/anchor/topic evidence; all 10 formerly deferred queries implemented; excluded queries remain explicit.
 - [x] Intent-to-canonical-page map exists.
 - [ ] Full Chile Google Top10 overlap gate reproduced. Existing 60% route has only representative SERP/page-type evidence; final indexation decision remains pending.
 - [x] Tabla and puntaje intents remain consolidated instead of creating duplicate routes.
@@ -59,10 +59,14 @@ Latest local development evidence: see `DEVELOPMENT-PROGRESS.md`. Deployed-host 
 - [ ] Lighthouse/lab LCP, INP and CLS measured on final deployed host.
 
 ## Deterministic CI
-- [x] `npm run test` — 46 tests, including 15 production-audit success/failure scenarios and downloadable-scale parity
+- [x] `npm run test` — 59 tests, including 15 production-audit success/failure scenarios and downloadable-scale parity
 - [x] `npm run check`
 - [x] `npm run build`
 - [x] `npm run audit`
 - [x] Production-like canonical build + audit
 - [x] Preview-host and production-like URL modes are both exercised in CI.
 - [ ] Final production URL verified after domain connection.
+
+- [x] Admissions formula tests cover all NEM rows, Ranking branches, invalid contexts, university presets, blank inactive factors, electiva choice, 100% totals and DUOC boundaries.
+
+- [x] Seven admissions/DUOC routes pass 360/768/1280px layouts, live calculations, invalid-value clearing, program changes and admissions fragment restoration.

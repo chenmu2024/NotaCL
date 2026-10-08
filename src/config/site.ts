@@ -6,6 +6,7 @@ export const DEFAULT_LOCALE = 'es-CL';
 export const LAST_UPDATED = '2026-10-08';
 
 export const navItems = [
+  { href: '/calculadora-paes/', label: 'Admisión' },
   { href: '/generador-de-notas/', label: 'Generador' },
   { href: '/escala-de-notas/', label: 'Escala' },
   { href: '/promedio-de-notas/', label: 'Promedio' },

@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import AdmissionLinks from '../components/AdmissionLinks.astro';
+import RankingCalculator from '../components/RankingCalculator.astro';
+import { rankingLevel } from '../lib/calculators/admissions';
+
+const title="Calculadora Ranking: puntaje Ranking 2027 | NotaCL";
+const description="Simula el Ranking de cuatro niveles con NEMi, PROMi y MAXi oficiales. Necesitas los antecedentes de cada contexto educativo; el NEM global por sí solo no basta.";
+const faqItems=[{"question": "¿Puedo calcularlo solo con mi promedio NEM?", "answerHtml": "No. Faltan los antecedentes históricos de cada nivel y establecimiento."}, {"question": "¿Por qué se rechaza MAX igual o menor que PROM?", "answerHtml": "El contexto no permite aplicar el tramo intermedio con seguridad. Revisa los datos con DEMRE en vez de sustituirlos por una estimación."}];
+const schema={'@context':'https://schema.org','@type':'WebApplication',name:"Calculadora Ranking: puntaje Ranking 2027",description,applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL'};
+---
+<BaseLayout {title} {description} path="/calculadora-ranking/" {schema}>
+<Breadcrumbs items={[{label:"Calculadora Ranking"}]} />
+<section class="hero"><div class="container"><p class="eyebrow">Admisión 2027 · simulación independiente</p><h1>Calculadora Ranking</h1><p class="lead">{description}</p></div></section>
+<section class="section"><div class="container"><RankingCalculator /></div></section>
+<section class="section"><div class="container reading prose"><h2>Qué datos necesitas</h2><p>NEMi es el puntaje convertido de tu nota de cada nivel. PROMi y MAXi representan las referencias históricas de ese nivel en el establecimiento, expresadas en puntajes NEM. DEMRE usa las tres generaciones anteriores y trata por separado los contextos educativos. Solicita los antecedentes oficiales; NotaCL no consulta datos personales ni inventa estadísticas del colegio.</p><h2>Fórmula por nivel y resultado final</h2><p>Si NEMi ≤ PROMi, Ri = NEMi. Si NEMi ≥ MAXi, Ri = 1.000. En el tramo intermedio: Ri = PROMi + (NEMi − PROMi) × (1.000 − PROMi) ÷ (MAXi − PROMi). El Ranking final es (R1 + R2 + R3 + R4) ÷ 4.</p><p>Ejemplo ficticio: NEMi 700, PROMi 600 y MAXi 800 producen {rankingLevel(700,600,800)} puntos por nivel. Repetir este contexto en los cuatro niveles da el mismo promedio.</p><h2>Alcance y cambio de período</h2><p>Esta simulación corresponde a admisión 2027. El <a href="https://demre.cl/paes/factores-seleccion/nuevo-ranking">nuevo Ranking se aplica desde admisión 2028</a>. No uses esta fórmula para ese proceso. Contextos pequeños, validación de estudios y otras excepciones requieren el tratamiento oficial; la herramienta no reconstruye esos casos.</p>
+
+<h2>Fuente y metodología</h2><p>NotaCL es una herramienta independiente. El cálculo reproduce el método indicado y no emite resultados oficiales. Revisión: <time datetime="2026-10-08">8 de octubre de 2026</time>.</p><ul><li><a href="https://demre.cl/paes/factores-seleccion/puntaje-ranking">DEMRE: Ranking y fórmula vigente</a></li><li><a href="https://demre.cl/paes/factores-seleccion/nuevo-ranking">DEMRE: cambio desde admisión 2028</a></li></ul>
+<Faq items={faqItems} /><h2>Herramientas relacionadas</h2><AdmissionLinks />
+</div></section></BaseLayout>

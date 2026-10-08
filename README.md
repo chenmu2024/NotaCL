@@ -52,6 +52,18 @@ Current approved search-intent routes:
 
 See `SEO-GEO-PROJECT-BRIEF.md` and `SERP-DECISIONS.md`.
 
+## Admissions and Duoc tools
+
+- `/calculadora-nem/`: official 2027 modality tables (A/B/C, 301 rows each).
+- `/calculadora-ranking/`: 2027 context simulation; requires user-supplied historical score references.
+- `/calculadora-paes/`: configurable weighted standardized scores.
+- `/universidades/usach/`: Bachillerato 16030.
+- `/universidades/uc/`: Derecho and Ingeniería.
+- `/universidades/uchile/`: Derecho and Ingeniería y Ciencias Plan Común; preliminary 2027 weights.
+- `/universidades/duoc/`: course final 60/40, 2026 regulation art. 35 d.
+
+University pages disclose their limited program coverage and primary sources. Ranking 2028 is a different method and is not supported.
+
 ## Trust and factual sources
 
 - Changing institutional/public claims must be registered in `SOURCE-REGISTRY.md`.

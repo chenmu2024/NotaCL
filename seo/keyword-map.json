@@ -1111,9 +1111,9 @@
       "sections": [
         "值得后续验证"
       ],
-      "status": "deferred",
-      "target": "",
-      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+      "status": "covered",
+      "target": "/universidades/usach/",
+      "reason": "用户明确要求取消暂缓；已加入官方来源、适用年份及可计算工具，学校页面注明已核实的专业或课程范围。"
     },
     {
       "keyword": "escala de notas al 50",
@@ -1142,81 +1142,81 @@
       "sections": [
         "三十一、NEM / PAES"
       ],
-      "status": "deferred",
-      "target": "",
-      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+      "status": "covered",
+      "target": "/universidades/uc/",
+      "reason": "用户明确要求取消暂缓；已加入官方来源、适用年份及可计算工具，学校页面注明已核实的专业或课程范围。"
     },
     {
       "keyword": "calculadora UChile",
       "sections": [
         "三十一、NEM / PAES"
       ],
-      "status": "deferred",
-      "target": "",
-      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+      "status": "covered",
+      "target": "/universidades/uchile/",
+      "reason": "用户明确要求取消暂缓；已加入官方来源、适用年份及可计算工具，学校页面注明已核实的专业或课程范围。"
     },
     {
       "keyword": "calculadora DUOC",
       "sections": [
         "三十一、NEM / PAES"
       ],
-      "status": "deferred",
-      "target": "",
-      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+      "status": "covered",
+      "target": "/universidades/duoc/",
+      "reason": "用户明确要求取消暂缓；已加入官方来源、适用年份及可计算工具，学校页面注明已核实的专业或课程范围。"
     },
     {
       "keyword": "calculadora nem",
       "sections": [
         "三十一、NEM / PAES"
       ],
-      "status": "deferred",
-      "target": "",
-      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+      "status": "covered",
+      "target": "/calculadora-nem/",
+      "reason": "用户明确要求取消暂缓；已加入官方来源、适用年份及可计算工具，学校页面注明已核实的专业或课程范围。"
     },
     {
       "keyword": "puntaje nem",
       "sections": [
         "三十一、NEM / PAES"
       ],
-      "status": "deferred",
-      "target": "",
-      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+      "status": "covered",
+      "target": "/calculadora-nem/",
+      "reason": "用户明确要求取消暂缓；已加入官方来源、适用年份及可计算工具，学校页面注明已核实的专业或课程范围。"
     },
     {
       "keyword": "tabla nem",
       "sections": [
         "三十一、NEM / PAES"
       ],
-      "status": "deferred",
-      "target": "",
-      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+      "status": "covered",
+      "target": "/calculadora-nem/",
+      "reason": "用户明确要求取消暂缓；已加入官方来源、适用年份及可计算工具，学校页面注明已核实的专业或课程范围。"
     },
     {
       "keyword": "calculadora ranking",
       "sections": [
         "三十一、NEM / PAES"
       ],
-      "status": "deferred",
-      "target": "",
-      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+      "status": "covered",
+      "target": "/calculadora-ranking/",
+      "reason": "用户明确要求取消暂缓；已加入官方来源、适用年份及可计算工具，学校页面注明已核实的专业或课程范围。"
     },
     {
       "keyword": "puntaje ranking",
       "sections": [
         "三十一、NEM / PAES"
       ],
-      "status": "deferred",
-      "target": "",
-      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+      "status": "covered",
+      "target": "/calculadora-ranking/",
+      "reason": "用户明确要求取消暂缓；已加入官方来源、适用年份及可计算工具，学校页面注明已核实的专业或课程范围。"
     },
     {
       "keyword": "calculadora paes",
       "sections": [
         "三十一、NEM / PAES"
       ],
-      "status": "deferred",
-      "target": "",
-      "reason": "按附件暂缓：需要数据和当前官方规则后再开发。"
+      "status": "covered",
+      "target": "/calculadora-paes/",
+      "reason": "用户明确要求取消暂缓；已加入官方来源、适用年份及可计算工具，学校页面注明已核实的专业或课程范围。"
     },
     {
       "keyword": "notas ulagos",

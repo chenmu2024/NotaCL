@@ -1,0 +1,19 @@
+---
+import nemData from '../data/nem-2027.json';
+import { nemScore } from '../lib/calculators/admissions';
+import { formatNumber } from '../lib/calculators/core';
+---
+<div class="tool-shell"><div class="tool-head"><h2>Convertir promedio a puntaje NEM</h2><span class="badge">Admisión 2027</span></div><form id="nem-form" class="tool-panel"><div class="field"><label for="nem-grade">Promedio de egreso de enseñanza media (4,00–7,00)</label><input class="input" id="nem-grade" value="6,00" inputmode="decimal" /></div><div class="field"><label for="nem-group">Modalidad educativa</label><select id="nem-group" class="input"><option value="a">A · Humanista-Científica diurna</option><option value="b">B · Humanista-Científica adultos / vespertina / nocturna</option><option value="c">C · Técnico-Profesional / artística</option></select></div><button class="btn btn-primary" type="submit">Calcular NEM</button></form><div class="tool-panel result-card" aria-live="polite"><div class="result-label">Puntaje NEM</div><div class="result-value" id="nem-result">{nemScore(6,'a').score}</div><p id="nem-message">Promedio consultado: 6,00 · grupo A.</p></div></div>
+<h2 id="tabla-nem">Tabla NEM 2027 completa</h2><p>Consulta las 301 notas de cada modalidad. La conversión usa la fila exacta de la tabla, sin interpolar puntajes.</p>
+<div class="table-wrap"><table class="data-table"><caption>Nota de egreso y puntaje NEM por modalidad</caption><thead><tr><th>Nota</th><th>Grupo A</th><th>Grupo B</th><th>Grupo C</th></tr></thead><tbody>{nemData.tables.a.map((score,i)=><tr><th scope="row">{formatNumber((400+i)/100,2)}</th><td>{score}</td><td>{nemData.tables.b[i]}</td><td>{nemData.tables.c[i]}</td></tr>)}</tbody></table></div>
+<script>
+import { nemScore } from '../lib/calculators/admissions';
+import { parseDecimal, formatNumber } from '../lib/calculators/core';
+const form=document.querySelector<HTMLFormElement>('#nem-form')!;
+function calculate(){
+ const result=document.querySelector('#nem-result')!;const message=document.querySelector('#nem-message')!;
+ try{const group=document.querySelector<HTMLSelectElement>('#nem-group')!.value;const output=nemScore(parseDecimal(document.querySelector<HTMLInputElement>('#nem-grade')!.value),group);result.textContent=String(output.score);message.textContent=`Promedio consultado: ${formatNumber(output.grade,2)} · grupo ${group.toUpperCase()}.`;}
+ catch(error){result.textContent='—';message.textContent=error instanceof Error?error.message:'Revisa los datos.';}
+}
+form.addEventListener('submit',event=>{event.preventDefault();calculate();});form.addEventListener('input',calculate);form.addEventListener('change',calculate);
+</script>

@@ -4,6 +4,14 @@ import { pendingIndexationRoutes } from '../../seo/indexing-policy.mjs';
 export const prerender = true;
 
 const routes=[
+  '/calculadora-nem/',
+  '/calculadora-ranking/',
+  '/calculadora-paes/',
+  '/universidades/usach/',
+  '/universidades/uc/',
+  '/universidades/uchile/',
+  '/universidades/duoc/',
+
   '/',
   '/generador-de-notas/',
   '/escala-de-notas/',

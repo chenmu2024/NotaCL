@@ -68,3 +68,7 @@ Important tool pages include: direct answer/definition near the top, explicit in
 ## Measurement/stop rules
 
 90 days: core indexation ≥80%, target impressions trending, 3–5 priority queries in Top50, ≥5 long-tail Top20, ≥5 relevant referring domains. 180 days: 1–3 important clusters Top20, multiple long-tails Top10, organic clicks in the thousands/month target range. If after six months indexing/tool quality/link basics are healthy but all major terms remain >50 and clicks <500/month, stop large content expansion and shift resources.
+
+## Admissions scope update — 2026-10-08
+
+The owner explicitly removed deferral for 10 admissions/institutional queries. Seven distinct tools now own those queries; see `KEYWORD-COVERAGE.md` for routes and actual supported programs. NEM and Ranking variants are consolidated, university presets retain institution-specific weights, and DUOC owns course-grade calculation. Primary sources and refresh/fallback rules are in `SOURCE-REGISTRY.md`. This is not evidence of Google indexation or rankings.

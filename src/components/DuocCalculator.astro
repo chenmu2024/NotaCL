@@ -1,0 +1,15 @@
+---
+import { duocFinal } from '../lib/calculators/admissions';
+import { formatNumber } from '../lib/calculators/core';
+---
+<div class="tool-shell"><div class="tool-head"><h2>Nota final de asignatura DUOC</h2><span class="badge">Reglamento 2026 · art. 35 d</span></div><form id="duoc-form" class="tool-panel"><div class="field"><label for="duoc-presentation">Nota de presentación a examen (60%)</label><input class="input" id="duoc-presentation" inputmode="decimal" value="5,0" /></div><div class="field"><label for="duoc-exam">Nota de examen (40%)</label><input class="input" id="duoc-exam" inputmode="decimal" value="4,0" /></div><button class="btn btn-primary" type="submit">Calcular nota final</button></form><div class="tool-panel result-card" aria-live="polite"><div class="result-label">Nota final calculada</div><div class="result-value" id="duoc-result">{formatNumber(duocFinal(5,4),2)}</div><p id="duoc-message">Presentación × 0,60 + examen × 0,40. No verifica asistencia ni eximición.</p></div></div>
+<script>
+import { duocFinal } from '../lib/calculators/admissions';
+import { parseDecimal, formatNumber } from '../lib/calculators/core';
+const form=document.querySelector<HTMLFormElement>('#duoc-form')!;
+function calculate(){const result=document.querySelector('#duoc-result')!;const message=document.querySelector('#duoc-message')!;
+ try{result.textContent=formatNumber(duocFinal(parseDecimal(document.querySelector<HTMLInputElement>('#duoc-presentation')!.value),parseDecimal(document.querySelector<HTMLInputElement>('#duoc-exam')!.value)),2);message.textContent='Presentación × 0,60 + examen × 0,40. Confirma las condiciones de tu asignatura.';}
+ catch(error){result.textContent='—';message.textContent=error instanceof Error?error.message:'Revisa los datos.';}
+}
+form.addEventListener('submit',event=>{event.preventDefault();calculate();});form.addEventListener('input',calculate);
+</script>

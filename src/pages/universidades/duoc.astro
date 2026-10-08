@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import AdmissionLinks from '../../components/AdmissionLinks.astro';
+import DuocCalculator from '../../components/DuocCalculator.astro';
+import { duocFinal } from '../../lib/calculators/admissions';
+import { formatNumber } from '../../lib/calculators/core';
+const title="Calculadora DUOC: nota final 60% y 40% | NotaCL";
+const description="Calcula la nota final de una asignatura Duoc UC a partir de la presentación a examen y la nota del examen, según el artículo 35 d del reglamento académico 2026.";
+const faqItems=[{"question": "¿La nota de presentación es un promedio simple?", "answerHtml": "No necesariamente. Pondera las notas parciales según los porcentajes de la asignatura antes de usar esta herramienta."}, {"question": "¿Una nota calculada determina por sí sola que apruebo?", "answerHtml": "No. Debes cumplir las condiciones aplicables de asistencia, evaluación y tu asignatura."}];
+const schema={'@context':'https://schema.org','@type':'WebApplication',name:"Calculadora DUOC: nota final 60% y 40%",description,applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL'};
+---
+<BaseLayout {title} {description} path="/universidades/duoc/" {schema}>
+<Breadcrumbs items={[{label:"Calculadora DUOC"}]} />
+<section class="hero"><div class="container"><p class="eyebrow">Duoc UC · notas de asignatura</p><h1>Calculadora DUOC</h1><p class="lead">{description}</p></div></section>
+<section class="section"><div class="container"><DuocCalculator /></div></section>
+<section class="section"><div class="container reading prose"><h2>Cómo calcular la nota final DUOC</h2><p>Nota final = presentación × 0,60 + examen × 0,40. Por ejemplo, presentación 5,0 y examen 4,0 producen {formatNumber(duocFinal(5,4),2)}. La nota de presentación se obtiene ponderando las evaluaciones parciales según sus porcentajes, que puedes calcular en <a href="/notas-con-porcentaje/">notas con porcentaje</a>.</p><h2>Reglamento aplicable y límites</h2><p>Fuente: nuevo Reglamento Académico, resolución VRA 07/2026 de 25 de mayo de 2026, artículo 35 d. Esta operación corresponde a una asignatura con examen; no calcula el puntaje PAES, el promedio de toda la carrera ni la nota de titulación.</p><p>Confirma si tu asignatura tiene eximición u otras condiciones. El resultado aritmético no verifica asistencia, condiciones académicas ni la calificación oficial. Se muestran dos decimales para revisar el cálculo, sin imponer un redondeo institucional.</p>
+
+<h2>Fuente y metodología</h2><p>NotaCL es una herramienta independiente. El cálculo reproduce el método indicado y no emite resultados oficiales. Revisión: <time datetime="2026-10-08">8 de octubre de 2026</time>.</p><ul><li><a href="https://www.duoc.cl/wp-content/uploads/2026/05/NUEVO-REGLAMENTO-ACADEMICO_20260525.pdf">Duoc UC: Reglamento Académico 2026, art. 35 d</a></li></ul>
+<Faq items={faqItems} /><h2>Herramientas relacionadas</h2><AdmissionLinks />
+</div></section></BaseLayout>

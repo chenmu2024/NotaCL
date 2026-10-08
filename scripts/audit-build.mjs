@@ -24,6 +24,14 @@ function normalizeAuditSiteOrigin(value) {
 const siteUrl = normalizeAuditSiteOrigin(process.env.PUBLIC_SITE_URL);
 
 const canonicalRoutes = [
+  '/calculadora-nem/',
+  '/calculadora-ranking/',
+  '/calculadora-paes/',
+  '/universidades/usach/',
+  '/universidades/uc/',
+  '/universidades/uchile/',
+  '/universidades/duoc/',
+
   '/',
   '/generador-de-notas/',
   '/escala-de-notas/',
@@ -217,11 +225,11 @@ for (const route of canonicalRoutes) {
     });
   }
 
-  if (['/','/generador-de-notas/','/escala-de-notas/','/escala-de-notas/60/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/'].includes(route) && !schemaTypes.has('WebApplication')) {
+  if (['/','/generador-de-notas/','/escala-de-notas/','/escala-de-notas/60/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/','/calculadora-nem/','/calculadora-ranking/','/calculadora-paes/','/universidades/usach/','/universidades/uc/','/universidades/uchile/','/universidades/duoc/'].includes(route) && !schemaTypes.has('WebApplication')) {
     fail(`${route} is missing WebApplication structured data`);
   }
 
-  if (['/','/generador-de-notas/','/escala-de-notas/','/escala-de-notas/60/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/'].includes(route)) {
+  if (['/','/generador-de-notas/','/escala-de-notas/','/escala-de-notas/60/','/promedio-de-notas/','/notas-con-porcentaje/','/que-nota-necesito/','/calculadora-nem/','/calculadora-ranking/','/calculadora-paes/','/universidades/usach/','/universidades/uc/','/universidades/uchile/','/universidades/duoc/'].includes(route)) {
     if (!html.includes('Fuente y metodología') || !/<time datetime="\d{4}-\d{2}-\d{2}">[^<]+<\/time>/.test(html)) {
       fail(`${route} is missing visible methodology or review date`);
     }

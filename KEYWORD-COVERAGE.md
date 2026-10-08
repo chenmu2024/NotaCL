@@ -6,12 +6,12 @@
 
 | 状态 | 数量 | 处理 |
 |---|---:|---|
-| 现有页面按任务覆盖 | 93 | 首页、生成器、评分换算、平均、加权、目标成绩和证书指南承接 |
+| 现有页面按任务覆盖 | 103 | 原93词，加NEM、Ranking、PAES及4个学校工具的10词 |
 | 60%条件页 | 4 | 功能和内容存在；强制noindex且不进入生产sitemap，等待完整SERP gate |
 | 错拼映射 | 1 | escalada de notas 归正确评分换算页，不在正文故意堆错拼 |
 | 限定范围覆盖 | 1 | pauta de evaluacion 说明怎样配合已有评分标准使用，不冒充rubric生成器 |
 | 50%预设 | 1 | 集成在评分工具，无独立URL |
-| 暂缓扩展 | 10 | NEM/PAES及大学工具，需要数据和官方规则后再做 |
+| 暂缓扩展 | 0 | 用户要求取消暂缓，10词全部加入可计算工具 |
 | 明确排除 | 20 | 平台导航、音乐、设备等噪音及不独立制作的宽泛词 |
 
 清单的 `literal_match=yes` 表示页面可见主内容能找到原词（忽略大小写和重音）；`semantic` 表示语法变体、同义表达或搜索任务由该页承接，不表示原词逐字出现。两者都不证明Google收录、搜索意图重合率或排名。暂缓/排除项不算“已上线覆盖”。
@@ -30,10 +30,24 @@
 
 - 130个查询全部有分类；所有非暂缓/排除项均指向实际构建页面和锚点。
 - 构建审计同时核对主题内容与禁止新增的同义/候选URL，已接入现有CI的三种构建模式。
-- 46项测试与Astro类型检查通过；17页静态构建、SEO/GEO检查通过。
+- 59项测试与Astro类型检查通过；24页静态构建（含404）、SEO/GEO检查通过。
 - 浏览器验证：新增比较表成绩5.2/4.8/4.0、加权贡献1.20/1.65/2.40与总分5.25、工具间锚点跳转、五页手机布局、无脚本异常。
 - 既有浏览器回归：40组响应式检查、分享/保存/异常降级、评分表同步仍通过。
 
 ## 尚不能认证的事项
 
 完整Google Chile Top10对比仍受搜索读取/验证码阻塞，不伪造结果。正式域名、上线host行为、真实流量CWV、Search Console和服务端统计入账需真实配置；这些不阻止上述关键词内容工作。用户于2026-10-08明确暂不接入统计；本轮没有添加统计脚本。
+
+## 原暂缓10词：现已实现
+
+| 关键词 | 页面 | 范围 |
+|---|---|---|
+| calculadora nem、puntaje nem、tabla nem | `/calculadora-nem/` | 2027官方A/B/C三表，每表301行，按行转换 |
+| calculadora ranking、puntaje ranking | `/calculadora-ranking/` | 2027四级上下文计算；需用户提供真实NEMi/PROMi/MAXi |
+| calculadora paes | `/calculadora-paes/` | 100–1000分加权，百分比合计100%，选考取最高 |
+| calculadora usach | `/universidades/usach/` | Bachillerato 16030，2027 |
+| calculadora UC | `/universidades/uc/` | Derecho与Ingeniería，2027 |
+| calculadora UChile | `/universidades/uchile/` | Derecho与Ingeniería y Ciencias Plan Común，2027初步权重 |
+| calculadora DUOC | `/universidades/duoc/` | 2026规定第35d条：课程期末60/40 |
+
+每页有可抓取正文、独立标题描述、可见FAQ及匹配结构化数据、官方来源和审核日期；导航与相关工具互链均已接通。学校工具不宣称覆盖全校专业；PAES不把答对率线性换成标准分；Ranking不伪造学校历史统计。

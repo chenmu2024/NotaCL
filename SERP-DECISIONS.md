@@ -95,3 +95,6 @@ Representative results observed for the broad calculator intent:
 - https://tgb.cl/notas/ — broad calculator covering average, exam target and score conversion
 
 This supports a broad homepage/hub while preserving `/promedio-de-notas/` for the specific arithmetic-average task rather than making the homepage duplicate the full average calculator.
+
+## 2026-10-08 owner-directed admissions expansion
+Owner explicitly requested deployment of all 10 deferred queries. Three NEM queries share one tool; two Ranking queries share one tool; PAES has one weighted-score tool; USACH/UC/UChile have distinct verified program presets; DUOC has a course-final 60/40 tool, not a PAES clone. Seven routes serve distinct calculations/institutional rules. No Google Chile Top10 result list was obtained; no overlap/ranking evidence is invented.

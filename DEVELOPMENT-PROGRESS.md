@@ -4,15 +4,18 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 
 ## Completed against the supplied Chile plan
 
+- Owner-directed admissions expansion: all 10 formerly deferred queries now map to seven working tools. NEM uses 903 official table entries; Ranking uses the verified 2027 four-context formula; PAES supports valid 100–1000 scores; USACH/UC/UChile use named verified programs; DUOC uses 2026 art. 35 d. 23 intent routes plus 404 now build. Details: `KEYWORD-COVERAGE.md`.
+
+
 - Conditional 60% route remains usable but is explicitly noindex and excluded from production sitemaps until the SERP gate is complete; build and production audits enforce this independently of domain configuration.
 - Added downloadable four-page PDF and matching CSV reference scales (100 points, 60%, 1–7). All 101 PDF/CSV rows match the calculator. Download links work at 360px; resource files are kept out of indexing.
 - Expanded the certificate guide with current official process steps, the direct Mineduc portal and certificate/average/NEM distinctions. Official sources were rechecked on 2026-10-08.
 
 - Latest calculator state fixes: adding a blank average/weighted row immediately invalidates stale results; average, weighted and required-grade tools restore same-document shared fragments; blank shared rows remain invalid rather than being silently dropped. Edge checks cover filling/removing rows, browser Back and missing shared values.
 
-- Latest keyword implementation: see `KEYWORD-COVERAGE.md` and `seo/keyword-map.json`. All 130 extracted/named queries are classified; existing page content, static examples and task links were expanded. No synonym routes were added. Conditional/deferred/excluded terms are explicitly distinguished from implemented coverage.
+- Latest keyword implementation: see `KEYWORD-COVERAGE.md` and `seo/keyword-map.json`. All 130 extracted/named queries are classified; existing page content, static examples and task links were expanded. No synonym routes were added. Conditional and excluded terms are explicitly distinguished from implemented coverage; no deferred keywords remain.
 
-- Retained the existing 17-page Astro static site and current URL ownership. Full conditional-route SERP certification is still pending.
+- Expanded the static site to 24 pages including 404, preserving existing URL ownership. Full conditional-route SERP certification is still pending.
 - Added visible, tool-specific methodology and review dates to all seven calculator routes, plus homepage FAQs. Build audits require both methodology/date and matching visible FAQ data.
 - Synchronized the quick scale converter and full table in both directions, including custom grade limits, precision, rounding, reset, shared links and same-document fragment changes. Legacy quick links remain readable.
 - Generated FAQPage data from the same content as the six existing visible FAQ sections, with build checks for matching questions and answers. Added explicit Twitter titles/descriptions. FAQ markup is semantic metadata, not a promise of a Google search enhancement.
@@ -29,7 +32,7 @@ Baseline: `aff4b657937db7492065edcc36c7dc539d22935d` on `main`.
 
 ## Verification on the changed code
 
-- 46 tests pass across 6 files, including 15 production-audit scenarios and a downloadable-scale parity test.
+- 59 tests pass across 7 files, including 15 production-audit scenarios and a downloadable-scale parity test.
 - Astro check: 0 errors, warnings or hints.
 - 17 static pages build successfully.
 - Build SEO/GEO audit passes without a production origin, with a pages.dev preview origin, and with the production-like test origin `https://notacl.example`.
@@ -64,3 +67,7 @@ The owner confirmed that the final domain has not been purchased.
 7. Existing SERP decisions have representative results rather than a full reproducible Chile Google Top10 overlap export. Fresh direct Google attempts on 2026-10-08 failed or reached unusual-traffic/reCAPTCHA; no ranked list was obtained. Preserve current routes while they are globally noindex, obtain the full gate, and certify conditional-route indexation before launch or expansion.
 
 Do not mark the full website/launch goal complete while these release checks remain outstanding.
+
+## Admissions verification (latest batch)
+
+59 tests, Astro check (64 files, zero diagnostics), and three build/indexing modes passed. Browser QA passed 21 responsive route/viewport combinations across the seven new tools, actual formulas, invalid inputs, inactive tests, university presets, fragment sharing/restoration, and original state/download regressions.

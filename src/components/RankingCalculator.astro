@@ -1,0 +1,22 @@
+---
+import { rankingScore } from '../lib/calculators/admissions';
+import { formatNumber } from '../lib/calculators/core';
+const initial=rankingScore(Array.from({length:4},()=>[700,600,800]));
+---
+<div class="tool-shell"><div class="tool-head"><h2>Simular puntaje Ranking por nivel</h2><span class="badge">Admisión 2027</span></div><form id="ranking-form" class="tool-panel"><p>Ingresa NEMi, PROMi y MAXi ya transformados a puntajes (100–1.000), por cada nivel. Los valores iniciales son un ejemplo ficticio, no datos de tu colegio.</p><div class="table-wrap"><table class="data-table"><caption>Contextos educativos de 1.º a 4.º medio</caption><thead><tr><th>Nivel</th><th>NEMi</th><th>PROMi</th><th>MAXi</th></tr></thead><tbody>{[1,2,3,4].map((level,i)=><tr><th scope="row">{level}.º medio</th>{[700,600,800].map((value,j)=><td><input class="input" id={`ranking-${i}-${j}`} aria-label={`${['NEMi','PROMi','MAXi'][j]} de ${level} medio`} value={value} inputmode="decimal" /></td>)}</tr>)}</tbody></table></div><button class="btn btn-primary" type="submit">Calcular Ranking</button></form><div class="tool-panel result-card" aria-live="polite"><div class="result-label">Puntaje Ranking estimado</div><div class="result-value" id="ranking-result">{formatNumber(initial.score,2)}</div><p id="ranking-message">Ranking por nivel: {initial.levels.map(value=>formatNumber(value,2)).join(' · ')}</p></div></div>
+<script>
+import { rankingScore } from '../lib/calculators/admissions';
+import { parseDecimal, formatNumber } from '../lib/calculators/core';
+const form=document.querySelector<HTMLFormElement>('#ranking-form')!;
+function calculate(){const result=document.querySelector('#ranking-result')!;const message=document.querySelector('#ranking-message')!;
+ try{const output=rankingScore(Array.from({length:4},(_,i)=>Array.from({length:3},(_,j)=>parseDecimal(document.querySelector<HTMLInputElement>(`#ranking-${i}-${j}`)!.value))));result.textContent=formatNumber(output.score,2);message.textContent=`Ranking por nivel: ${output.levels.map(value=>formatNumber(value,2)).join(' · ')}`;}
+ catch(error){result.textContent='—';message.textContent=error instanceof Error?error.message:'Revisa los datos.';}
+}
+form.addEventListener('submit',event=>{event.preventDefault();calculate();});form.addEventListener('input',calculate);
+</script>
+
+<style>
+.data-table{min-width:0;table-layout:fixed}
+.data-table th,.data-table td{padding:10px 6px;overflow-wrap:anywhere}
+.data-table .input{min-width:0;padding:10px 6px}
+</style>

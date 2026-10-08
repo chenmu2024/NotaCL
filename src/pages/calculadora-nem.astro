@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import AdmissionLinks from '../components/AdmissionLinks.astro';
+import NemCalculator from '../components/NemCalculator.astro';
+import { nemScore } from '../lib/calculators/admissions';
+
+const title="Calculadora NEM, puntaje NEM y tabla NEM 2027 | NotaCL";
+const description="Convierte tu promedio de egreso a puntaje NEM según tu modalidad educativa. Consulta las tablas oficiales A, B y C del proceso de admisión 2027.";
+const faqItems=[{"question": "¿El puntaje NEM es igual al Ranking?", "answerHtml": "No. El NEM convierte tu promedio de egreso; el Ranking considera además tu contexto educativo."}, {"question": "¿Sirve para estudios íntegramente realizados en el extranjero?", "answerHtml": "No. Este caso requiere revisar el procedimiento específico de DEMRE; no asignes una tabla por aproximación."}];
+const schema={'@context':'https://schema.org','@type':'WebApplication',name:"Calculadora NEM, puntaje NEM y tabla NEM 2027",description,applicationCategory:'EducationalApplication',operatingSystem:'Any',isAccessibleForFree:true,inLanguage:'es-CL'};
+---
+<BaseLayout {title} {description} path="/calculadora-nem/" {schema}>
+<Breadcrumbs items={[{label:"Calculadora NEM"}]} />
+<section class="hero"><div class="container"><p class="eyebrow">Admisión 2027 · simulación independiente</p><h1>Calculadora NEM</h1><p class="lead">{description}</p></div></section>
+<section class="section"><div class="container"><NemCalculator /></div></section>
+<section class="section"><div class="container reading prose"><h2>Cómo obtener tu nota NEM</h2><p>Promedia los promedios de cada curso de enseñanza media y aproxima el resultado a dos decimales. Ingresa esa nota de egreso y selecciona tu modalidad; no ingreses directamente una nota de prueba escolar.</p><p>Grupo A: formación Humanista-Científica diurna, incluida la Escuela Naval. Grupo B: Humanista-Científica de adultos, nocturna y situaciones de validación o estudios parciales en el extranjero indicadas por DEMRE. Grupo C: Técnico-Profesional, incluida formación artística. Confirma tu clasificación en la fuente oficial.</p><h2>Ejemplo de conversión</h2><p>Un promedio de 6,00 en el grupo A corresponde a {nemScore(6,'a').score} puntos. La misma nota puede dar un puntaje distinto en otra modalidad. No se aplica la escala de exigencia escolar del 60%.</p>
+
+<h2>Fuente y metodología</h2><p>NotaCL es una herramienta independiente. El cálculo reproduce el método indicado y no emite resultados oficiales. Revisión: <time datetime="2026-10-08">8 de octubre de 2026</time>.</p><ul><li><a href="https://demre.cl/paes/factores-seleccion/notas-ensenanza-media">DEMRE: definición de NEM</a></li><li><a href="https://demre.cl/paes/factores-seleccion/tabla-transformacion-nem-grupo-a">DEMRE: tabla grupo A</a></li><li><a href="https://demre.cl/paes/factores-seleccion/tabla-transformacion-nem-grupo-b">DEMRE: tabla grupo B</a></li><li><a href="https://demre.cl/paes/factores-seleccion/tabla-transformacion-nem-grupo-c">DEMRE: tabla grupo C</a></li></ul>
+<Faq items={faqItems} /><h2>Herramientas relacionadas</h2><AdmissionLinks />
+</div></section></BaseLayout>

@@ -7,6 +7,14 @@ const statuses = new Set(['covered','conditional','variant','limited','excluded'
 const counts = {};
 const fail = (message) => { console.error(`KEYWORD AUDIT FAIL: ${message}`); process.exitCode = 1; };
 const expectedContent = {
+  '/calculadora-nem/': "Calculadora NEM, puntaje NEM y tabla NEM 2027",
+  '/calculadora-ranking/': "Calculadora Ranking: puntaje Ranking 2027",
+  '/calculadora-paes/': "Calculadora PAES: simulador de puntaje ponderado",
+  '/universidades/usach/': "Calculadora USACH: Bachillerato 2027",
+  '/universidades/uc/': "Calculadora UC: Derecho e Ingeniería 2027",
+  '/universidades/uchile/': "Calculadora UChile: ponderaciones preliminares 2027",
+  '/universidades/duoc/': "Calculadora DUOC: nota final 60% y 40%",
+
   '/#calculadora-notas': 'Calculadora de Notas Chile',
   '/generador-de-notas/#tabla-generadora': 'Tabla generadora de notas para docentes',
   '/generador-de-notas/#pauta-evaluacion': 'no crea rúbricas',
@@ -44,7 +52,7 @@ for (const entry of keywords) {
   if (!expected || !html.includes(expected)) fail(`missing topic evidence: ${entry.keyword} → ${entry.target}`);
 }
 
-for (const route of ['mi-promedio','sacar-promedio','calcular-promedio','calculadora-promedio','escalada-de-notas','tabla-de-notas','puntaje-a-nota','escala-de-notas/50','calculadora-nem','universidades/usach']) {
+for (const route of ['mi-promedio','sacar-promedio','calcular-promedio','calculadora-promedio','escalada-de-notas','tabla-de-notas','puntaje-a-nota','escala-de-notas/50']) {
   if (existsSync(join(resolve('dist'), route, 'index.html'))) fail(`unexpected duplicate or deferred route: /${route}/`);
 }
 
