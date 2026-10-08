@@ -1,5 +1,6 @@
 import { normalizeSiteOrigin } from '../lib/site/url';
 export const SITE_NAME = import.meta.env.PUBLIC_SITE_NAME || 'NotaCL';
+export const CONTACT_EMAIL = 'contact@notacl.cl';
 export const SITE_URL = normalizeSiteOrigin(import.meta.env.PUBLIC_SITE_URL);
 export const INDEXING_ENABLED = Boolean(SITE_URL);
 export const DEFAULT_LOCALE = 'es-CL';
