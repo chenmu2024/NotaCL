@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { pendingIndexationRoutes } from '../seo/indexing-policy.mjs';
 
 const originalExitCode = process.exitCode;
 
@@ -46,10 +47,11 @@ async function runAudit(scenario = '') {
     } else if (url.pathname === '/sitemap.xml') {
       body = `<urlset>${pages.map(page => `<url><loc>${page}</loc></url>`).join('')}</urlset>`;
       if (scenario === 'missing-sitemap') body = '<urlset/>';
+      if (scenario === 'missing-sixty-sitemap') body = body.replace('<url><loc>https://notacl.example/escala-de-notas/60/</loc></url>', '');
     } else {
-      const pending = url.pathname === '/escala-de-notas/60/';
-      if (!pending || scenario === 'conditional-in-sitemap') pages.push(url.href);
-      const robots = scenario === 'noindex-meta' || (pending && scenario !== 'indexable-conditional') ? 'noindex,follow' : 'index,follow';
+      const pending = pendingIndexationRoutes.includes(url.pathname);
+      if (!pending) pages.push(url.href);
+      const robots = scenario === 'noindex-meta' || pending || (scenario === 'noindex-sixty' && url.pathname === '/escala-de-notas/60/') ? 'noindex,follow' : 'index,follow';
       const canonical = scenario === 'bad-canonical' ? 'https://wrong.example/' : url.href;
       body = `${pending ? '' : `<link rel="canonical" href="${canonical}">`}<meta name="robots" content="${robots}">`;
       if (scenario === 'injected-analytics') body += '<script defer src="https://static.cloudflareinsights.com/beacon.min.js"></script>';
@@ -86,8 +88,8 @@ describe('production release audit', () => {
     ['missing-security', 'missing security response header'],
     ['injected-analytics', 'loads analytics despite'],
     ['network-failure', 'request failed'],
-    ['indexable-conditional', 'must remain noindex until its SERP gate is completed'],
-    ['conditional-in-sitemap', 'sitemap.xml contains a page pending indexation'],
+    ['noindex-sixty', '/escala-de-notas/60/ is not indexable in production HTML'],
+    ['missing-sixty-sitemap', 'sitemap.xml is missing https://notacl.example/escala-de-notas/60/'],
   ])('rejects %s', async (scenario, message) => {
     expect(await runAudit(scenario)).toContain(message);
     expect(process.exitCode).toBe(1);
