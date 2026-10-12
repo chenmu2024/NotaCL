@@ -22,7 +22,6 @@ const routes=[
   '/guias/',
   '/guias/redondeo-de-notas/',
   '/guias/promedio-simple-vs-ponderado/',
-  '/guias/taller-promedios-ponderados/',
   '/guias/concentracion-de-notas-ensenanza-media/',
   '/sobre-nosotros/',
   '/contacto/',
